@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:43:34 by coder             #+#    #+#             */
-/*   Updated: 2023/04/11 15:01:50 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/12 15:28:50 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <stdarg.h>
 
+int	    ft_lurkstr(const char *s, int c);
 int		ft_tab_len(char **str);
 int		ft_isnum(char *str);
 int		ft_counter(char const *s, char c);
