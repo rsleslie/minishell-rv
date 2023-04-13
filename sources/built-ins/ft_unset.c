@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:13:33 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/11 17:30:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:02:45 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	search_env(char *data, char *key)
 	len_key = ft_strlen(key);
 	if (len_data == len_key)
 	{
-		if (ft_strncmp(data, key,len_data) == 0)
+		if (ft_strncmp(data, key, len_data) == 0)
 			return (0);
 	}	
 	return (1);

@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lurkstr.c                                       :+:      :+:    :+:   */
+/*   ft_key_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 15:28:18 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 17:51:23 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/04/13 17:18:19 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/04/13 17:18:58 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_lurkstr(const char *s, int c)
-{
-	int	i;
+#include "libft.h"
 
-	i = 0;
-	while (s[i])
+int	ft_key_parser(char *key)
+{
+	char	**split_key;
+
+	if (ft_lurkstr(key, '=') == 0)
 	{
-		if (s[i] == (unsigned char) c)
+		split_key = ft_split(key, '=');
+		if (split_key[1] == NULL)
 			return (0);
-		i++;
+		else
+			return (1);
 	}
-	return (1);
+	return (2);
 }

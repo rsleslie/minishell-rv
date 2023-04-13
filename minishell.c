@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/12 14:54:10 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:51:05 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		data.str = readline("Habla$ ");
 		add_history(data.str);
-		ft_exit(&data);	
+		ft_exit(&data);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/04/11 18:47:11 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/04/13 17:59:14 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRC= main.c    				\
 	../../sources/linkedlist/createlist.c \
 	../../sources/handle/handle_env.c \
 	../../sources/built-ins/ft_unset.c \
-	../../sources/built-ins/ft_export.c
+	../../sources/built-ins/ft_export.c \
+	../../sources/handle/handle_export.c \
 	
 OBJ= $(.c=.o)
 CC= cc
