@@ -3,9 +3,11 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_config    data;
-	t_node		*env = NULL;
-	t_node		*export = NULL;
+	t_node		*env;
+	t_node		*export;
 
+	env = NULL;
+	export = NULL;
 	argc = 0;
 	(void)argv;  
 	get_env(&env, envp);

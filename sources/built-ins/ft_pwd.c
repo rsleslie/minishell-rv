@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 18:47:11 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/04/13 18:56:33 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/04/14 15:33:25 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_pwd(void)
 {
-	t_config	data;
-	t_node		*env;
-	t_node		*export;
+	char	buffer[1024];
 
-	env = NULL;
-	(void)argv;
-	if (argc != 1)
-		return (0);
-	get_env(&env, envp);
-	get_export(&export, envp);
-	while (1)
-	{
-		data.str = readline("Habla$ ");
-		add_history(data.str);
-		ft_exit(&data, env, export);
-		split_data_str(&data, env, export);
-	}
+	if (getcwd(buffer, sizeof(buffer)) != NULL)
+		printf("%s\n", buffer);
+	else
+		printf("error :");
 }

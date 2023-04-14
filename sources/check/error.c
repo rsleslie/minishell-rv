@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 18:19:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:44:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	terminate(t_node *env, t_node *export, char **split, char *error_msg)
 		ft_printf("%s\n", error_msg);
 	ft_free_list(env);
 	ft_free_list(export);
-	ft_free_tab(split_exit);
+	ft_free_tab(split);
 	exit (0);
 }
 

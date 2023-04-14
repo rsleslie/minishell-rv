@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 23:48:07 by coder             #+#    #+#             */
-/*   Updated: 2023/01/23 16:01:55 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/14 15:33:54 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	while (s2[x] != '\0')
 		str[i++] = s2[x++];
-	free(s1);
 	str[i] = '\0';
 	return ((char *)str);
 }

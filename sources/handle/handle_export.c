@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 17:38:54 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 18:06:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:20:13 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ void	arguments_unset(char **data_str, t_node *env, t_node *export)
 
 void	parse_unset_export(char **data_str, t_node *env, t_node *export)
 {
-	if (ft_strncmp(data_str[0], "env", ft_strlen(data_str[0])) == 0
+	if (ft_strncmp(data_str[0], "echo", ft_strlen(data_str[0])) == 0)
+		ft_echo(data_str);
+	if (ft_strncmp(data_str[0], "pwd", ft_strlen(data_str[0])) == 0)
+		ft_pwd();
+	if (ft_strncmp(data_str[0], "cd", ft_strlen(data_str[0])) == 0)
+		ft_cd(data_str, env);
+	else if (ft_strncmp(data_str[0], "env", ft_strlen(data_str[0])) == 0
 		&& !data_str[1])
 		print_env(env);
 	else if (ft_strncmp(data_str[0], "export", ft_strlen(data_str[0])) == 0

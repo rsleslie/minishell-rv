@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 18:20:10 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:20:27 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <errno.h>
 
 typedef struct s_config
 {
@@ -70,6 +71,9 @@ void	split_data_str(t_config *data, t_node *env, t_node *export);
 void	ft_unset(t_node **list, char *key);
 void	ft_export(t_node **env, char *key);
 int		ft_key_parser(char *key);
+void	ft_pwd(void);
+void	ft_cd(char **data_str, t_node *env);
+void	ft_echo(char **data_str);
 
 //print e search foram add temporariamente
 int		search_env(char *data, char *key);
