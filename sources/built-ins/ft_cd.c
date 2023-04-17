@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:39:31 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/14 15:50:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:57:17 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_node	*aux_cd(t_node *env)
 void	ft_cd(char **data_str, t_node *env)
 {
 	char	buffer[1024];
-	char	*path;
 	char	*temp;
 	t_node	*current;
 
@@ -45,13 +44,12 @@ void	ft_cd(char **data_str, t_node *env)
 	{
 		getcwd(buffer, sizeof(buffer));
 		temp = ft_strjoin(buffer, "/");
-		path = ft_strjoin(temp, data_str[1]);
-		if (chdir(path) != 0)
+		temp = ft_strjoin(temp, data_str[1]);
+		if (chdir(temp) != 0)
 		{
 			printf("minishell: cd: %s: %s\n",
 				data_str[1], strerror(errno));
 		}
-		free(path);
 		free(temp);
 	}
 }

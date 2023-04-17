@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   handle_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/17 14:33:58 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/04/11 16:30:18 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/04/17 15:04:51 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	get_env(t_node **env, char **envp)
 {
-	t_config	data;
-	t_node		*env;
-	t_node		*export;
+	int	i;
 
-	env = NULL;
-	(void)argv;
-	if (argc != 1)
-		return (0);
-	get_env(&env, envp);
-	get_export(&export, envp);
-	while (1)
+	i = -1;
+	while (envp[++i])
+		link_node_end(env, create_node(envp[i]));
+}
+
+void	print_env(t_node *env)
+{
+	t_node	*temp;
+
+	temp = env;
+	while (temp)
 	{
-		data.str = readline("Habla$ ");
-		add_history(data.str);
-		ft_exit(&data, env, export);
-		ft_lexer(&data, env, export);
+		printf("%s=%s\n", temp->variable, temp->value);
+		temp = temp->next;
 	}
 }

@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 		data.str = readline("Habla$ ");
 		add_history(data.str);
 		ft_exit(&data, env, export);
-		split_data_str(&data, env, export);	
+		ft_lexer(&data, env, export);	
 	}
 	return (0);
 }

@@ -5,12 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 16:18:47 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/14 16:21:08 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/04/17 13:26:21 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/04/17 17:19:48 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../minishell.h"
+
+void	aux_echo(char **data_str, int tab_len)
+{
+	int	i;
+
+	i = 0;
+	while (++i < tab_len)
+	{
+		printf("%s", data_str[i]);
+		if (i != tab_len - 1)
+			printf(" ");
+	}
+	printf("\n");
+}
+
 void	ft_echo(char **data_str)
 {
-		
+	int	tab_len;
+	int	i;
+
+	i = 0;
+	tab_len = ft_tab_len(data_str);
+	if (tab_len == 1)
+		write(1, "\n", 1);
+	else if (ft_strncmp(data_str[1], "-n", ft_strlen(data_str[1])) == 0)
+	{
+		if (tab_len > 2)
+		{
+			i = 1;
+			while (++i < tab_len)
+			{				
+				printf("%s", data_str[i]);
+				if (i != tab_len - 1)
+					printf(" ");
+			}	
+		}
+	}
+	else
+		aux_echo(data_str, tab_len);
 }

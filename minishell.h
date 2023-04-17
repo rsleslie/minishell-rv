@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/14 16:20:27 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:46:05 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ typedef struct s_node
 	struct s_node	*next;
 }	t_node;
 
+typedef struct s_lexer
+{
+	
+}	t_lexer;
+
 // check
 void	ft_exit(t_config *data, t_node *env, t_node *export);
 void	terminate(t_node *env, t_node *export, char **split, char *error_msg);
@@ -49,6 +54,8 @@ void	terminate(t_node *env, t_node *export, char **split, char *error_msg);
 void	ft_free_tab(char **str);
 void	ft_free_list(t_node *list);
 void	ft_free_node(t_node *data);
+void	arguments_unset(char **data_str, t_node *env, t_node *export);
+void	arguments_export(char **data_str, t_node *env, t_node *export);
 
 // linked list
 t_node	*create_node(char *data);
@@ -64,8 +71,8 @@ void	print_env(t_node *env);
 //export
 void	arguments_export(char **data_str, t_node *env, t_node *export);
 void	arguments_unset(char **data_str, t_node *env, t_node *export);
-void	parse_unset_export(char **data_str, t_node *env, t_node *export);
-void	split_data_str(t_config *data, t_node *env, t_node *export);
+void	parse_builtins(char **data_str, t_node *env, t_node *export);
+void	ft_lexer(t_config *data, t_node *env, t_node *export);
 
 //built-ins
 void	ft_unset(t_node **list, char *key);

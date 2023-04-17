@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/04/14 13:43:30 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/04/17 15:05:36 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,15 @@ SRC= minishell.c    				\
 	./sources/check/error.c  \
 	./sources/utils/free.c  \
 	./sources/linkedlist/createlist.c \
-	./sources/handle/handle_env.c \
+	./sources/built-ins/ft_env.c \
 	./sources/built-ins/ft_unset.c \
 	./sources/built-ins/ft_export.c \
 	./sources/built-ins/ft_pwd.c \
 	./sources/built-ins/ft_cd.c \
+	./sources/built-ins/ft_echo.c \
+	./sources/lexer/ft_lexer.c \
+	./sources/parser/ft_parser.c \
+	./sources/utils/builtins_utils.c \
 	
 OBJ= $(.c=.o)
 CC= cc
