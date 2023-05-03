@@ -6,14 +6,13 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/04/17 15:05:36 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/04/25 15:59:18 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= minishell
 SRC= minishell.c    				\
 	./sources/check/error.c  \
-	./sources/utils/free.c  \
 	./sources/linkedlist/createlist.c \
 	./sources/built-ins/ft_env.c \
 	./sources/built-ins/ft_unset.c \
@@ -24,7 +23,8 @@ SRC= minishell.c    				\
 	./sources/lexer/ft_lexer.c \
 	./sources/parser/ft_parser.c \
 	./sources/utils/builtins_utils.c \
-	
+	./sources/utils/free.c  \
+		
 OBJ= $(.c=.o)
 CC= cc
 RL= -lreadline

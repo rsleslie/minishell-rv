@@ -6,26 +6,11 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:13:33 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 18:02:45 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:03:58 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	search_env(char *data, char *key)
-{
-	int	len_data;
-	int	len_key;
-
-	len_data = ft_strlen(data);
-	len_key = ft_strlen(key);
-	if (len_data == len_key)
-	{
-		if (ft_strncmp(data, key, len_data) == 0)
-			return (0);
-	}	
-	return (1);
-}
 
 void	ft_unset(t_node **list, char *key)
 {

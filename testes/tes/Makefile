@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/04/17 15:05:56 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/05/03 15:01:43 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,16 +14,21 @@ NAME= minishell
 SRC= main.c    				\
 	../../sources/check/error.c  \
 	../../sources/utils/free.c  \
+	../../sources/utils/builtins_utils.c  \
+	../../sources/utils/lexer_utils.c  \
+	../../sources/utils/op_builtins.c  \
+	../../sources/utils/op_redirect.c  \
 	../../sources/linkedlist/createlist.c \
-	../../sources/built-ins/ft_env.c \
+	../../sources/lexer/ft_lexer.c \
+	../../sources/lexer/ft_token.c \
+	../../sources/parser/ft_parser.c \
 	../../sources/built-ins/ft_unset.c \
 	../../sources/built-ins/ft_export.c \
-	../../sources/built-ins/ft_pwd.c \
-	../../sources/utils/builtins_utils.c \
 	../../sources/built-ins/ft_cd.c \
 	../../sources/built-ins/ft_echo.c \
-	../../sources/lexer/ft_lexer.c \
-	../../sources/parser/ft_parser.c \
+	../../sources/built-ins/ft_env.c \
+	../../sources/built-ins/ft_pwd.c \
+	../../sources/handle/handle_path.c \
 	
 OBJ= $(.c=.o)
 CC= cc

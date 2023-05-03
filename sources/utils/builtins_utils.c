@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 17:38:54 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/17 14:58:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:05:41 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,19 @@ void	arguments_unset(char **data_str, t_node *env, t_node *export)
 		ft_unset(&env, data_str[i]);
 		i++;
 	}
+}
+
+int	search_env(char *data, char *key)
+{
+	int	len_data;
+	int	len_key;
+
+	len_data = ft_strlen(data);
+	len_key = ft_strlen(key);
+	if (len_data == len_key)
+	{
+		if (ft_strncmp(data, key, len_data) == 0)
+			return (0);
+	}	
+	return (1);
 }

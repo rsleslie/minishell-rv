@@ -3,11 +3,9 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_config    data;
-	t_node		*env;
-	t_node		*export;
+	t_node		*env = NULL;
+	t_node		*export = NULL;
 
-	env = NULL;
-	export = NULL;
 	argc = 0;
 	(void)argv;  
 	get_env(&env, envp);
@@ -17,7 +15,11 @@ int	main(int argc, char **argv, char **envp)
 		data.str = readline("Habla$ ");
 		add_history(data.str);
 		ft_exit(&data, env, export);
-		ft_lexer(&data, env, export);	
+		ft_lexer(&data);
+		/*i = 0;
+		while(data.tokens[i])
+			printf("%s\n", data.tokens[i++]);*/
+		// parse_builtins(ft_split(data.str, 32), env, export, &data);
 	}
 	return (0);
 }

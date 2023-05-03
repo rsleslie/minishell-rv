@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/03 11:34:27 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/04/25 15:18:44 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/04/25 15:19:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+int	ft_strcmp(char c, char key)
 {
-	t_config	data;
-	t_node		*env;
-	t_node		*export;
-
-	env = NULL;
-	(void)argv;
-	if (argc != 1)
+	if (c == key)
 		return (0);
-	get_env(&env, envp);
-	get_export(&export, envp);
-	while (1)
-	{
-		data.str = readline("Habla$ ");
-		add_history(data.str);
-		ft_exit(&data, env, export);
-		// ft_lexer(&data, env, export);
-	}
+	return (1);
 }

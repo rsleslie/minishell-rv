@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:43:34 by coder             #+#    #+#             */
-/*   Updated: 2023/04/13 17:22:07 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:29:48 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ int		ft_printf(const char *ptr, ...);
 void	ft_putchar_ptr(char *div, int x);
 int		ft_key_parser(char *key);
 int		ft_strcs(const char *s, int c);
+int		ft_strcmp(char c, char key);
 
 #endif
