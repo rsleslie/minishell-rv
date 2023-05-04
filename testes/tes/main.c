@@ -9,6 +9,7 @@ int	main(int argc, char **argv, char **envp)
 
 	i = 0;
 	argc = 0;
+	data.tokens = NULL;
 	(void)argv;  
 	get_env(&env, envp);
 	get_export(&export, envp);

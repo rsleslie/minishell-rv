@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/05/03 15:01:43 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/05/04 12:24:48 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRC= main.c    				\
 	../../sources/utils/op_redirect.c  \
 	../../sources/linkedlist/createlist.c \
 	../../sources/lexer/ft_lexer.c \
-	../../sources/lexer/ft_token.c \
 	../../sources/parser/ft_parser.c \
 	../../sources/built-ins/ft_unset.c \
 	../../sources/built-ins/ft_export.c \
