@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/03 14:24:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/04 11:36:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	arguments_unset(char **data_str, t_node *env, t_node *export);
 void	arguments_export(char **data_str, t_node *env, t_node *export);
 int		op_biultins(char *str);
 int		counter_redirect(char *s);
+void	is_null(char **str);
 
 // linked list
 t_node	*create_node(char *data);
