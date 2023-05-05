@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/04 16:47:46 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:46:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_lexer
 // check
 void	ft_exit(t_config *data, t_node *env, t_node *export);
 void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
+int		check_space(t_config *data);
 
 // utils
 void	ft_free_tab(char **str);

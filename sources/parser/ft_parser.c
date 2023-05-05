@@ -6,11 +6,12 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/05 09:37:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:42:56 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 int parser(t_config *data)
 {
@@ -29,13 +30,17 @@ int parser(t_config *data)
 		ft_printf("=============\nRedirect error\n");
 		return (1);
 	}
-	if (builtin_parser(data, data->tokens[0]) == 1)
+	if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
 	{
-		ft_printf("=============\nBuiltin error\n");
+		ft_printf("=============\nErro arguments\n");
 		return (1);
 	}
     return (0);
 }
+
+// essspaco enter
+//
+//enteer
 
 int quotes_parser(t_config *data)
 {
@@ -54,14 +59,17 @@ int quotes_parser(t_config *data)
 
 int	pipe_parser(t_config *data)
 {
-	int	i;
-
+	int	i; 
+	
 	i = 0;
 	if (data->tokens[i][0] == '|')
 		return (1);
 	while (data->tokens[i])
 	{
-		if (data->tokens[i][0] == '|' && (data->tokens[i + 1][0] == '|' || data->tokens[i][1] == '|'))
+		if (data->tokens[i][0] == '|' && (data->tokens[i + 1][0] == '|' 
+			|| data->tokens[i][1] == '|'))
+			return (1);
+		if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '|')
 			return (1);
 		i++;
 	}
@@ -77,7 +85,11 @@ int	redirect_parser(t_config *data)
 	{
 		if (data->tokens[i][0] == '>' || data->tokens[i][0] == '<')
 		{
-			if (data->tokens[i + 1][0] == '>' || data->tokens[i + 1][0] == '<')
+			if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '<'
+				|| data->tokens[ft_tab_len(data->tokens) - 1][0] == '>')
+				return (1);
+			if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>' || data->tokens[i + 1][0] == '<'
+				|| data->tokens[i + 1][0] == '|'))
 				return (1);
 		}
 		i++;
@@ -124,6 +136,7 @@ int	executables_parser(t_config *data, char *s)
 	}
 	return (1);
 }
+
 
 // int	is_executable(t_config *data)
 // {

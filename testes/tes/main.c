@@ -13,17 +13,20 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;  
 	get_env(&env, envp);
 	get_export(&export, envp);
+	handle_path(&env, &data);
 	while (1)
 	{
 		data.str = readline("Habla$ ");
 		add_history(data.str);
-		ft_exit(&data, env, export);
-		ft_lexer(&data);
-		// handle_path(&env, &data);
-		// parser(&data);
-		i = 0;
-		while(data.tokens[i])
-			printf("%s\n", data.tokens[i++]);
+		if (*data.str && check_space(&data) != 0)
+		{
+			ft_exit(&data, env, export);
+			ft_lexer(&data);
+			parser(&data);
+		}
+		// i = 0;
+		// while(data.tokens[i])
+		// 	printf("%s\n", data.tokens[i++]);
 		// parse_builtins(ft_split(data.str, 32), env, export, &data);
 	}
 	return (0);
@@ -33,3 +36,5 @@ int	main(int argc, char **argv, char **envp)
 
 
 // echo> << >> "    ranna" | $NAME| 
+
+// echo < c.c > outfile bom dia
