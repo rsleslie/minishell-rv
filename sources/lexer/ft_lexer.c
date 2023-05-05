@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:35:40 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/05 10:14:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:54:20 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,27 @@ void	aux_redirect(char *ptr, t_config *data, t_lexer *counter)
 
 void	aux_lexer(char *ptr, t_config *data, t_lexer *counter, int size)
 {
-	while (data->str[counter->i] && counter->j <= size)
+	while (data->str[counter->i] || counter->j <= size)
 	{
 		aux_quotes(ptr, data, counter);
 		aux_redirect(ptr, data, counter);
-		if (data->str[counter->i] == 32 || data->str[counter->i] == 9)
+		if (data->str[counter->i] == 32 || (data->str[counter->i] >= 9 && data->str[counter->i] <= 13))
 		{
 			ptr[counter->j] = '*';
 			counter->j++;
 			counter->i++;
+			if (!data->str[counter->i])
+				break ;
 		}
 		else
 		{
+			if (!data->str[counter->i])
+				break ;
 			ptr[counter->j] = data->str[counter->i];
 			counter->j++;
 			counter->i++;
+			if (!data->str[counter->i])
+				break ;
 		}
 	}
 	is_null(data->tokens);
@@ -82,9 +88,10 @@ void	ft_lexer(t_config *data)
 	int		size;
 
 	size = ft_strlen(data->str) + (counter_redirect(data->str) * 2);
+	printf("sieze: %i\n", size);
 	counter.i = 0;
 	counter.j = 0;
-	ptr = calloc(sizeof(char), size + 2);
+	ptr = calloc(sizeof(char), size + 1);
 	ptr[size] = '\0';
 	aux_lexer(ptr, data, &counter, size);
 }
