@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/04 12:28:23 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:47:46 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	arguments_export(char **data_str, t_node *env, t_node *export);
 int		op_biultins(char *str);
 int		counter_redirect(char *s);
 void	is_null(char **str);
+int		ft_char_counter(char *s, char c);
 
 // linked list
 t_node	*create_node(char *data);
@@ -103,5 +104,13 @@ int		op_redirect(char c);
 
 // lexer
 void	ft_lexer(t_config *data);
+
+// parsa
+int parser(t_config *data);
+int quotes_parser(t_config *data);
+int	pipe_parser(t_config *data);
+int	redirect_parser(t_config *data);
+int builtin_parser(t_config *data, char *s);
+int	executables_parser(t_config *data, char *s);
 
 #endif

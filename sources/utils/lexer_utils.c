@@ -6,11 +6,31 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:02:35 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/03 18:34:57 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:33:17 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	ft_char_counter(char *s, char c)
+{
+	size_t	i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	if (ft_strlen(s) == 0)
+		return (0);
+	while (s[i] != '\0')
+	{
+		if (s[i] == c)
+		{
+			counter++;
+		}
+		i++;
+	}
+	return (counter);
+}
 
 int	counter_redirect(char *s)
 {

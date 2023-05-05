@@ -19,6 +19,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.str);
 		ft_exit(&data, env, export);
 		ft_lexer(&data);
+		// handle_path(&env, &data);
+		// parser(&data);
 		i = 0;
 		while(data.tokens[i])
 			printf("%s\n", data.tokens[i++]);
@@ -28,3 +30,6 @@ int	main(int argc, char **argv, char **envp)
 }
 
 // valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --quiet ./minishell 
+
+
+// echo> << >> "    ranna" | $NAME| 
