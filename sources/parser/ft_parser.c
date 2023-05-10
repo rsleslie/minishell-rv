@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/05 14:42:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:27:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ int parser(t_config *data)
 {
     if (quotes_parser(data) == 1)
     {
-        ft_printf("=============\nQuotes error\n");
+        ft_printf("Minishell: Quotes error\n");
         return (1);
     }
 	if (pipe_parser(data) == 1)
 	{
-		ft_printf("=============\nPipe error\n");
+		ft_printf("Mnishell: syntax error near unexpected token \n");
 		return (1);
 	}
 	if (redirect_parser(data) == 1)
 	{
-		ft_printf("=============\nRedirect error\n");
+		ft_printf("minishell: Redirect error\n");
 		return (1);
 	}
 	if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
 	{
-		ft_printf("=============\nErro arguments\n");
+		ft_printf("Minishell: Command '%s' not found\n", data->tokens[0]);
 		return (1);
 	}
     return (0);
@@ -138,22 +138,22 @@ int	executables_parser(t_config *data, char *s)
 }
 
 
-// int	is_executable(t_config *data)
-// {
-// 	int	i;
+int	is_executable(t_config *data)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (data->tokens[i])
-// 	{
-// 		if (data->tokens[0][0] != '<' && data->tokens[0][0] != '>')
-// 		{
-// 			if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
-// 				return (1);
-// 		}
-// 		if (data->tokens[i][0] == '|')
-// 		{
-// 			if (builtin_parser(data, data->tokens[i + 1]) == 1 && )
-// 		}
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (data->tokens[i])
+	{
+		if (data->tokens[0][0] != '<' && data->tokens[0][0] != '>')
+		{
+			if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
+				return (1);
+		}
+		if (data->tokens[i][0] == '|')
+		{
+			if (builtin_parser(data, data->tokens[i + 1]) == 1 && )
+		}
+		i++;
+	}
+}

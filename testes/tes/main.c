@@ -1,34 +1,5 @@
 #include "../../minishell.h"
 
-void	handle_sigint(int signal, siginfo_t *info, void *context)
-{
-	(void)context;
-	(void)info;
-	
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	init_signals(void)
-{
-	struct sigaction sigact;
-	sigset_t set;
-
-	sigact = (struct sigaction){0};
-	sigact.sa_flags = SA_SIGINFO;
-	sigact.sa_sigaction = handle_sigint;
-	sigaction(SIGINT, &sigact, NULL);
-	sigemptyset(&sigact.sa_mask);
-	sigemptyset(&set);
-    sigaddset(&set, SIGQUIT);
-    sigprocmask(SIG_BLOCK, &set, NULL);
-	sigaction(SIGQUIT, &sigact, NULL);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_config    data;
@@ -50,6 +21,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.str);
 		if (data.str == NULL)
 		{
+			write(1, "exit", 4);
 			write(1, "\n", 1);
 			exit(1);
 		}
@@ -59,11 +31,6 @@ int	main(int argc, char **argv, char **envp)
 			ft_lexer(&data);
 			parser(&data);
 		}
-
-		// i = 0;
-		// while(data.tokens[i])
-		// 	printf("%s\n", data.tokens[i++]);
-		// parse_builtins(ft_split(data.str, 32), env, export, &data);
 	}
 	return (0);
 }

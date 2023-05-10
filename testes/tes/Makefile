@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/05/05 15:06:54 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/05/10 14:21:32 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC= main.c    				\
 	../../sources/built-ins/ft_env.c \
 	../../sources/built-ins/ft_pwd.c \
 	../../sources/handle/handle_path.c \
+	../../sources/signals/signals.c \
 	
 OBJ= $(.c=.o)
 CC= cc
