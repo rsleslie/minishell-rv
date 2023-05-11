@@ -6,13 +6,15 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/10 14:27:32 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/10 22:05:22 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
+/* precisa tratar o redirect  se colocar (< file) ele cria file 
+	quando tratar $ nao esquecer $?
+*/
 int parser(t_config *data)
 {
     if (quotes_parser(data) == 1)
@@ -25,12 +27,13 @@ int parser(t_config *data)
 		ft_printf("Mnishell: syntax error near unexpected token \n");
 		return (1);
 	}
-	if (redirect_parser(data) == 1)
-	{
-		ft_printf("minishell: Redirect error\n");
-		return (1);
-	}
-	if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
+	// if (redirect_parser(data) == 1)
+	// {
+	// 	ft_printf("minishell: Redirect error\n");
+	// 	return (1);
+	// }
+	if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1
+		&& redirect_parser(data) == 1)
 	{
 		ft_printf("Minishell: Command '%s' not found\n", data->tokens[0]);
 		return (1);
@@ -94,6 +97,13 @@ int	redirect_parser(t_config *data)
 		}
 		i++;
 	}
+	if (data->tokens[0][0] == '>' && ft_tab_len(data->tokens) == 2)
+		open(data->tokens[1], O_CREAT);
+	else if (data->tokens[0][0] == '<' && ft_tab_len(data->tokens) == 2)
+	{
+		if (access(data->tokens[1], F_OK) == -1)
+			return (1);
+	}
 	return (0);
 }
 
@@ -138,22 +148,22 @@ int	executables_parser(t_config *data, char *s)
 }
 
 
-int	is_executable(t_config *data)
-{
-	int	i;
+// int	is_executable(t_config *data)
+// {
+// 	int	i;
 
-	i = 0;
-	while (data->tokens[i])
-	{
-		if (data->tokens[0][0] != '<' && data->tokens[0][0] != '>')
-		{
-			if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
-				return (1);
-		}
-		if (data->tokens[i][0] == '|')
-		{
-			if (builtin_parser(data, data->tokens[i + 1]) == 1 && )
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (data->tokens[i])
+// 	{
+// 		if (data->tokens[0][0] != '<' && data->tokens[0][0] != '>')
+// 		{
+// 			if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
+// 				return (1);
+// 		}
+// 		if (data->tokens[i][0] == '|')
+// 		{
+// 			if (builtin_parser(data, data->tokens[i + 1]) == 1 && )
+// 		}
+// 		i++;
+// 	}
+// }
