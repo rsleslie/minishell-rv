@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op_biultins.c                                      :+:      :+:    :+:   */
+/*   op_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:16:44 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/25 15:22:34 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:41:08 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	op_biultin(char *str)
+int	op_builtins(char *str)
 {
 	if (ft_strncmp(&str[0], "echo", ft_strlen(&str[0])) == 0)
 		return (1);

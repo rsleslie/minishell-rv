@@ -11,3 +11,11 @@
 # include <errno.h>
 
 void    exec(char ***tokens);
+
+typedef struct s_exec {
+    char    **cmd;
+    char    **redirect;
+    int     is_builtin;
+    int     index;
+    struct s_exec *next;
+}   t_exec;

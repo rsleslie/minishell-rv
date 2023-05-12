@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/10 14:21:00 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:47:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ typedef struct s_lexer
 	int		j;
 }	t_lexer;
 
+
+typedef struct s_exec {
+	char			**cmd;
+	char			**redirect;
+	int				is_builtin;
+	int				index;
+	struct s_exec	*next;
+}   t_exec;
+
 // typedef struct s_lexer
 // {
 // }	t_lexer;
@@ -63,7 +72,7 @@ void	ft_free_list(t_node *list);
 void	ft_free_node(t_node *data);
 void	arguments_unset(char **data_str, t_node *env, t_node *export);
 void	arguments_export(char **data_str, t_node *env, t_node *export);
-int		op_biultins(char *str);
+int		op_builtins(char *str);
 int		counter_redirect(char *s);
 void	is_null(char **str);
 int		ft_char_counter(char *s, char c);
@@ -74,6 +83,12 @@ t_node	*node_last(t_node *list);
 void	link_node_end(t_node **list, t_node *node);
 t_node	*create_node_null(char *data);
 t_node	*create_node_quotes(char *data);
+
+//linked list exec
+
+t_exec	*create_node_exec(char **str_cmd, char **str_redirect, int builtin, int index);
+t_exec	*exec_node_last(t_exec *list);
+void	exec_link_node_end(t_exec **list, t_exec *node);
 
 // handle
 void	get_env(t_node **env, char **envp);
@@ -105,6 +120,7 @@ int		op_redirect(char c);
 
 // lexer
 void	ft_lexer(t_config *data);
+void	lexer_tokens(t_exec **exec, t_config *data);
 
 // parsa
 int parser(t_config *data);
@@ -118,5 +134,8 @@ int	executables_parser(t_config *data, char *s);
 
 void	handle_sigint(int signal, siginfo_t *info, void *context);
 void	init_signals(void);
+
+//teste
+void	test(t_config *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:35:40 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/05 14:37:48 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/12 18:14:41 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,3 +101,29 @@ void	ft_lexer(t_config *data)
 	ptr[size] = '\0';
 	aux_lexer(ptr, data, &counter, size);
 }
+
+
+// {echo, jash,  ahsd, NULL} | akjsdk
+
+// {echo, NULL}  | ajkshdja
+
+// {echo, hello, world, NULL}
+// {echo, hello, world, NULL}
+
+
+// grep NAME < Makefile 
+// <
+// > oi
+
+// grep NAME
+// <0std
+// > oi 
+
+// node->exec = NULL;
+
+// builtin
+// char **{cd} {hgjhg} {hfghf hgfgh
+// var exec; = 0
+// var builtin; = 1
+// var redirect; < xyz > oi 
+

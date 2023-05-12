@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/10 22:05:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:26:35 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,37 @@
 */
 int parser(t_config *data)
 {
-    if (quotes_parser(data) == 1)
-    {
-        ft_printf("Minishell: Quotes error\n");
-        return (1);
-    }
-	if (pipe_parser(data) == 1)
+  
+	if (data->tokens[0][0] == '>' || data->tokens[0][0] == '<')
 	{
-		ft_printf("Mnishell: syntax error near unexpected token \n");
-		return (1);
+		if (redirect_parser(data) == 1)
+		{
+			ft_printf("minishell: Redirect error\n");
+			return (1);
+		}
 	}
-	// if (redirect_parser(data) == 1)
-	// {
-	// 	ft_printf("minishell: Redirect error\n");
-	// 	return (1);
-	// }
-	if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1
-		&& redirect_parser(data) == 1)
+	else
 	{
-		ft_printf("Minishell: Command '%s' not found\n", data->tokens[0]);
-		return (1);
+		if (quotes_parser(data) == 1)
+		{
+			ft_printf("Minishell: Quotes error\n");
+			return (1);
+		}
+		if (pipe_parser(data) == 1)
+		{
+			ft_printf("Mnishell: syntax error near unexpected token \n");
+			return (1);
+		}
+		if ((builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1))
+		{	
+			ft_printf("Minishell: Command '%s' not found\n", data->tokens[0]);
+			return (1);
+		}
+		if (redirect_parser(data) == 1)
+		{
+			ft_printf("minishell: Redirect error\n");
+			return (1);
+		}
 	}
     return (0);
 }
@@ -97,13 +108,18 @@ int	redirect_parser(t_config *data)
 		}
 		i++;
 	}
+	
+	/*
+	
+	talvez ver na hora de usar
+		
 	if (data->tokens[0][0] == '>' && ft_tab_len(data->tokens) == 2)
-		open(data->tokens[1], O_CREAT);
+		open(data->tokens[1], O_CREAT, 0644);
 	else if (data->tokens[0][0] == '<' && ft_tab_len(data->tokens) == 2)
 	{
 		if (access(data->tokens[1], F_OK) == -1)
 			return (1);
-	}
+	}*/
 	return (0);
 }
 
@@ -133,6 +149,8 @@ int	executables_parser(t_config *data, char *s)
 	i = 0;
 	while (data->paths[i])
 	{
+		if (access(data->tokens[0], X_OK) != -1)
+			return (0);
 		path_check = ft_strdup(data->paths[i]);
 		path_check = ft_strjoin(path_check, "/");
 		path_check = ft_strjoin(path_check, s);
