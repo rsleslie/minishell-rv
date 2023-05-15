@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 16:35:11 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:24:55 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,41 @@ void	is_null(char **str)
 void	ft_free_exec(t_exec *exec)
 {
 	t_exec	*aux;
-	if (!exec)
-		return ;
-	while (exec->next != NULL)
+	t_exec	*next;
+	
+	aux = exec;
+	while (aux != NULL)
 	{
 		ft_free_tab(exec->cmd);
 		ft_free_tab(exec->redirect);
-		aux = exec->next;
-		free(exec);
-		exec = aux;
+		next = aux->next;
+		free(aux);
+		aux = next;
 	}
 	if (exec)
 		free(exec);
+}
+
+void freeLinkedList(t_exec *head) {
+    t_exec *current = head;
+    t_exec *next;
+
+    while (current != NULL) {
+        // Liberar a memória alocada para cmd e redirect
+        for (int i = 0; current->cmd[i] != NULL; i++) {
+            free(current->cmd[i]);
+        }
+        free(current->cmd);
+
+        for (int i = 0; current->redirect[i] != NULL; i++) {
+            free(current->redirect[i]);
+        }
+        free(current->redirect);
+
+        // Avançar para o próximo nó e liberar o atual
+        next = current->next;
+        free(current);
+
+        current = next;
+    }
 }

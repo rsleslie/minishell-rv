@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 16:28:57 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:20:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ typedef struct s_exec {
 // }	t_lexer;
 
 // check
-void	ft_exit(t_config *data, t_node *env, t_node *export);
+void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec);
 void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
 int		check_space(t_config *data);
 
 // utils
+void	freeLinkedList(t_exec *head);
 void	ft_free_exec(t_exec *exec);
 void	ft_free_tab(char **str);
 void	ft_free_list(t_node *list);

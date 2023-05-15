@@ -22,41 +22,18 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.str);
 		if (data.str == NULL)
 		{
-			ft_free_exec(exec);
+			freeLinkedList(exec);
 			terminate(env, export, &data, "exit\n");
 		}
 		if (*data.str && check_space(&data) != 0)
 		{
-			ft_exit(&data, env, export);
+			ft_exit(&data, env, export, exec);
 			ft_lexer(&data);
 			parser(&data);
+			ft_free_exec(exec);
+			exec = NULL;
+			ft_lexer_tokens(&exec, &data);
 		}
-
-
-		// i = 0;
-		// while(data.tokens[i])
-		// 	printf("%s,", data.tokens[i++]);
-		ft_free_exec(exec);
-		exec = NULL;
-		ft_lexer_tokens(&exec, &data);
-		// printf("\n");
-		// i = 0;
-		// while(data.tokens[i])
-		// 	printf("%s,", data.tokens[i++]);
-		
-		// printf("\nteste:   ->\n\n");
-
-		// i = 0;
-		// while(data.tokens[i])
-		// 	printf("%s\n", data.tokens[i++]);
-		
-		
-		
-		// // lexer_tokens(&exec, &data);
-		// i = 0;
-		// printf("cmd: \n");
-		// while(exec.cmd[i])
-		// 	printf("%s\n", exec.cmd[i++]);
 	}
 	
 	
@@ -64,8 +41,3 @@ int	main(int argc, char **argv, char **envp)
 }
 
 // valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --quiet ./minishell 
-
-
-// echo> << >> "    ranna" | $NAME| 
-
-// echo < c.c > outfile bom dia

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 17:30:30 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:15:39 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ char	**strdup_tab(char **tab, int start, int end)
 
 	i = 0;
 	size = end - start;
-	str = (char **)malloc(sizeof(char *) * (end - start) + 1);
+	str = (char **)malloc(sizeof(char *) * ((end - start) + 1));
 	while (i < size)
-		str[i++] = ft_strdup(tab[start++]);
-	i--;
+	{
+		str[i] = ft_strdup(tab[start++]);
+		i++;
+	}
 	str[i] = NULL;
 	return (str);
 }
@@ -74,7 +76,6 @@ char	**remove_str_tab(char **tokens, int start, int end)
 		ptr[i++] = ft_strdup(tokens[j++]);
 	}
 	ptr[i] = NULL;
-	// ft_free_tab(tokens);
 	return (ptr);
 }
 
@@ -106,7 +107,7 @@ t_exec	*node_exec(char **str, int index)
 		i++;
 	}
 	node = malloc(sizeof(t_exec));
-	node->cmd = strdup_tab(str, 0, i);
+	node->cmd = strdup_tab(str, 0, ft_tab_len(str));
 	if (!redirect)
 		node->redirect = strdup_tab(if_null, 0, ft_tab_len(if_null));
 	else
@@ -117,7 +118,7 @@ t_exec	*node_exec(char **str, int index)
 		node->is_builtin = op_builtins(str[0]);
 	node->index = index;
 	node->next = NULL;
-	// ft_free_tab(if_null);
+	ft_free_tab(redirect);
 	return (node);
 }
 
@@ -149,7 +150,10 @@ void	ft_lexer_tokens(t_exec **exec, t_config *data)
 		}
 		i++;
 	}
-	// while((*exec) != NULL)
+}
+
+
+// while((*exec) != NULL)
 	// {
 	// 	printf("\ncmd\n");
 	// 	i = 0;
@@ -164,4 +168,5 @@ void	ft_lexer_tokens(t_exec **exec, t_config *data)
 		
 	// 	*exec = (*exec)->next;
 	// }
-}
+
+
