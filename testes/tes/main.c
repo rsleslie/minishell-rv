@@ -22,9 +22,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.str);
 		if (data.str == NULL)
 		{
-			write(1, "exit", 4);
-			write(1, "\n", 1);
-			exit(1);
+			ft_free_exec(exec);
+			terminate(env, export, &data, "exit\n");
 		}
 		if (*data.str && check_space(&data) != 0)
 		{
@@ -37,7 +36,8 @@ int	main(int argc, char **argv, char **envp)
 		// i = 0;
 		// while(data.tokens[i])
 		// 	printf("%s,", data.tokens[i++]);
-		
+		ft_free_exec(exec);
+		exec = NULL;
 		ft_lexer_tokens(&exec, &data);
 		// printf("\n");
 		// i = 0;
