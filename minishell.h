@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 11:37:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:28:57 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
+# include <stddef.h>
 
 typedef struct s_config
 {
@@ -71,6 +72,7 @@ void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
 int		check_space(t_config *data);
 
 // utils
+void	ft_free_exec(t_exec *exec);
 void	ft_free_tab(char **str);
 void	ft_free_list(t_node *list);
 void	ft_free_node(t_node *data);
@@ -90,7 +92,7 @@ t_node	*create_node_quotes(char *data);
 
 //linked list exec
 
-t_exec	*create_node_exec(char **str_cmd, char **str_redirect, t_lexer *exec);
+t_exec	*create_node_exec(char **str, char **redirect, int index, int i);
 t_exec	*exec_node_last(t_exec *list);
 void	exec_link_node_end(t_exec **list, t_exec *node);
 

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/04 11:36:53 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:35:11 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,21 @@ void	is_null(char **str)
 	{
 		ft_free_tab(str);
 	}
+}
+
+void	ft_free_exec(t_exec *exec)
+{
+	t_exec	*aux;
+	if (!exec)
+		return ;
+	while (exec->next != NULL)
+	{
+		ft_free_tab(exec->cmd);
+		ft_free_tab(exec->redirect);
+		aux = exec->next;
+		free(exec);
+		exec = aux;
+	}
+	if (exec)
+		free(exec);
 }

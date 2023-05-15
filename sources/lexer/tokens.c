@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 13:29:35 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:30:30 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ char	**strdup_tab(char **tab, int start, int end)
 	int		size;
 	char	**str;
 	int		i;
-	
+
 	i = 0;
 	size = end - start;
 	str = (char **)malloc(sizeof(char *) * (end - start) + 1);
-	while(i < size)
+	while (i < size)
 		str[i++] = ft_strdup(tab[start++]);
+	i--;
 	str[i] = NULL;
-	return (str);		
+	return (str);
 }
 
 char	**strjoin_tab(char **s1, char **s2)
@@ -40,7 +41,8 @@ char	**strjoin_tab(char **s1, char **s2)
 		s1 = (char **)malloc(sizeof(char *));
 		s1 [0] = NULL;
 	}
-	str = (char **)malloc(sizeof(char *) * (ft_tab_len(s2) + ft_tab_len(s1)) + 1);
+	str = (char **)malloc(sizeof(char *)
+			* (ft_tab_len(s2) + ft_tab_len(s1)) + 1);
 	if (str == NULL || !s1 || !s2)
 		return (NULL);
 	while (s1[i])
@@ -60,40 +62,40 @@ char	**remove_str_tab(char **tokens, int start, int end)
 	int		i;
 	int		size;
 	char	**ptr;
-	
+
 	i = 0;
-	size = ft_tab_len( tokens) - (end - start);
+	size = ft_tab_len(tokens) - (end - start);
 	ptr = (char **)malloc(sizeof(char *) * size + 1);
 	j = 0;
-	while(i < size)
+	while (i < size)
 	{
 		if (i == start)
 			j = end;
 		ptr[i++] = ft_strdup(tokens[j++]);
 	}
 	ptr[i] = NULL;
-	ft_free_tab(tokens);
+	// ft_free_tab(tokens);
 	return (ptr);
 }
-//mandar star + 1
 
-t_exec *node_exec(char **str, int index)
+t_exec	*node_exec(char **str, int index)
 {
 	int		i;
 	char	**redirect;
 	t_exec	*node;
-	char	**if_null= (char *[]){"*", 0};
-	
+	char	**if_null = (char *[]){"*", 0};
+
 	i = 0;
 	redirect = NULL;
-	while(str[i])
+	if (!str[i])
+		str = strdup_tab(if_null, 0, ft_tab_len(if_null));
+	while (str[i])
 	{
-		if (op_redirect(str[i][0]) == 2 || op_redirect(str[i][0]) == 1 )
+		if (op_redirect(str[i][0]) == 2 || op_redirect(str[i][0]) == 1)
 		{
-			
 			if (!redirect)
 				redirect = strdup_tab(str, i, i + 2);
-			else 
+			else
 				redirect = strjoin_tab(redirect, strdup_tab(str, i, i + 2));
 			str = remove_str_tab(str, i, i + 2);
 			if (i != 0)
@@ -103,19 +105,23 @@ t_exec *node_exec(char **str, int index)
 		}
 		i++;
 	}
-	
 	node = malloc(sizeof(t_exec));
-	node->cmd =strdup_tab(str, 0, i);
+	node->cmd = strdup_tab(str, 0, i);
 	if (!redirect)
 		node->redirect = strdup_tab(if_null, 0, ft_tab_len(if_null));
 	else
-		node->redirect = strdup_tab(redirect, 0,ft_tab_len(redirect));
-	node->is_builtin = op_builtins(str[0]);
+		node->redirect = strdup_tab(redirect, 0, ft_tab_len(redirect));
+	if (!str[0])
+		node->is_builtin = 0;
+	else
+		node->is_builtin = op_builtins(str[0]);
 	node->index = index;
-	return(node);
+	node->next = NULL;
+	// ft_free_tab(if_null);
+	return (node);
 }
 
-void ft_lexer_tokens(t_exec **exec, t_config *data)
+void	ft_lexer_tokens(t_exec **exec, t_config *data)
 {
 	int		i;
 	int		start;
@@ -125,21 +131,37 @@ void ft_lexer_tokens(t_exec **exec, t_config *data)
 	i = 0;
 	start = 0;
 	index = 0;
-	while(data->tokens[i])
+	while (data->tokens[i])
 	{
 		if (op_redirect(data->tokens[i][0]) == 3 || !data->tokens[i + 1])
-	 	{
+		{
 			if (!data->tokens[i + 1])
 				temp = strdup_tab(data->tokens, start, i + 1);
-			else 
-				temp = strdup_tab(data->tokens, start, i);			
+			else
+				temp = strdup_tab(data->tokens, start, i);
 			exec_link_node_end(exec, node_exec(temp, index));
-	 		if (op_redirect(data->tokens[i][0]) == 3)
+			ft_free_tab(temp);
+			if (op_redirect(data->tokens[i][0]) == 3)
 				start = i + 1;
 			else
 				start = i;
 			index++;
 		}
-	 	i++;
+		i++;
 	}
+	// while((*exec) != NULL)
+	// {
+	// 	printf("\ncmd\n");
+	// 	i = 0;
+	// 	while((*exec)->cmd[i])
+	// 		printf("%s, ",(*exec)->cmd[i++]);
+	// 	i = 0;
+	// 	printf("\nredirect\n");
+	// 	while((*exec)->redirect[i])
+	// 		printf("%s, ",(*exec)->redirect[i++]);
+	// 	printf("bultins: %i\n",(*exec)->is_builtin);
+	// 	printf("index: %i\n",(*exec)->index);
+		
+	// 	*exec = (*exec)->next;
+	// }
 }
