@@ -3,7 +3,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_config    data;
-	//t_exec		*exec = NULL;
+	t_exec		*exec = NULL;
 	t_node		*env = NULL;
 	t_node		*export = NULL;
 	int			i;
@@ -34,25 +34,29 @@ int	main(int argc, char **argv, char **envp)
 		}
 
 
-		i = 0;
-		while(data.tokens[i])
-			printf("%s\n", data.tokens[i++]);
+		// i = 0;
+		// while(data.tokens[i])
+		// 	printf("%s,", data.tokens[i++]);
 		
-		test(&data);
+		ft_lexer_tokens(&exec, &data);
+		// printf("\n");
+		// i = 0;
+		// while(data.tokens[i])
+		// 	printf("%s,", data.tokens[i++]);
+		
+		// printf("\nteste:   ->\n\n");
 
-		printf("\nteste:   ->\n\n");
-
-		i = 0;
-		while(data.tokens[i])
-			printf("%s\n", data.tokens[i++]);
+		// i = 0;
+		// while(data.tokens[i])
+		// 	printf("%s\n", data.tokens[i++]);
 		
 		
 		
-		// lexer_tokens(&exec, &data);
+		// // lexer_tokens(&exec, &data);
 		// i = 0;
 		// printf("cmd: \n");
-		// while(exec->cmd[i])
-		// 	printf("%s\n", exec->cmd[i++]);
+		// while(exec.cmd[i])
+		// 	printf("%s\n", exec.cmd[i++]);
 	}
 	
 	

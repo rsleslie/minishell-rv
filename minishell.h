@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/12 19:47:04 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:37:25 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ typedef struct s_lexer
 {
 	int		i;
 	int		j;
+	int		builtins;
+	int		index;
+	char	**tokens;
+	char	**redirect;
 }	t_lexer;
 
 
@@ -86,7 +90,7 @@ t_node	*create_node_quotes(char *data);
 
 //linked list exec
 
-t_exec	*create_node_exec(char **str_cmd, char **str_redirect, int builtin, int index);
+t_exec	*create_node_exec(char **str_cmd, char **str_redirect, t_lexer *exec);
 t_exec	*exec_node_last(t_exec *list);
 void	exec_link_node_end(t_exec **list, t_exec *node);
 
@@ -136,6 +140,29 @@ void	handle_sigint(int signal, siginfo_t *info, void *context);
 void	init_signals(void);
 
 //teste
-void	test(t_config *data);
+// void	test(t_config *data, t_exec *exec);
+char	**strdup_tab(char **tab, int start, int end);
+void ft_lexer_tokens(t_exec **exec, t_config *data);
+
+
+
+// void ft_lexer_tokens(t_exec **exec, t_config *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	(void)exec;
+// 	while(data->tokens[i])
+// 	{
+// 		if (data->tokens[i][0] == '|' || data->tokens[i])
+// 		{
+			
+// 			 exec_link_node_end(exec, test(&data, i));
+// 			// i = ft_tab_len((*exec)->cmd);
+// 			// i++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 #endif

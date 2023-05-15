@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/12 19:56:03 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:29:35 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,25 @@ char	**remove_str_tab(char **tokens, int start, int end)
 }
 //mandar star + 1
 
-void	test(t_config *data)
+t_exec *node_exec(char **str, int index)
 {
-	int i;
-	char 	**redirect;
+	int		i;
+	char	**redirect;
+	t_exec	*node;
+	char	**if_null= (char *[]){"*", 0};
 	
 	i = 0;
 	redirect = NULL;
-	while(data->tokens[i])
+	while(str[i])
 	{
-		if (op_redirect(data->tokens[i][0]) == 2 || op_redirect(data->tokens[i][0]) == 1)
+		if (op_redirect(str[i][0]) == 2 || op_redirect(str[i][0]) == 1 )
 		{
+			
 			if (!redirect)
-				redirect = strdup_tab(data->tokens, i, i + 2);
+				redirect = strdup_tab(str, i, i + 2);
 			else 
-				redirect = strjoin_tab(redirect, strdup_tab(data->tokens, i, i + 2));
-			data->tokens = remove_str_tab(data->tokens, i, i + 2);
+				redirect = strjoin_tab(redirect, strdup_tab(str, i, i + 2));
+			str = remove_str_tab(str, i, i + 2);
 			if (i != 0)
 				i -= 2;
 			else
@@ -100,84 +103,43 @@ void	test(t_config *data)
 		}
 		i++;
 	}
-	if (redirect)
-	{
-		i = 0;
-		while(redirect[i])
-			printf("cmd:  %s\n", redirect[i++]);
-	}
+	
+	node = malloc(sizeof(t_exec));
+	node->cmd =strdup_tab(str, 0, i);
+	if (!redirect)
+		node->redirect = strdup_tab(if_null, 0, ft_tab_len(if_null));
+	else
+		node->redirect = strdup_tab(redirect, 0,ft_tab_len(redirect));
+	node->is_builtin = op_builtins(str[0]);
+	node->index = index;
+	return(node);
 }
 
-void	lexer_tokens(t_exec **exec, t_config *data)
+void ft_lexer_tokens(t_exec **exec, t_config *data)
 {
 	int		i;
-	char	**cmd;
-	char	**redirect;
-	int		index;
-	int		j;
 	int		start;
-	int		end;
-	
-	index = 0;
-	cmd = NULL;
-	redirect = NULL;
+	char	**temp;
+	int		index;
+
 	i = 0;
-	j = 0;
-	while (data->tokens[i])
+	start = 0;
+	index = 0;
+	while(data->tokens[i])
 	{
-		if(data->tokens[i][0] == '|' || !data->tokens[i + 1])
-		{
-			start = j;
-			while ( j < i)
-			{
-				if (op_redirect(data->tokens[j][0]) == 2 || op_redirect(data->tokens[j][0]) == 1)
-				{
-					if (!cmd)
-						cmd = strdup_tab(data->tokens, j, j + 2);
-					else 
-						cmd = strjoin_tab(cmd, strdup_tab(data->tokens, j, j + 2));
-					data->tokens = remove_str_tab(data->tokens, j, j + 2);
-					if (j != 0)
-					{
-						i -= 2;
-						j -= 2;
-					}
-					else
-					{
-						i -= 1;
-						j -= 1;
-					}
-				}
-				j++;
-			}
-			cmd = strdup_tab(data->tokens, start, i - 1);
-			end = ft_tab_len(cmd);
-			exec_link_node_end(exec, create_node_exec(strdup_tab(data->tokens, start, i - 1), redirect, op_builtins(cmd[0]), index));
+		if (op_redirect(data->tokens[i][0]) == 3 || !data->tokens[i + 1])
+	 	{
+			if (!data->tokens[i + 1])
+				temp = strdup_tab(data->tokens, start, i + 1);
+			else 
+				temp = strdup_tab(data->tokens, start, i);			
+			exec_link_node_end(exec, node_exec(temp, index));
+	 		if (op_redirect(data->tokens[i][0]) == 3)
+				start = i + 1;
+			else
+				start = i;
 			index++;
-			i = end + 1;
-			j = i;
-			ft_free_tab(cmd);
 		}
-		ft_free_tab(redirect);
-		i++;
+	 	i++;
 	}
 }
-
-/*
-	< Makefile > file grep NAME | alguma coisa
-
-	
-	<  --------|
-	Makefile   |
-	>          |
-	file	   | no
-	greP       |
-	NAME       |
-	           |
-	-----------|
-	|
-	-----------|
-	alguma	   | no
-	coisa	   |
-	-----------|
-*/ 

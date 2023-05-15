@@ -6,21 +6,21 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:26:43 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/12 19:39:48 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/14 13:12:02 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_exec	*create_node_exec(char **str_cmd, char **str_redirect, int builtin, int index)
+t_exec	*create_node_exec(char **str_cmd, char **str_redirect, t_lexer *exec)
 {
 	t_exec *node;
 	
 	node = malloc(sizeof(t_exec));
-	node->cmd = str_cmd;
-	node->redirect = str_redirect;
-	node->is_builtin = builtin;
-	node->index = index;
+	node->cmd = strdup_tab(str_cmd, exec->j, exec->i);
+	node->redirect = strdup_tab(str_redirect, 0, ft_tab_len(str_redirect));
+	node->is_builtin = exec->builtins;
+	node->index = exec->index;
 	return (node);
 }
 
