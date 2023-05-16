@@ -19,21 +19,65 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		data.str = readline("Habla$ ");
-		add_history(data.str);
 		if (data.str == NULL)
 		{
-			freeLinkedList(exec);
+			printf("readline");//olha aaaaaqui tem que tirar
+			free_exec_list(exec);
 			terminate(env, export, &data, "exit\n");
 		}
 		if (*data.str && check_space(&data) != 0)
 		{
+			add_history(data.str);
 			ft_exit(&data, env, export, exec);
 			ft_lexer(&data);
-			parser(&data);
-			ft_free_exec(exec);
+			if (parser(&data) == 1)
+				continue ;
+			free_exec_list(exec);
 			exec = NULL;
 			ft_lexer_tokens(&exec, &data);
+			dollar_sign(exec, env);
+			init_exec(exec, &data, env, export);
 		}
+		
+		/*
+		export não adiciona variavel na env somente na export
+		limpar prompt do ctrl+C
+		arruamr o exit
+		avaliador pode embaçar errno
+		expansao $
+		tirar aspas
+
+		*/
+
+
+		// i = 0;
+		// while(data.tokens[i])
+		// 	printf("%s,", data.tokens[i++]);
+		// printf("\n");
+		// i = 0;
+		// while(data.tokens[i])
+		// 	printf("%s,", data.tokens[i++]);
+		
+		// printf("\nredirect:   ->\n\n");
+
+		// i = 0;
+		// while(exec->redirect[i])
+		// 	printf("%s\n", exec->redirect[i++]);
+		// printf("\ncmd\n");
+		// while(exec != NULL)
+		// {
+		// 	i = 0;
+		// 	while(exec->cmd[i])
+		// 		printf("%s,", exec->cmd[i++]);
+		// 	printf("\nproximo\n");
+		// 	exec = exec->next;
+		// }
+		
+		// lexer_tokens(&exec, &data);
+		// i = 0;
+		// printf("cmd: \n");
+		// while(data.tokens[i])
+		// 	printf("%s\n", data.tokens[i++]);
 	}
 	
 	
@@ -41,3 +85,8 @@ int	main(int argc, char **argv, char **envp)
 }
 
 // valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --quiet ./minishell 
+
+
+// echo> << >> "    ranna" | $NAME| 
+
+// echo < c.c > outfile bom dia

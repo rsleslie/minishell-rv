@@ -6,55 +6,38 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/12 15:26:35 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:43:45 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/* precisa tratar o redirect  se colocar (< file) ele cria file 
-	quando tratar $ nao esquecer $?
-*/
 int parser(t_config *data)
 {
-  
-	if (data->tokens[0][0] == '>' || data->tokens[0][0] == '<')
+	if (redirect_parser(data) == 1)
+		return (1);
+	if (redirect_parser(data) == 2)
 	{
-		if (redirect_parser(data) == 1)
-		{
-			ft_printf("minishell: Redirect error\n");
-			return (1);
-		}
+		printf("minishell: syntax error near unexpected token\n");
+		return (1);
 	}
-	else
+	if (quotes_parser(data) == 1)
 	{
-		if (quotes_parser(data) == 1)
-		{
-			ft_printf("Minishell: Quotes error\n");
-			return (1);
-		}
-		if (pipe_parser(data) == 1)
-		{
-			ft_printf("Mnishell: syntax error near unexpected token \n");
-			return (1);
-		}
-		if ((builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1))
-		{	
-			ft_printf("Minishell: Command '%s' not found\n", data->tokens[0]);
-			return (1);
-		}
-		if (redirect_parser(data) == 1)
-		{
-			ft_printf("minishell: Redirect error\n");
-			return (1);
-		}
+		ft_printf("Minishell: Quotes error\n");
+		return (1);
+	}
+	if (pipe_parser(data) == 1)
+	{
+		ft_printf("Mnishell: syntax error near unexpected token \n");
+		return (1);
+	}
+	if ((builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1))
+	{	
+		ft_printf("%s: Command not found\n", data->tokens[0]);
+		return (1);
 	}
     return (0);
 }
-
-// essspaco enter
-//
-//enteer
 
 int quotes_parser(t_config *data)
 {
@@ -101,25 +84,27 @@ int	redirect_parser(t_config *data)
 		{
 			if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '<'
 				|| data->tokens[ft_tab_len(data->tokens) - 1][0] == '>')
-				return (1);
+				return (2);
 			if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>' || data->tokens[i + 1][0] == '<'
 				|| data->tokens[i + 1][0] == '|'))
-				return (1);
+				return (2);
+			if (data->tokens[i][0] == '<')
+			{
+				if (access(data->tokens[i + 1], F_OK) == -1)
+				{
+					printf("%s: No such file or directory\n", data->tokens[i + 1]);
+					return (1);
+				}
+			}
 		}
 		i++;
 	}
 	
-	/*
-	
-	talvez ver na hora de usar
-		
 	if (data->tokens[0][0] == '>' && ft_tab_len(data->tokens) == 2)
-		open(data->tokens[1], O_CREAT, 0644);
-	else if (data->tokens[0][0] == '<' && ft_tab_len(data->tokens) == 2)
 	{
-		if (access(data->tokens[1], F_OK) == -1)
-			return (1);
-	}*/
+		open(data->tokens[1], O_CREAT, 0644);
+		return (1);
+	}
 	return (0);
 }
 
@@ -164,24 +149,3 @@ int	executables_parser(t_config *data, char *s)
 	}
 	return (1);
 }
-
-
-// int	is_executable(t_config *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (data->tokens[i])
-// 	{
-// 		if (data->tokens[0][0] != '<' && data->tokens[0][0] != '>')
-// 		{
-// 			if (builtin_parser(data, data->tokens[0]) == 1 && executables_parser(data, data->tokens[0]) == 1)
-// 				return (1);
-// 		}
-// 		if (data->tokens[i][0] == '|')
-// 		{
-// 			if (builtin_parser(data, data->tokens[i + 1]) == 1 && )
-// 		}
-// 		i++;
-// 	}
-// }

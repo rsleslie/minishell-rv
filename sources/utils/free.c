@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:24:55 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 19:16:12 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,69 +41,40 @@ void	ft_free_tab(char **str)
 		i = -1;
 		while (str[++i] != NULL)
 		{
-			if (str[i] != NULL)
-			{
+			if (str[i])
 				free(str[i]);
-				str[i] = NULL;
-			}
 		}
 	}
-	if (str != NULL)
-	{
+	if (str)
 		free(str);
-		str = NULL;
-	}
 }
 
 void	is_null(char **str)
 {
-	int	i;
-
-	i = 0;
-	if(str && str[i])
-	{
+	if(str && *str)
 		ft_free_tab(str);
-	}
 }
 
-void	ft_free_exec(t_exec *exec)
+void free_exec_list(t_exec *head) 
 {
-	t_exec	*aux;
-	t_exec	*next;
-	
-	aux = exec;
-	while (aux != NULL)
-	{
-		ft_free_tab(exec->cmd);
-		ft_free_tab(exec->redirect);
-		next = aux->next;
-		free(aux);
-		aux = next;
-	}
-	if (exec)
-		free(exec);
-}
-
-void freeLinkedList(t_exec *head) {
     t_exec *current = head;
     t_exec *next;
-
+    
     while (current != NULL) {
-        // Liberar a memória alocada para cmd e redirect
-        for (int i = 0; current->cmd[i] != NULL; i++) {
+        // Libera a memória alocada para cmd e redirect
+        for (int i = 0; current->cmd[i]; i++) {
             free(current->cmd[i]);
         }
         free(current->cmd);
-
-        for (int i = 0; current->redirect[i] != NULL; i++) {
+		
+        for (int i = 0; current->redirect[i]; i++) {
             free(current->redirect[i]);
         }
-        free(current->redirect);
-
-        // Avançar para o próximo nó e liberar o atual
+        
+		free(current->redirect);
+        // Move para o próximo elemento da lista
         next = current->next;
         free(current);
-
         current = next;
     }
 }

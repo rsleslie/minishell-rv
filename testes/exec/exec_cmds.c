@@ -1,30 +1,27 @@
 #include "exec.h"
 #include <errno.h>
 
-void    pipex(int **fd, int i, int status, int size_counter)
+void    pipex(t_exec *exec, int **fd)
 {
-    if (i == 0)//par 
+    if (exec->index == 0)
     {
         dup2(fd[0][1], 1);
         close(fd[0][1]);
         close(fd[0][0]);
     }
-    else if (i == 4)
+    else if (exec->next == NULL)
+    {
+        dup2(fd[0][0], 0);
+        dup2(fd[1][1], 1);
+        close(fd[0][0]);
+        close(fd[1][1]);
+    }
+    else
     {
         dup2(fd[1][0], 0);
         close(fd[1][0]);
         close(fd[1][1]);
     }
-    else
-    {
-        dup2(fd[0][0], 0);
-
-        dup2(fd[1][1], 1);
-
-        close(fd[0][0]);
-        close(fd[1][1]);
-    }
-
 }
 
 /*
@@ -102,4 +99,25 @@ void    exec(char ***tokens)
     {
         waitpid(pid, &status, 0);
     } 
+}
+
+
+void    pipex(t_exec *exec, int **fd, int i)
+{
+    if (exec->index == 0)
+    {
+        dup2(fd[i][1], 1);
+        close(fd[i][0]);
+    }
+    else if (exec->next == NULL)
+    {
+		dup2(fd[i - 1][0], 0);
+    }
+    else
+    {
+        dup2(fd[i - 1][0], 0);
+        dup2(fd[i][1], 1);
+        close(fd[i][0]);
+    }
+      
 }

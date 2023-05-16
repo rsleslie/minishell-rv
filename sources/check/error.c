@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:26:44 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:52:12 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 		if ((ft_tab_len(split_exit) == 1) || (ft_tab_len(split_exit) == 2
 				&& ft_isnum(split_exit[1]) == 1))
 		{
-			freeLinkedList(exec);
+			free_exec_list(exec);
 			ft_free_tab(split_exit);
 			terminate(env, export, data, "exit");
 		}
@@ -44,7 +44,7 @@ void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 			printf("exit\nminishell: exit: %s: numeric argument required\n",
 				split_exit[1]);
 			{
-				freeLinkedList(exec);
+				free_exec_list(exec);
 				ft_free_tab(split_exit);
 				terminate(env, export, data, NULL);
 			}

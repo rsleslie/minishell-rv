@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:20:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:30:27 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
-# include <stddef.h>
 
 typedef struct s_config
 {
@@ -72,17 +71,16 @@ void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
 int		check_space(t_config *data);
 
 // utils
-void	freeLinkedList(t_exec *head);
-void	ft_free_exec(t_exec *exec);
+void	free_exec_list(t_exec *head);
 void	ft_free_tab(char **str);
 void	ft_free_list(t_node *list);
 void	ft_free_node(t_node *data);
 void	arguments_unset(char **data_str, t_node *env, t_node *export);
-void	arguments_export(char **data_str, t_node *env, t_node *export);
 int		op_builtins(char *str);
 int		counter_redirect(char *s);
 void	is_null(char **str);
 int		ft_char_counter(char *s, char c);
+void	dollar_sign(t_exec *exec, t_node *env);
 
 // linked list
 t_node	*create_node(char *data);
@@ -93,7 +91,7 @@ t_node	*create_node_quotes(char *data);
 
 //linked list exec
 
-t_exec	*create_node_exec(char **str, char **redirect, int index, int i);
+t_exec	*create_node_exec(char **str_cmd, char **str_redirect, t_lexer *exec);
 t_exec	*exec_node_last(t_exec *list);
 void	exec_link_node_end(t_exec **list, t_exec *node);
 
@@ -116,6 +114,7 @@ int		ft_key_parser(char *key);
 void	ft_pwd(void);
 void	ft_cd(char **data_str, t_node *env);
 void	ft_echo(char **data_str);
+void	exec_builtins(t_exec *exec, t_node *env, t_node *export);
 
 //print e search foram add temporariamente
 int		search_env(char *data, char *key);
@@ -141,6 +140,9 @@ int	executables_parser(t_config *data, char *s);
 
 void	handle_sigint(int signal, siginfo_t *info, void *context);
 void	init_signals(void);
+
+// exec
+void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 //teste
 // void	test(t_config *data, t_exec *exec);
