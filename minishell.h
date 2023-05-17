@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/16 18:30:27 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:35:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ int		counter_redirect(char *s);
 void	is_null(char **str);
 int		ft_char_counter(char *s, char c);
 void	dollar_sign(t_exec *exec, t_node *env);
+void	strdup_empty(char *dst, char *exec);
+int		search_var_quotes(t_node *list, char *exec, char *key);
+void	dollar_quotes(t_node *env, char *str);
+char	*remove_quotes(char *str);
+int		ft_len_dollar(char *str);
+char	*strdup_quotes(char *dst, char *exec, char *value);
 
 // linked list
 t_node	*create_node(char *data);
