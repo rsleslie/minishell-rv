@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:35:40 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/12 18:14:41 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:48:56 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	aux_quotes(char *ptr, t_config *data, t_lexer *counter)
 {
 	char	c;
 	
-	if (data->str[counter->i] == DOUBLE_QUOTE
-		|| data->str[counter->i] == SIMPLE_QUOTE)
+	if ((data->str[counter->i] == DOUBLE_QUOTE
+		|| data->str[counter->i] == SIMPLE_QUOTE))
 	{
 		c = data->str[counter->i];
 		ptr[counter->j++] = '*';
