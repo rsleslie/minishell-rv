@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:35:40 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/18 11:48:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:36:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	aux_quotes(char *ptr, t_config *data, t_lexer *counter)
 		|| data->str[counter->i] == SIMPLE_QUOTE))
 	{
 		c = data->str[counter->i];
-		ptr[counter->j++] = '*';
+		ptr[counter->j++] = 27;
 		ptr[counter->j] =c;
 		counter->j++;
 		counter->i++;
@@ -41,7 +41,7 @@ void	aux_redirect(char *ptr, t_config *data, t_lexer *counter)
 	{
 		c = data->str[counter->i];
 		counter->i++;
-		ptr[counter->j] = '*';
+		ptr[counter->j] = 27;
 		counter->j++;
 		ptr[counter->j] = c;
 		counter->j++;
@@ -51,7 +51,7 @@ void	aux_redirect(char *ptr, t_config *data, t_lexer *counter)
 			counter->j++;
 			counter->i++;
 		}
-		ptr[counter->j] = '*';
+		ptr[counter->j] = 27;
 		counter->j++;
 	}
 }
@@ -66,7 +66,7 @@ void	aux_lexer(char *ptr, t_config *data, t_lexer *counter, int size)
 		if (data->str[counter->i] == 32
 			|| (data->str[counter->i] >= 9 && data->str[counter->i] <= 13))
 		{
-			ptr[counter->j] = '*';
+			ptr[counter->j] = 27;
 			counter->j++;
 			counter->i++;
 			if (!data->str[counter->i])
@@ -84,7 +84,7 @@ void	aux_lexer(char *ptr, t_config *data, t_lexer *counter, int size)
 		}
 	}
 	is_null(data->tokens);
-	data->tokens = ft_split(ptr, '*');
+	data->tokens = ft_split(ptr, 27);
 	free(ptr);
 }
 

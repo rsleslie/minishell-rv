@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 12:59:19 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:34:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
+
+static int g_status_code;
 
 typedef struct s_config
 {

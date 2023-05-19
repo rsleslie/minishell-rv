@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:31:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/17 14:40:31 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:22:25 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ int	search_var_quotes(t_node *list, char *exec, char *key)
 		if (search_env(cp, aux->variable) == 0)
 		{
 			new_cmd = (char *)malloc(sizeof(char) *
-				(ft_strlen(aux->value) + ft_len_dollar(exec)) + 1);
+				(ft_strlen(aux->value) + ft_strlen(exec)) - (ft_strlen(cp)));
 			new_cmd = strdup_quotes(new_cmd, exec, aux->value);
 			free(exec);
+			printf("%s-:>", new_cmd);
 			exec = ft_strdup(new_cmd);
 			free(new_cmd);
 			free(cp);
@@ -74,9 +75,10 @@ void	dollar_quotes(t_node *env, char *str)
 	{
 		while(str[i])
 		{
-			if (str[i] == '$' && str[i - 1] == SIMPLE_QUOTE && str[i + 1] == SIMPLE_QUOTE)
+			if ((str[i] == '$' && str[i - 1] == SIMPLE_QUOTE && str[i + 1] == SIMPLE_QUOTE)
+				|| (str[i] == '$' && str[i - 1] == DOUBLE_QUOTE && str[i + 1] == DOUBLE_QUOTE))
 				break ;
-			else if (str[i] == '$')
+			else if (str[i] == '$' && str[i + 1] != '?' && str[i + 1] != 32)
 				search_var_quotes(env, str, &str[i + 1]);
 			i++;
 		}
@@ -95,6 +97,7 @@ char *remove_quotes(char *str)
 		cp[i] = str[i];
 		i++;
 	}
+	cp[i] = '\0';
 	return(cp);
 }
 
@@ -115,7 +118,7 @@ char	*strdup_quotes(char *dst, char *exec, char *value)
 
 	j = 0;
 	i = 0;
-	while(i < ft_len_dollar(exec))
+	while(i < (ft_len_dollar(exec)))
 	{
 		dst[i] = exec[i];
 		i++;		
@@ -126,7 +129,6 @@ char	*strdup_quotes(char *dst, char *exec, char *value)
 		i++;
 		j++;
 	}
-	dst[i++] = 34;
 	dst[i] = '\0';
 	return (dst);
 }

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:54 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/04/13 17:58:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:05:19 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ int	aux_search(t_node **list, char *key, int i)
 int	parse_export(t_node **list, char *key)
 {
 	char	**split_key;
-	int		i;
-
-	i = 0;
+	
+	if (key[(ft_strlen(key) - 1)] == '-' ||key[ft_strcs(key, '=') - 1] == '-')
+	{
+		g_status_code = 1;
+		return (1);
+	}
 	if (ft_strcs(key, '=') == 0)
 	{
 		if (aux_search(list, key, 0) == 1)
@@ -73,8 +76,7 @@ int	parse_export(t_node **list, char *key)
 		link_node_end(list, create_node_null(key));
 		return (1);
 	}
-	i = ft_strcs(key, '=');
-	if (!key[i + 1])
+	if (!key[ft_strcs(key, '=') + 1])
 	{
 		split_key = ft_split(key, '=');
 		if (aux_search(list, split_key[0], 1) == 1)
@@ -98,7 +100,10 @@ void	ft_export(t_node **list, char *key)
 	i = 0;
 	temp = NULL;
 	if (parse_export(list, key) == 1 || parse_export(list, key) == 2)
+	{
+		// printf("status: %i\n", g_status_code);
 		return ;
+	}
 	temp = create_node(key);
 	current = (*list);
 	while (current != NULL)
@@ -115,5 +120,5 @@ void	ft_export(t_node **list, char *key)
 	}
 	if (i == 0)
 		link_node_end(list, create_node(key));
-	ft_free_node(temp);
+	ft_free_node(temp);	
 }

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/16 12:30:11 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:33:20 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_exec *node_exec(char **str, int index)
 	int		i;
 	char	**redirect;
 	t_exec	*node;
-	char	**if_null= (char *[]){"*", 0};
+	char	**if_null= (char *[]){"-1", 0};
 	
 	i = 0;
 	redirect = NULL;
