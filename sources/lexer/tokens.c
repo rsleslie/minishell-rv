@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 15:33:20 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:04:54 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ t_exec *node_exec(char **str, int index)
 		{
 			
 			if (!redirect)
-				redirect = strdup_tab(str, i, i + 1);
+				redirect = strdup_tab(str, i, i + 2);
 			else 
-				redirect = strjoin_tab(redirect, strdup_tab(str, i, i + 1));
+				redirect = strjoin_tab(redirect, strdup_tab(str, i, i + 2));
 			str = remove_str_tab(str, i, i + 2);
 			if (i != 0)
 				i -= 2;
@@ -110,7 +110,6 @@ t_exec *node_exec(char **str, int index)
 		}
 		i++;
 	}
-	
 	node = malloc(sizeof(t_exec));
 	node->cmd =strdup_tab(str, 0, i);
 	if (!redirect)

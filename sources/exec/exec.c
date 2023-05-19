@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/16 17:48:17 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:15:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,25 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	t_exec		*aux;
 	int			pid;
 	int			status;
-
+	int			fd;
+	int			bkp;
+	
 	aux = exec;
 	if (op_builtins(exec->cmd[0]) != 0)
 	{
 		if (exec->redirect[0][0] != '*')
 		{
-			
+			if (ft_strncmp(exec->redirect[0], ">", ft_strlen(exec->redirect[1])) == 0)
+				fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
+			if (ft_strncmp(exec->redirect[0], ">>", ft_strlen(exec->redirect[1])) == 0)
+				fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+			bkp = dup(1);
+			dup2(fd, 1);
+			exec_builtins(exec, env, export);
+			dup2(bkp, 1);
+			close(fd);
+			close(bkp);		
 		}
-		exec_builtins(exec, env, export);
 	}
 	else//verificar o se tem redirect;
 	{

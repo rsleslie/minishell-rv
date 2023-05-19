@@ -35,9 +35,6 @@ int	main(int argc, char **argv, char **envp)
 			free_exec_list(exec);
 			exec = NULL;
 			ft_lexer_tokens(&exec, &data);
-			// i = 0;
-			// while(exec->cmd[i])
-			// 	printf("%s,", exec->cmd[i++]);
 			dollar_sign(exec, env);
 			unquotes(exec);
 			init_exec(exec, &data, env, export);
