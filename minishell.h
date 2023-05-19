@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/17 14:35:04 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 12:59:19 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int	pipe_parser(t_config *data);
 int	redirect_parser(t_config *data);
 int builtin_parser(t_config *data, char *s);
 int	executables_parser(t_config *data, char *s);
+void unquotes(t_exec *exec);
 
 //signal
 

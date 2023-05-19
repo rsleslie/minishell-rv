@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 		data.str = readline("Habla$ ");
 		if (data.str == NULL)
 		{
-			printf("readline");//olha aaaaaqui tem que tirar
+			// printf("readline");//olha aaaaaqui tem que tirar
 			free_exec_list(exec);
 			terminate(env, export, &data, "exit\n");
 		}
@@ -31,11 +31,12 @@ int	main(int argc, char **argv, char **envp)
 			ft_exit(&data, env, export, exec);
 			ft_lexer(&data);
 			if (parser(&data) == 1)
-				continue ;
+				continue ;//citações de tira
 			free_exec_list(exec);
 			exec = NULL;
 			ft_lexer_tokens(&exec, &data);
 			dollar_sign(exec, env);
+			unquotes(exec);
 			init_exec(exec, &data, env, export);
 		}
 		
