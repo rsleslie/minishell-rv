@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 20:15:49 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:46:20 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,14 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	int			pid;
 	int			status;
 	int			fd;
-	int			bkp;
+	int			bkp;;
 	
 	aux = exec;
 	if (op_builtins(exec->cmd[0]) != 0)
 	{
 		if (exec->redirect[0][0] != '*')
-		{
+		{	
+			
 			if (ft_strncmp(exec->redirect[0], ">", ft_strlen(exec->redirect[1])) == 0)
 				fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
 			if (ft_strncmp(exec->redirect[0], ">>", ft_strlen(exec->redirect[1])) == 0)
@@ -136,7 +137,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			exec_builtins(exec, env, export);
 			dup2(bkp, 1);
 			close(fd);
-			close(bkp);		
+			close(bkp);
 		}
 	}
 	else//verificar o se tem redirect;
@@ -144,8 +145,15 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		pid = fork();
 		if (pid == 0)
 		{
+			fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+			bkp = dup(1);
+			dup2(fd, 1);
+			
 			if (execve(exec_path(data, aux), aux->cmd, environ) == -1)
 				perror(strerror(errno));
+			dup2(bkp, 1);
+			close(fd);
+			close(bkp);
 		}
 		status = 0;
 			waitpid(pid, &status, 0);
