@@ -14,8 +14,8 @@
 
 t_exec	*create_node_exec(char **str_cmd, char **str_redirect, t_lexer *exec)
 {
-	t_exec *node;
-	
+	t_exec	*node;
+
 	node = malloc(sizeof(t_exec));
 	node->cmd = strdup_tab(str_cmd, exec->j, exec->i);
 	node->redirect = strdup_tab(str_redirect, 0, ft_tab_len(str_redirect));

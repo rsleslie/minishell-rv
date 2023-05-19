@@ -32,7 +32,7 @@ void	ft_cd(char **data_str, t_node *env)
 	char	*temp;
 	t_node	*current;
 	int		i;
-	
+
 	if (data_str[1] == NULL)
 	{
 		current = aux_cd(env);
@@ -46,7 +46,7 @@ void	ft_cd(char **data_str, t_node *env)
 		getcwd(buffer, sizeof(buffer));
 		temp = ft_strjoin(buffer, "/");
 		i = 0;
-		while(data_str[++i] != NULL)
+		while (data_str[++i] != NULL)
 		{
 			temp = ft_strjoin(temp, data_str[i]);
 			temp = ft_strjoin(temp, "/");

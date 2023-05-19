@@ -59,10 +59,10 @@ int	check_space(t_config *data)
 {
 	int	i;
 	int	counter;
-	
+
 	i = 0;
 	counter = 0;
-	while(data->str[i])
+	while (data->str[i])
 	{
 		if (data->str[i] != 32 && !(data->str[i] >= 9 && data->str[i] <= 13))
 			counter++;

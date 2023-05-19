@@ -32,7 +32,7 @@ int	search_var(t_node *list, char *exec, char *key)
 	return (0);
 }
 
-void dollar_sign(t_exec *exec, t_node *env)
+void	dollar_sign(t_exec *exec, t_node *env)
 {
 	t_exec	*aux;
 	int		i;
@@ -43,7 +43,7 @@ void dollar_sign(t_exec *exec, t_node *env)
 	while (aux)
 	{
 		i = 0;
-		while(aux->cmd[i])
+		while (aux->cmd[i])
 		{
 			if (aux->cmd[i][0] == '$' && aux->cmd[i][2])
 				search_var(env, exec->cmd[i], &exec->cmd[i][1]);

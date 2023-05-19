@@ -30,7 +30,6 @@ char	*exec_path(t_config *data, t_exec *exec)
 			free(exec->cmd[0]);
 			exec->cmd[0] = ft_strdup(path_check);
 			free(path_check);
-			
 			return (exec->cmd[0]);
 		}
 		i++;
@@ -41,8 +40,8 @@ char	*exec_path(t_config *data, t_exec *exec)
 
 int	pipe_counter(char **tokens)
 {
-	int counter;
-	int i;
+	int	counter;
+	int	i;
 
 	counter = 0;
 	i = -1;
@@ -54,33 +53,33 @@ int	pipe_counter(char **tokens)
 	return (counter);
 }
 
-void    pipex(t_exec *exec, int **fd, int i)
+void	pipex(t_exec *exec, int **fd, int i)
 {
-    if (exec->index == 0)
-    {
-        dup2(fd[i][1], 1);
-        close(fd[i][0]);
-    }
-    else if (exec->next == NULL)
-    {
+	if (exec->index == 0)
+	{
+		dup2(fd[i][1], 1);
+		close(fd[i][0]);
+	}
+	else if (exec->next == NULL)
+	{
 		dup2(fd[i - 1][0], 0);
-    }
-    else
-    {
-        dup2(fd[i - 1][0], 0);
-        dup2(fd[i][1], 1);
-        close(fd[i][0]);
-    }
+	}
+	else
+	{
+		dup2(fd[i - 1][0], 0);
+		dup2(fd[i][1], 1);
+		close(fd[i][0]);
+	}
 }
 
 void	executor(t_exec *exec, t_config *data, int **fd)
 {
 	extern char	**environ;
-	int	pid;
-	t_exec	*aux;
-	int	i;
-	int	status;
-	
+	int			pid;
+	t_exec		*aux;
+	int			i;
+	int			status;
+
 	aux = exec;
 	i = 0;
 	while (i <= aux->index)
@@ -115,7 +114,7 @@ void	executor(t_exec *exec, t_config *data, int **fd)
 
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
-	extern char **environ;
+	extern char	**environ;
 	t_exec		*aux;
 	int			pid;
 	int			status;
@@ -129,7 +128,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		}
 		exec_builtins(exec, env, export);
 	}
-	else//verificar o se tem redirect;
+	else //verificar o se tem redirect;
 	{
 		pid = fork();
 		if (pid == 0)
@@ -138,7 +137,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 				perror(strerror(errno));
 		}
 		status = 0;
-			waitpid(pid, &status, 0);
+		waitpid(pid, &status, 0);
 	}
 }
 
@@ -147,7 +146,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	int			i;
 	int			**fd;
 
-	fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
+	fd = (int **)malloc(sizeof(int [2]) * pipe_counter(data->tokens));
 	if (exec->next == NULL)
 		pipeless(exec, data, env, export);
 	else
