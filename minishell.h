@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 17:34:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:54:23 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ static int g_status_code;
 
 typedef struct s_config
 {
-	char	*str;
-	char	**cmd;
-	char	**paths;
-	char	**tokens;
+	char		*str;
+	char		**cmd;
+	char		**paths;
+	char		**tokens;
+	int			fd;
+	int			bkp;
+	int			status;
+	int			pid;
 }	t_config;
 
 typedef struct s_node
@@ -152,6 +156,12 @@ void	init_signals(void);
 
 // exec
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	pipex(t_exec *exec, int **fd, int i);
+void	executor(t_exec *exec, t_config *data, int **fd, t_node *env, t_node *export);
+void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
+void	execute_cmd(t_exec *exec, t_config *data, int i);
+void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 //teste
 // void	test(t_config *data, t_exec *exec);

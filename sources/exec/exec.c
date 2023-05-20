@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 20:46:20 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:57:25 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void    pipex(t_exec *exec, int **fd, int i)
     }
 }
 
-void	executor(t_exec *exec, t_config *data, int **fd)
+void	executor(t_exec *exec, t_config *data, int **fd, t_node *env, t_node *export)
 {
 	extern char	**environ;
 	int	pid;
@@ -89,8 +89,7 @@ void	executor(t_exec *exec, t_config *data, int **fd)
 		if (pid == 0)
 		{
 			pipex(aux, fd, i);
-			if (execve(exec_path(data, aux), aux->cmd, environ) == -1)
-				perror(strerror(errno));
+			execute_pipe(aux, data, env, export);
 		}
 		if (aux->index == 0)
 			close(fd[i][1]);
@@ -113,50 +112,116 @@ void	executor(t_exec *exec, t_config *data, int **fd)
 	}
 }
 
-void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
+void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 {
-	extern char **environ;
-	t_exec		*aux;
-	int			pid;
-	int			status;
 	int			fd;
-	int			bkp;;
-	
-	aux = exec;
-	if (op_builtins(exec->cmd[0]) != 0)
-	{
-		if (exec->redirect[0][0] != '*')
-		{	
-			
-			if (ft_strncmp(exec->redirect[0], ">", ft_strlen(exec->redirect[1])) == 0)
-				fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
-			if (ft_strncmp(exec->redirect[0], ">>", ft_strlen(exec->redirect[1])) == 0)
-				fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
-			bkp = dup(1);
-			dup2(fd, 1);
-			exec_builtins(exec, env, export);
-			dup2(bkp, 1);
-			close(fd);
-			close(bkp);
+	int			bkp;
+	int			i;
+
+	if (exec->redirect[0][0] != '-')
+	{	
+		i = -1;
+		while (exec->redirect[++i])
+		{
+			if ((i % 2) != 0)
+			{
+				if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
+					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
+				if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
+					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+				if (i == (ft_tab_len(exec->redirect) - 1))
+				{
+					bkp = dup(1);
+					dup2(fd, 1);
+					exec_builtins(exec, env, export);
+					dup2(bkp, 1);
+					close(fd);
+					close(bkp);
+				}
+			}
 		}
 	}
-	else//verificar o se tem redirect;
+	else
+		exec_builtins(exec, env, export);
+}
+
+void	execute_cmd(t_exec *exec, t_config *data, int i)
+{
+	t_config vars;
+	extern char **environ;
+	
+	if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
+		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
+	if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
+		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+	if (i == (ft_tab_len(exec->redirect) - 1))
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			fd = open(exec->redirect[1], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
-			bkp = dup(1);
-			dup2(fd, 1);
-			
-			if (execve(exec_path(data, aux), aux->cmd, environ) == -1)
+			vars.bkp = dup(1);
+			dup2(vars.fd, 1);
+			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 				perror(strerror(errno));
-			dup2(bkp, 1);
-			close(fd);
-			close(bkp);
+			dup2(vars.bkp, 1);
+			close(vars.fd);
+			close(vars.bkp);
+	}	
+}
+
+void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
+{
+	extern char **environ;
+	int			i;
+	
+	if (op_builtins(exec->cmd[0]) != 0)
+		execute_builtins(exec, env, export);
+	else
+	{
+		if (exec->redirect[0][0] != '-')
+		{
+			i = -1;
+			while (exec->redirect[++i])
+			{
+				if ((i % 2) != 0)
+					execute_cmd(exec, data, i);
+			}
 		}
-		status = 0;
-			waitpid(pid, &status, 0);
+		else
+		{
+			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
+				perror(strerror(errno));
+		}
+	}
+}
+
+void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
+{
+	t_config	vars;
+	extern char **environ;
+	int			i;
+	
+	if (op_builtins(exec->cmd[0]) != 0)
+		execute_builtins(exec, env, export);
+	else
+	{
+		if (exec->redirect[0][0] != '-')
+		{
+			i = -1;
+			while (exec->redirect[++i])
+			{
+				if ((i % 2) != 0)
+					execute_cmd(exec, data, i);
+			}
+		}
+		else
+		{
+			vars.pid = fork();
+			if (vars.pid == 0)
+			{
+				if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
+					perror(strerror(errno));
+			}
+			vars.status = 0;
+				waitpid(vars.pid, &vars.status, 0);
+		}
 	}
 }
 
@@ -176,6 +241,6 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			fd[i] = (int *)malloc(sizeof(int) * 2);
 			pipe(fd[i]);
 		}
-		executor(exec, data, fd);
+		executor(exec, data, fd, env, export);
 	}
 }
