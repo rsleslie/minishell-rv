@@ -15,7 +15,7 @@
 int	ft_char_counter(char *s, char c)
 {
 	size_t	i;
-	int	counter;
+	int		counter;
 
 	i = 0;
 	counter = 0;
@@ -34,13 +34,13 @@ int	ft_char_counter(char *s, char c)
 
 int	counter_redirect(char *s)
 {
-	int i;
-	int len;
-	int c;
-	
+	int	i;
+	int	len;
+	int	c;
+
 	i = 0;
 	len = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (op_redirect(s[i]) != 0 && op_redirect(s[i]) != 4)
 		{

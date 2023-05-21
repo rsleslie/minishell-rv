@@ -93,6 +93,8 @@ void	dollar_quotes(t_node *env, char *str);
 char	*remove_quotes(char *str);
 int		ft_len_dollar(char *str);
 char	*strdup_quotes(char *dst, char *exec, char *value);
+int	parse_export_utils(t_node **list, char *key);
+int	aux_search(t_node **list, char *key, int i);
 
 // linked list
 t_node	*create_node(char *data);
@@ -162,6 +164,8 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
 void	execute_cmd(t_exec *exec, t_config *data, int i);
 void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
+char	*exec_path(t_config *data, t_exec *exec);
+int	pipe_counter(char **tokens);
 
 //teste
 // void	test(t_config *data, t_exec *exec);

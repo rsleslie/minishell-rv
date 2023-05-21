@@ -36,7 +36,7 @@ void	ft_free_tab(char **str)
 	int	i;
 
 	i = 0;
-	if(str && str[i])
+	if (str && str[i])
 	{
 		i = -1;
 		while (str[++i] != NULL)
@@ -51,30 +51,29 @@ void	ft_free_tab(char **str)
 
 void	is_null(char **str)
 {
-	if(str && *str)
+	if (str && *str)
 		ft_free_tab(str);
 }
 
-void free_exec_list(t_exec *head) 
+void	free_exec_list(t_exec *head)
 {
-    t_exec *current = head;
-    t_exec *next;
-    
-    while (current != NULL) {
-        // Libera a memória alocada para cmd e redirect
-        for (int i = 0; current->cmd[i]; i++) {
-            free(current->cmd[i]);
-        }
-        free(current->cmd);
-		
-        for (int i = 0; current->redirect[i]; i++) {
-            free(current->redirect[i]);
-        }
-        
-		free(current->redirect);
-        // Move para o próximo elemento da lista
-        next = current->next;
-        free(current);
-        current = next;
-    }
+	t_exec	*current;
+	t_exec	*next;
+	int		i;
+
+	current = head;
+	while (current != NULL)
+	{ // Libera a memória alocada para cmd e redirect
+		i = -1;
+		while (current->cmd[++i])
+			free(current->cmd[i]);
+		free(current->cmd);
+		i = -1;
+		while (current->redirect[++i])
+			free(current->redirect[i]);
+		free(current->redirect);// Move para o próximo elemento da lista
+		next = current->next;
+		free(current);
+		current = next;
+	}
 }

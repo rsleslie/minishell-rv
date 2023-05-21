@@ -63,19 +63,9 @@ int	aux_search(t_node **list, char *key, int i)
 int	parse_export(t_node **list, char *key)
 {
 	char	**split_key;
-	
-	if (key[(ft_strlen(key) - 1)] == '-' ||key[ft_strcs(key, '=') - 1] == '-')
-	{
-		g_status_code = 1;
+
+	if (parse_export_utils(list, key) == 1)
 		return (1);
-	}
-	if (ft_strcs(key, '=') == 0)
-	{
-		if (aux_search(list, key, 0) == 1)
-			return (1);
-		link_node_end(list, create_node_null(key));
-		return (1);
-	}
 	if (!key[ft_strcs(key, '=') + 1])
 	{
 		split_key = ft_split(key, '=');
@@ -100,10 +90,7 @@ void	ft_export(t_node **list, char *key)
 	i = 0;
 	temp = NULL;
 	if (parse_export(list, key) == 1 || parse_export(list, key) == 2)
-	{
-		// printf("status: %i\n", g_status_code);
 		return ;
-	}
 	temp = create_node(key);
 	current = (*list);
 	while (current != NULL)
@@ -120,5 +107,5 @@ void	ft_export(t_node **list, char *key)
 	}
 	if (i == 0)
 		link_node_end(list, create_node(key));
-	ft_free_node(temp);	
+	ft_free_node(temp);
 }

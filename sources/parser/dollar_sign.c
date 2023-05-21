@@ -49,11 +49,11 @@ char	*dollar_refesh(char *cmd)
 				ptr[j] = '1';
 			j++;
 			i += 2;
-			continue;
+			continue ;
 		}
 		ptr[j] = cmd[i];
 		i++;
-		j++;	
+		j++;
 	}
 	free(cmd);
 	return (ptr);
@@ -70,7 +70,7 @@ void	status_code(t_exec *exec, int i)
 	{
 		free(exec->cmd[i]);
 		exec->cmd[i] = ft_strdup("0");
-		return;
+		return ;
 	}
 	if (g_status_code == 1)
 	{
@@ -86,7 +86,7 @@ void	status_code(t_exec *exec, int i)
 	}
 }
 
-void dollar_sign(t_exec *exec, t_node *env)
+void	dollar_sign(t_exec *exec, t_node *env)
 {
 	t_exec	*aux;
 	int		i;
@@ -97,7 +97,7 @@ void dollar_sign(t_exec *exec, t_node *env)
 	while (aux)
 	{
 		i = 0;
-		while(aux->cmd[i])
+		while (aux->cmd[i])
 		{
 			if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
 				status_code(exec, i);

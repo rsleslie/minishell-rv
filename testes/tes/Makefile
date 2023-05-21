@@ -24,7 +24,6 @@ SRC= main.c    				\
 	../../sources/lexer/ft_lexer.c \
 	../../sources/lexer/tokens.c \
 	../../sources/parser/ft_parser.c \
-	../../sources/parser/unquote.c \
 	../../sources/parser/dollar_sign.c \
 	../../sources/built-ins/ft_unset.c \
 	../../sources/built-ins/builtins.c \
@@ -35,7 +34,11 @@ SRC= main.c    				\
 	../../sources/built-ins/ft_pwd.c \
 	../../sources/handle/handle_path.c \
 	../../sources/signals/signals.c \
-	../../sources/exec/exec.c 
+	../../sources/exec/exec.c \
+	../../sources/parser/quotes.c \
+	../../sources/parser/redirect_parser.c \
+	../../sources/exec/pipex.c \
+	../../sources/exec/exec_utils.c \
 	
 OBJ= $(.c=.o)
 CC= cc

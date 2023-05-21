@@ -17,7 +17,8 @@ void	exec_builtins(t_exec *exec, t_node *env, t_node *export)
 	if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0
 		&& ft_strncmp(exec->cmd[1], "..", ft_strlen(exec->cmd[1])) != 0)
 		return ;
-	if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0 && (ft_tab_len(exec->cmd)) > 1)
+	if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0]))
+		== 0 && (ft_tab_len(exec->cmd)) > 1)
 		printf("too many arguments");
 	if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0)
 		ft_cd(exec->cmd, env);

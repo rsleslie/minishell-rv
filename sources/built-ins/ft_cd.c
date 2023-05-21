@@ -26,13 +26,32 @@ t_node	*aux_cd(t_node *env)
 	return (current);
 }
 
-void	ft_cd(char **data_str, t_node *env)
+void	ft_change_dir(char **data_str)
 {
 	char	buffer[1024];
 	char	*temp;
-	t_node	*current;
 	int		i;
-	
+
+	getcwd(buffer, sizeof(buffer));
+	temp = ft_strjoin(buffer, "/");
+	i = 0;
+	while (data_str[++i] != NULL)
+	{
+		temp = ft_strjoin(temp, data_str[i]);
+		temp = ft_strjoin(temp, "/");
+	}
+	if (chdir(temp) != 0)
+	{
+		printf("minishell: cd: %s: %s\n",
+			data_str[1], strerror(errno));
+	}
+	free(temp);
+}
+
+void	ft_cd(char **data_str, t_node *env)
+{
+	t_node	*current;
+
 	if (data_str[1] == NULL)
 	{
 		current = aux_cd(env);
@@ -42,20 +61,5 @@ void	ft_cd(char **data_str, t_node *env)
 	else if (ft_strncmp(data_str[1], "..", ft_strlen(data_str[1])) == 0)
 		chdir("..");
 	else
-	{
-		getcwd(buffer, sizeof(buffer));
-		temp = ft_strjoin(buffer, "/");
-		i = 0;
-		while(data_str[++i] != NULL)
-		{
-			temp = ft_strjoin(temp, data_str[i]);
-			temp = ft_strjoin(temp, "/");
-		}
-		if (chdir(temp) != 0)
-		{
-			printf("minishell: cd: %s: %s\n",
-				data_str[1], strerror(errno));
-		}
-		free(temp);
-	}
+		ft_change_dir(data_str);
 }

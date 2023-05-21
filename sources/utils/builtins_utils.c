@@ -57,3 +57,20 @@ int	search_env(char *data, char *key)
 	}	
 	return (1);
 }
+
+int	parse_export_utils(t_node **list, char *key)
+{
+	if (key[(ft_strlen(key) - 1)] == '-' || key[ft_strcs(key, '=') - 1] == '-')
+	{
+		g_status_code = 1;
+		return (1);
+	}
+	if (ft_strcs(key, '=') == 0)
+	{
+		if (aux_search(list, key, 0) == 1)
+			return (1);
+		link_node_end(list, create_node_null(key));
+		return (1);
+	}
+	return (0);
+}
