@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:39:31 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 18:26:00 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:37:14 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_cd(char **data_str, t_node *env)
 	else
 	{
 		getcwd(buffer, sizeof(buffer));
-		temp = ft_strjoin(buffer, "/");
+		temp = ft_strjoin(ft_strdup(buffer), "/");
 		i = 0;
 		while(data_str[++i] != NULL)
 		{

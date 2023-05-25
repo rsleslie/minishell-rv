@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 22:44:09 by coder             #+#    #+#             */
-/*   Updated: 2023/05/15 20:32:21 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:00:14 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup(const char *s)
 	i = 0;
 	while (s[i])
 		i++;
-	ptr = (unsigned char *)malloc((sizeof(char)) * i + 1);
+	ptr = (unsigned char *)calloc((sizeof(char *)), i + 1);
 	if (ptr == NULL)
 		return (NULL);
 	else

@@ -6,13 +6,13 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:31:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 18:22:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:27:03 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	strdup_empty(char *dst, char *exec)
+char	*strdup_empty(char *dst, char *exec)
 {
 	size_t	i;
 
@@ -22,7 +22,7 @@ void	strdup_empty(char *dst, char *exec)
 		if (exec[i] == '$' && (exec[i + 1] == SIMPLE_QUOTE || exec[i - 1] == SIMPLE_QUOTE))
 		{
 			free(dst);
-			return ;
+			return (exec);
 		}
 		if (exec[i] == DOUBLE_QUOTE)
 			dst[i] = exec[i];
@@ -31,12 +31,12 @@ void	strdup_empty(char *dst, char *exec)
 		i++;		
 	}
 	dst[i] = '\0';
-	free(exec);
-	exec = ft_strdup(dst);
-	free(dst);
+	// free(exec);
+	// exec = ft_strdup(dst);
+	return (dst);
 }
 
-int	search_var_quotes(t_node *list, char *exec, char *key)
+char	*search_var_quotes(t_node *list, char *exec, char *key)
 {
 	char	*cp;
 	t_node	*aux;
@@ -51,35 +51,80 @@ int	search_var_quotes(t_node *list, char *exec, char *key)
 			new_cmd = (char *)malloc(sizeof(char) *
 				(ft_strlen(aux->value) + ft_strlen(exec)) - (ft_strlen(cp)));
 			new_cmd = strdup_quotes(new_cmd, exec, aux->value);
-			free(exec);
-			printf("%s-:>", new_cmd);
-			exec = ft_strdup(new_cmd);
-			free(new_cmd);
 			free(cp);
-			return (1);
+			return (new_cmd);
 		}
 		aux = aux->next;
 	}
 	new_cmd = (char *)malloc(sizeof(char) * ft_strlen(exec));
 	strdup_empty(new_cmd, exec);
 	free(cp);
-	return (0);
+	return (new_cmd);
 }
 
-void	dollar_quotes(t_node *env, char *str)
+// char	*search_expansion(t_node *list, char *key)
+// {
+// 	t_node	*aux;
+
+// 	aux = list;
+// 	while (aux != NULL)
+// 	{
+// 		if (search_env(key, aux->variable) == 0)
+// 			return (ft_strdup(aux->value));
+// 		aux = aux->next;
+// 	}
+// 	return (ft_strdup("-1"));
+// }
+
+// char	*update_value(char *value, char *ptr, int size, int j)
+// {
+// 	int		i;
+// 	int		x;
+// 	char	*update_ptr;
+	
+// 	i = -1;
+// 	x = 0;
+// 	update_ptr = calloc(sizeof(char *), size - ft_strlen(value) + ft_strlen(ptr) + 1);
+// 	while (++i < j)
+// 	{
+// 		update_ptr[i] = ptr[x];
+// 		x++;
+// 	}
+// 	j = -1;
+// 	x += size;
+// 	while (value[++j])
+// 		update_ptr[i++] = value[j];
+// 	while(ptr[x])
+// 	{
+// 		update_ptr[i] = ptr[x];
+// 		x++;
+// 		i++;
+// 	}
+// 	update_ptr[i] = '\0';
+// 	return (update_ptr);
+// }
+
+void	dollar_quotes(t_node *env, t_exec *exec, int size)
 {
 	int i;
-
+	char	*new;
+	
 	i = 0;
-	if (str[i] == DOUBLE_QUOTE)
+	if (exec->cmd[size][i] == DOUBLE_QUOTE)
 	{
-		while(str[i])
+		while(exec->cmd[size][i])
 		{
-			if ((str[i] == '$' && str[i - 1] == SIMPLE_QUOTE && str[i + 1] == SIMPLE_QUOTE)
-				|| (str[i] == '$' && str[i - 1] == DOUBLE_QUOTE && str[i + 1] == DOUBLE_QUOTE))
+			if ((exec->cmd[size][i] == '$' && exec->cmd[size][i - 1] == SIMPLE_QUOTE && exec->cmd[size][i + 1] == SIMPLE_QUOTE)
+				|| (exec->cmd[size][i] == '$' && exec->cmd[size][i - 1] == DOUBLE_QUOTE && exec->cmd[size][i + 1] == DOUBLE_QUOTE))
 				break ;
-			else if (str[i] == '$' && str[i + 1] != '?' && str[i + 1] != 32)
-				search_var_quotes(env, str, &str[i + 1]);
+			else if (exec->cmd[size][i] == '$' && exec->cmd[size][i + 1] != '?' && exec->cmd[size][i + 1] != 32)
+			{
+				new = search_var_quotes(env, exec->cmd[size], &exec->cmd[size][i + 1]);
+				printf("->%s\n", new);
+				free(exec->cmd);
+				exec->cmd[size] = ft_strdup(new);
+				free(new);
+			}
 			i++;
 		}
 	}
@@ -129,6 +174,7 @@ char	*strdup_quotes(char *dst, char *exec, char *value)
 		i++;
 		j++;
 	}
+	dst[i++] = exec[0];
 	dst[i] = '\0';
 	return (dst);
 }

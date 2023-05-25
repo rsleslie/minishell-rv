@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/10 14:20:18 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/23 12:02:27 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	handle_sigint(int signal, siginfo_t *info, void *context)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

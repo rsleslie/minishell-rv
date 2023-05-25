@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/20 15:57:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:43:22 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,32 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 		exec_builtins(exec, env, export);
 }
 
+void	input_redirection(t_config *data, t_exec *exec, int i)
+{
+	t_config vars;
+	extern char **environ;
+	
+	if (access(exec->redirect[i], R_OK) == 0)
+	{
+		vars.pid = fork();
+		if (vars.pid == 0)
+		{
+			vars.fd = open(exec->redirect[i], O_RDONLY);
+			dup2(vars.fd, 0);
+			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
+				perror(strerror(errno));//tirar errno
+			close(vars.fd);
+			exit(1);
+		}
+	}
+	else if (access(exec->redirect[i], R_OK) != 0)
+		printf("minishell: %s: Permission denied\n", exec->redirect[i]);
+	// close(vars.fd);
+	vars.status = 0;
+	waitpid(vars.pid, &vars.status, 0);
+	
+}
+
 void	execute_cmd(t_exec *exec, t_config *data, int i)
 {
 	t_config vars;
@@ -154,8 +180,16 @@ void	execute_cmd(t_exec *exec, t_config *data, int i)
 		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
 	if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+	if (ft_strncmp(exec->redirect[i - 1], "<", ft_strlen(exec->redirect[i])) == 0)
+	{
+		input_redirection(data, exec, i);
+		return ;
+	}
 	if (i == (ft_tab_len(exec->redirect) - 1))
 	{
+		vars.pid = fork();
+		if (vars.pid == 0)
+		{
 			vars.bkp = dup(1);
 			dup2(vars.fd, 1);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
@@ -163,6 +197,11 @@ void	execute_cmd(t_exec *exec, t_config *data, int i)
 			dup2(vars.bkp, 1);
 			close(vars.fd);
 			close(vars.bkp);
+		}
+		close(vars.fd);
+		vars.status = 0;
+			waitpid(vars.pid, &vars.status, 0);
+		
 	}	
 }
 
@@ -228,9 +267,10 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	int			i;
-	int			**fd;
+	int			**fd = {0};
 
-	fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
+	if (pipe_counter(data->tokens) >= 1)
+		fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
 	if (exec->next == NULL)
 		pipeless(exec, data, env, export);
 	else
@@ -243,4 +283,6 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		}
 		executor(exec, data, fd, env, export);
 	}
+	if (pipe_counter(data->tokens) >= 1)
+		ft_free_tab_int(fd, pipe_counter(data->tokens));
 }

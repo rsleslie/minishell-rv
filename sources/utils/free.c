@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/15 19:16:12 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:04:08 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_free_tab(char **str)
 	int	i;
 
 	i = 0;
+	if (str == NULL)
+		return ;
 	if(str && str[i])
 	{
 		i = -1;
@@ -49,10 +51,34 @@ void	ft_free_tab(char **str)
 		free(str);
 }
 
-void	is_null(char **str)
+void	ft_free_tab_int(int **fd, int size)
 {
-	if(str && *str)
-		ft_free_tab(str);
+	int	i;
+
+	i = 0;
+	if (fd == NULL)
+		return ;
+	if (size < 1)
+		return ;
+	if(fd && fd[i])
+	{
+		i = -1;
+		while (++i < size)
+		{
+			if (fd[i])
+				free(fd[i]);
+		}
+	}
+	if (fd)
+		free(fd);
+}
+
+void	is_null(char **fd)
+{
+	if (fd == NULL || *fd == NULL)
+		return ;
+	if(fd && *fd)
+		ft_free_tab(fd);
 }
 
 void free_exec_list(t_exec *head) 

@@ -21,9 +21,9 @@ int	main(int argc, char **argv, char **envp)
 		data.str = readline("Habla$ ");
 		if (data.str == NULL)
 		{
-			// printf("readline");//olha aaaaaqui tem que tirar
+			// printf("readline");//tem que tirar
 			free_exec_list(exec);
-			terminate(env, export, &data, "exit\n");
+			terminate(env, export, &data, "exit");
 		}
 		if (*data.str && check_space(&data) != 0)
 		{
@@ -31,51 +31,28 @@ int	main(int argc, char **argv, char **envp)
 			ft_exit(&data, env, export, exec);
 			ft_lexer(&data);
 			if (parser(&data) == 1)
-				continue ;//citações de tira
-			free_exec_list(exec);
-			exec = NULL;
+				continue ;
+			expantion(&data, env);
 			ft_lexer_tokens(&exec, &data);
 			dollar_sign(exec, env);
 			unquotes(exec);
 			init_exec(exec, &data, env, export);
 		}
-		
+		if (exec != NULL)
+		{
+			free_exec_list(exec);
+			exec = NULL;
+		}
+		free(data.str);
 		/*
+
 		export não adiciona variavel na env somente na export
-		limpar prompt do ctrl+C
 		arruamr o exit
 		avaliador pode embaçar errno
 		expansao $
 		tirar aspas
-
+		
 		*/
-
-
-		// printf("\n");
-		// i = 0;
-		// while(data.tokens[i])
-		// 	printf("%s,", data.tokens[i++]);
-		
-		// printf("\nredirect:   ->\n\n");
-
-		// i = 0;
-		// while(exec->redirect[i])
-		// 	printf("%s\n", exec->redirect[i++]);
-		// printf("\ncmd\n");
-		// while(exec != NULL)
-		// {
-		// 	i = 0;
-		// 	while(exec->cmd[i])
-		// 		printf("%s,", exec->cmd[i++]);
-		// 	printf("\nproximo\n");
-		// 	exec = exec->next;
-		// }
-		
-		// lexer_tokens(&exec, &data);
-		// i = 0;
-		// printf("cmd: \n");
-		// while(data.tokens[i])
-		// 	printf("%s\n", data.tokens[i++]);
 	}
 	
 	

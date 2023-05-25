@@ -6,19 +6,19 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 13:00:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:58:53 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void strip_quotes(t_exec *exec, int i)
+char	*strip_quotes(t_exec *exec, int i)
 {
 	char	*ptr;
-	int		j;
 	int		size;
+	int		j;
 	
-	ptr = (char *)malloc(sizeof(char) * (ft_strlen(exec->cmd[i]) - 2));
+	ptr = (char *)malloc(sizeof(char) * (ft_strlen(exec->cmd[i]) - 1));
 	size = 1;
 	j = 0;
 	while(exec->cmd[i][size + 1])
@@ -28,15 +28,14 @@ void strip_quotes(t_exec *exec, int i)
 		j++;
 	}
 	ptr[j] = '\0';
-	free(exec->cmd[i]);
-	exec->cmd[i] = ft_strdup(ptr);
-	free(ptr);
+	return (ptr);
 }
 
 void unquotes(t_exec *exec)
 {
 	t_exec *aux;
 	int		i;
+	char	*new_value;
 
 	aux = exec;
 	while(aux != NULL)
@@ -45,7 +44,12 @@ void unquotes(t_exec *exec)
 		while(aux->cmd[++i])
 		{
 			if (aux->cmd[i][0] == DOUBLE_QUOTE || aux->cmd[i][0] == SIMPLE_QUOTE)
-				strip_quotes(exec, i);
+			{
+				new_value = strip_quotes(exec, i);
+				free(exec->cmd[i]);
+				exec->cmd[i] = ft_strdup(new_value);
+				free(new_value);
+			}
 		}
 		aux = aux->next;
 	}

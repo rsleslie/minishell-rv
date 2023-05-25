@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/05/19 12:59:37 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/05/23 18:09:31 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC= main.c    				\
 OBJ= $(.c=.o)
 CC= cc
 RL= -lreadline
-FLAG= -Wall -Wextra -Werror -g3 -lcurses
+FLAG= -Wall -Wextra -Werror -g3 -g -lcurses
 LIBFT= ../../libft/libft.a
 
 all: $(NAME) 

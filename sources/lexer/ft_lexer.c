@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:35:40 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 13:36:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:51:03 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_lexer(t_config *data)
 	char	*ptr;
 	int		size;
 
-	size = ft_strlen(data->str) + ((counter_redirect(data->str) + 2)* 2);
+	size = ft_strlen(data->str) + ((counter_redirect(data->str) + 2) * 2);
 	counter.i = 0;
 	counter.j = 0;
 	ptr = calloc(sizeof(char), size + 1);

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/20 15:54:23 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:51:34 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_config
 	int			fd;
 	int			bkp;
 	int			status;
-	int			pid;
+	pid_t			pid;
 }	t_config;
 
 typedef struct s_node
@@ -86,13 +86,16 @@ int		op_builtins(char *str);
 int		counter_redirect(char *s);
 void	is_null(char **str);
 int		ft_char_counter(char *s, char c);
-void	dollar_sign(t_exec *exec, t_node *env);
-void	strdup_empty(char *dst, char *exec);
-int		search_var_quotes(t_node *list, char *exec, char *key);
-void	dollar_quotes(t_node *env, char *str);
+// void	dollar_sign(t_config *data, t_node *env);
+void dollar_sign(t_exec *exec, t_node *env);
+char	*strdup_empty(char *dst, char *exec);
+char	*search_var_quotes(t_node *list, char *exec, char *key);
+//void	dollar_quotes(t_node *env, char *str);
+void	dollar_quotes(t_node *env, t_exec *exec, int size);
 char	*remove_quotes(char *str);
 int		ft_len_dollar(char *str);
 char	*strdup_quotes(char *dst, char *exec, char *value);
+void	ft_free_tab_int(int **str, int size);
 
 // linked list
 t_node	*create_node(char *data);
@@ -166,27 +169,9 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 //teste
 // void	test(t_config *data, t_exec *exec);
 char	**strdup_tab(char **tab, int start, int end);
+// void ft_lexer_tokens(t_exec **exec, t_config *data);
 void ft_lexer_tokens(t_exec **exec, t_config *data);
 
-
-
-// void ft_lexer_tokens(t_exec **exec, t_config *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	(void)exec;
-// 	while(data->tokens[i])
-// 	{
-// 		if (data->tokens[i][0] == '|' || data->tokens[i])
-// 		{
-			
-// 			 exec_link_node_end(exec, test(&data, i));
-// 			// i = ft_tab_len((*exec)->cmd);
-// 			// i++;
-// 		}
-// 		i++;
-// 	}
-// }
-
+// void	expantion(t_config *data);
+void	expantion(t_config *data, t_node *env);
 #endif
