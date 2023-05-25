@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:54 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/19 17:05:19 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:13:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	print_export(t_node *export)
 	while (temp != NULL)
 	{
 		if (temp->value == NULL)
-			printf("declare -x %s\n", temp->variable);
+			ft_printf("declare -x %s\n", temp->variable);
 		else
-			printf("declare -x %s=\"%s\"\n", temp->variable, temp->value);
+			ft_printf("declare -x %s=\"%s\"\n", temp->variable, temp->value);
 		temp = temp->next;
 	}
 }
@@ -60,11 +60,30 @@ int	aux_search(t_node **list, char *key, int i)
 	return (0);
 }
 
+int	error_equal(char *key)
+{
+	int	i;
+
+	i = 0;
+	while (key[i])
+	{
+		if (key[i] == '=')
+		{
+			if (i == 0)
+				return (1);
+			if (key[i - 1] == '-')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	parse_export(t_node **list, char *key)
 {
 	char	**split_key;
 	
-	if (key[(ft_strlen(key) - 1)] == '-' ||key[ft_strcs(key, '=') - 1] == '-')
+	if (key[ft_strlen(key) -1] == '-' || error_equal(key) == 1)
 	{
 		g_status_code = 1;
 		return (1);
@@ -100,10 +119,7 @@ void	ft_export(t_node **list, char *key)
 	i = 0;
 	temp = NULL;
 	if (parse_export(list, key) == 1 || parse_export(list, key) == 2)
-	{
-		// printf("status: %i\n", g_status_code);
 		return ;
-	}
 	temp = create_node(key);
 	current = (*list);
 	while (current != NULL)

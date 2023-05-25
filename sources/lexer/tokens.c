@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/24 14:40:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:57:31 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,15 @@ char	**strjoin_tab(char **s1, char **s2)
 t_exec	*node_exec(t_config *data, t_lexer *point)
 {
 	t_exec	*node;
-	char	**if_null = (char *[]){"-1", 0};
+	char	**if_null;
 	
+	if_null = (char *[]){"-", 0};
 	node = (t_exec *)malloc(sizeof(t_exec));
 	node->cmd = NULL;
 	node->redirect = NULL;
 	while(point->i < ft_tab_len(data->tokens))
 	{
-		if (op_redirect(data->tokens[point->i][0]) != 0 && op_redirect(data->tokens[point->i][0]) != 3
-			&& op_redirect(data->tokens[point->i][0]) != 4)
-		{
-			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i++]);
-			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i++]);
-		}
-		else if (data->tokens[point->i] && op_redirect(data->tokens[point->i][0]) == 3)
+		if (data->tokens[point->i] && op_redirect(data->tokens[point->i][0]) == 3)
 		{
 			if (!node->redirect)
 				node->redirect = strdup_tab(if_null, 0, ft_tab_len(if_null));
@@ -83,6 +78,11 @@ t_exec	*node_exec(t_config *data, t_lexer *point)
 			node->index = point->index;
 			node->next = NULL;
 			return (node);
+		}
+		else if (op_redirect(data->tokens[point->i][0]) == 2 && op_redirect(data->tokens[point->i][0]) != 1)
+		{
+			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i++]);
+			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i]);
 		}
 		else
 			node->cmd = strjoin_tab(node->cmd, &data->tokens[point->i]);

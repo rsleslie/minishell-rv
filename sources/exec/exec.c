@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/23 16:43:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:15:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 					dup2(bkp, 1);
 					close(fd);
 					close(bkp);
+					//free em tudo
 				}
 			}
 		}
@@ -145,9 +146,47 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 		exec_builtins(exec, env, export);
 }
 
+void	execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export)
+{
+	int			fd;
+	//int			bkp;
+	int			i;
+
+	if (exec->redirect[0][0] != '-')
+	{	
+		i = -1;
+		while (exec->redirect[++i])
+		{
+			if ((i % 2) != 0)
+			{
+				if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
+					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
+				if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
+					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+				if (i == (ft_tab_len(exec->redirect) - 1))
+				{
+					//bkp = dup(1);
+					dup2(fd, 1);
+					exec_builtins(exec, env, export);
+					//dup2(bkp, 1);
+					close(fd);
+					//close(bkp);
+					//free em tudo
+					exit(0);
+				}
+			}
+		}
+	}
+	else
+	{
+		exec_builtins(exec, env, export);
+		//free em tudo 
+		exit(0);
+	}
+}
 void	input_redirection(t_config *data, t_exec *exec, int i)
 {
-	t_config vars;
+	t_config 	vars;
 	extern char **environ;
 	
 	if (access(exec->redirect[i], R_OK) == 0)
@@ -187,21 +226,20 @@ void	execute_cmd(t_exec *exec, t_config *data, int i)
 	}
 	if (i == (ft_tab_len(exec->redirect) - 1))
 	{
-		vars.pid = fork();
-		if (vars.pid == 0)
-		{
+		// vars.pid = fork();
+		// if (vars.pid == 0)
+		// {
 			vars.bkp = dup(1);
 			dup2(vars.fd, 1);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-				perror(strerror(errno));
+				printf("error");
 			dup2(vars.bkp, 1);
 			close(vars.fd);
 			close(vars.bkp);
-		}
-		close(vars.fd);
-		vars.status = 0;
-			waitpid(vars.pid, &vars.status, 0);
-		
+		// }
+		// close(vars.fd);
+		// vars.status = 0;
+		// waitpid(vars.pid, &vars.status, 0);
 	}	
 }
 
@@ -211,7 +249,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	int			i;
 	
 	if (op_builtins(exec->cmd[0]) != 0)
-		execute_builtins(exec, env, export);
+		execute_builtins_pipe(exec, env, export);
 	else
 	{
 		if (exec->redirect[0][0] != '-')
@@ -226,7 +264,8 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		else
 		{
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-				perror(strerror(errno));
+				printf("error");// matar o processo
+				
 		}
 	}
 }
@@ -269,13 +308,15 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	int			i;
 	int			**fd = {0};
 
-	if (pipe_counter(data->tokens) >= 1)
-		fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
 	if (exec->next == NULL)
+	{
 		pipeless(exec, data, env, export);
+		return ;
+	}
 	else
 	{
 		i = -1;
+		fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
 		while (++i < pipe_counter(data->tokens))
 		{
 			fd[i] = (int *)malloc(sizeof(int) * 2);
@@ -283,6 +324,5 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		}
 		executor(exec, data, fd, env, export);
 	}
-	if (pipe_counter(data->tokens) >= 1)
-		ft_free_tab_int(fd, pipe_counter(data->tokens));
+	ft_free_tab_int(fd, pipe_counter(data->tokens));
 }

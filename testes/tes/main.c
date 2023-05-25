@@ -21,7 +21,6 @@ int	main(int argc, char **argv, char **envp)
 		data.str = readline("Habla$ ");
 		if (data.str == NULL)
 		{
-			// printf("readline");//tem que tirar
 			free_exec_list(exec);
 			terminate(env, export, &data, "exit");
 		}
@@ -39,6 +38,21 @@ int	main(int argc, char **argv, char **envp)
 			unquotes(exec);
 			init_exec(exec, &data, env, export);
 		}
+
+		// while (exec != NULL)
+		// {
+		// 	i = -1;
+		// 	while (exec->cmd[++i])
+		// 		printf("%s,", exec->cmd[i]);
+		// 	i = -1;
+		// 	printf("\n");
+		// 	while (exec->redirect[++i])
+		// 		printf("%s,", exec->redirect[i]);
+
+		// 	printf("\n\nproximo->\n\n");
+		// 	exec = exec->next;
+		// }
+
 		if (exec != NULL)
 		{
 			free_exec_list(exec);
@@ -55,8 +69,6 @@ int	main(int argc, char **argv, char **envp)
 		
 		*/
 	}
-	
-	
 	return (0);
 }
 

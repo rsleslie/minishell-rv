@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:39:31 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/23 17:37:14 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:40:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ void	ft_cd(char **data_str, t_node *env)
 	{
 		current = aux_cd(env);
 		chdir(current->value);
+		g_status_code = 0;
 		return ;
 	}
 	else if (ft_strncmp(data_str[1], "..", ft_strlen(data_str[1])) == 0)
+	{
 		chdir("..");
+		g_status_code = 0;
+	}
 	else
 	{
 		getcwd(buffer, sizeof(buffer));
@@ -53,9 +57,12 @@ void	ft_cd(char **data_str, t_node *env)
 		}
 		if (chdir(temp) != 0)
 		{
-			printf("minishell: cd: %s: %s\n",
-				data_str[1], strerror(errno));
+			g_status_code = 1;
+			printf("minishell: cd: %s\n",
+				data_str[1]);
 		}
+		else
+			g_status_code = 0;
 		free(temp);
 	}
 }
