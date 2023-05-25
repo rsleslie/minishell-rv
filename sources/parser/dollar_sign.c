@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/24 21:11:13 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 21:19:59 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void dollar_sign(t_exec *exec, t_node *env)
 	}
 }
 
-char	*teste_code()
+char	*value_code()
 {
 	if (g_status_code == 0)
 		return(ft_strdup("0"));
@@ -132,8 +132,10 @@ char	*search_expansion(char *data, t_node *list, char *key, int j)
 		aux = aux->next;
 	}
 	if (data[j] == '$' && data[j + 1] == '?')
-		return (teste_code());
-
+		return (value_code());
+	if (data[j] == '$' && (data[j + 1] == 32 
+		|| data[j + 1] == DOUBLE_QUOTE || data[j + 1] == SIMPLE_QUOTE))
+		return (ft_strdup("$"));
 	return (ft_strdup("-1"));
 }
 
