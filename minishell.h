@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:51:34 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:22:52 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	lexer_tokens(t_exec **exec, t_config *data);
 // parsa
 int parser(t_config *data);
 int quotes_parser(t_config *data);
+void	error_quotes(t_config *data);
 int	pipe_parser(t_config *data);
 int	redirect_parser(t_config *data);
 int builtin_parser(t_config *data, char *s);

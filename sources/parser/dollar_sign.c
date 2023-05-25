@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/24 21:19:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:00:44 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void	expantion(t_config *data, t_node *env)
 	i = -1;
 	while (data->tokens[++i])
 	{
-		if (data->tokens[i][0] == DOUBLE_QUOTE || data->tokens[i][0] == SIMPLE_QUOTE)
+		if (data->tokens[i][0] == DOUBLE_QUOTE)
 		{
 			j = -1;
 			while (data->tokens[i][++j])

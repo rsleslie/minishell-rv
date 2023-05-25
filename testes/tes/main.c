@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(data.str);
 			ft_exit(&data, env, export, exec);
+			error_quotes(&data);
 			ft_lexer(&data);
 			if (parser(&data) == 1)
 				continue ;

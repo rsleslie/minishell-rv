@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:31:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:27:03 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/24 21:57:47 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ char	*strdup_empty(char *dst, char *exec)
 		i++;		
 	}
 	dst[i] = '\0';
-	// free(exec);
-	// exec = ft_strdup(dst);
 	return (dst);
 }
 
@@ -61,48 +59,6 @@ char	*search_var_quotes(t_node *list, char *exec, char *key)
 	free(cp);
 	return (new_cmd);
 }
-
-// char	*search_expansion(t_node *list, char *key)
-// {
-// 	t_node	*aux;
-
-// 	aux = list;
-// 	while (aux != NULL)
-// 	{
-// 		if (search_env(key, aux->variable) == 0)
-// 			return (ft_strdup(aux->value));
-// 		aux = aux->next;
-// 	}
-// 	return (ft_strdup("-1"));
-// }
-
-// char	*update_value(char *value, char *ptr, int size, int j)
-// {
-// 	int		i;
-// 	int		x;
-// 	char	*update_ptr;
-	
-// 	i = -1;
-// 	x = 0;
-// 	update_ptr = calloc(sizeof(char *), size - ft_strlen(value) + ft_strlen(ptr) + 1);
-// 	while (++i < j)
-// 	{
-// 		update_ptr[i] = ptr[x];
-// 		x++;
-// 	}
-// 	j = -1;
-// 	x += size;
-// 	while (value[++j])
-// 		update_ptr[i++] = value[j];
-// 	while(ptr[x])
-// 	{
-// 		update_ptr[i] = ptr[x];
-// 		x++;
-// 		i++;
-// 	}
-// 	update_ptr[i] = '\0';
-// 	return (update_ptr);
-// }
 
 void	dollar_quotes(t_node *env, t_exec *exec, int size)
 {
