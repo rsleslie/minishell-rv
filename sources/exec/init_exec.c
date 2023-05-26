@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:42:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:30:18 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	input_redirection(t_config *data, t_exec *exec, int i)
 {
-	t_config 	vars;
-	extern char **environ;
-	
+	t_config	vars;
+	extern char	**environ;
+
+	printf("red: %s\n", exec->redirect[i + 1]);
 	if (access(exec->redirect[i], R_OK) == 0)
 	{
 		vars.pid = fork();
@@ -25,24 +26,27 @@ void	input_redirection(t_config *data, t_exec *exec, int i)
 			vars.fd = open(exec->redirect[i], O_RDONLY);
 			dup2(vars.fd, 0);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-				perror(strerror(errno));//tirar errno
+			{
+				//free_var(env, export, data, exec);
+				printf("error");// matar o processo
+				exit(0);
+			}
 			close(vars.fd);
 			exit(1);
 		}
 	}
 	else if (access(exec->redirect[i], R_OK) != 0)
-		printf("minishell: %s: Permission denied\n", exec->redirect[i]);
+		ft_printf("minishell: %s: Permission denied\n", exec->redirect[i]);
 	vars.status = 0;
 	waitpid(vars.pid, &vars.status, 0);
-	
 }
 
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	t_config	vars;
-	extern char **environ;
+	extern char	**environ;
 	int			i;
-	
+
 	if (op_builtins(exec->cmd[0]) != 0)
 		execute_builtins(exec, env, export);
 	else
@@ -53,7 +57,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			while (exec->redirect[++i])
 			{
 				if ((i % 2) != 0)
-					execute_cmd(exec, data, i);
+					execute_cmd_pipeless(exec, data, i);
 			}
 		}
 		else
@@ -62,10 +66,15 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			if (vars.pid == 0)
 			{
 				if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-					perror(strerror(errno));
+				{
+					ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
+					free_var(env, export, data, exec);
+					ft_printf("error");
+					exit(0);
+				}
 			}
 			vars.status = 0;
-				waitpid(vars.pid, &vars.status, 0);
+			waitpid(vars.pid, &vars.status, 0);
 		}
 	}
 }
@@ -73,8 +82,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	int			i;
-	int			**fd = {0};
-
+	
 	if (exec->next == NULL)
 	{
 		pipeless(exec, data, env, export);
@@ -83,13 +91,13 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	else
 	{
 		i = -1;
-		fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
+		exec->fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
 		while (++i < pipe_counter(data->tokens))
 		{
-			fd[i] = (int *)malloc(sizeof(int) * 2);
-			pipe(fd[i]);
+			exec->fd[i] = (int *)malloc(sizeof(int) * 2);
+			pipe(exec->fd[i]);
 		}
-		executor(exec, data, fd, env, export);
+		executor(exec, data, env, export);
 	}
-	ft_free_tab_int(fd, pipe_counter(data->tokens));
+	ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 }

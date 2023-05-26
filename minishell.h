@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:46:13 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:30:30 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ static int g_status_code;
 
 typedef struct s_config
 {
-	char		*str;
-	char		**paths;
-	char		**tokens;
-	int			fd;
-	int			bkp;
-	int			status;
-	pid_t			pid;
+	char	*str;
+	char	**paths;
+	char	**tokens;
+	int		fd;
+	int		bkp;
+	int		status;
+	int		i;
+	pid_t	pid;
 }	t_config;
 
 typedef struct s_node
@@ -57,6 +58,7 @@ typedef struct s_lexer
 
 
 typedef struct s_exec {
+	int				**fd;
 	char			**cmd;
 	char			**redirect;
 	int				is_builtin;
@@ -163,15 +165,6 @@ char	*search_expansion(char *data, t_node *list, char *key, int j);
 void	handle_sigint(int signal, siginfo_t *info, void *context);
 void	init_signals(void);
 
-// exec
-void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	pipex(t_exec *exec, int **fd, int i);
-void	executor(t_exec *exec, t_config *data, int **fd, t_node *env, t_node *export);
-void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
-int		execute_cmd(t_exec *exec, t_config *data, int i);
-void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
-
 //teste
 char	**strdup_tab(char **tab, int start, int end);
 void	ft_lexer_tokens(t_exec **exec, t_config *data);
@@ -191,9 +184,11 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // executor
 
-void	executor(t_exec *exec, t_config *data, int **fd, t_node *env, t_node *export);
+void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *data);
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
 char	*exec_path(t_config *data, t_exec *exec);
 int		execute_cmd(t_exec *exec, t_config *data, int i);
+int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i);
+
 #endif

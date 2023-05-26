@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:37:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:44:08 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:15:36 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
 				free_var(env, export, data, exec);
-				printf("error");// matar o processo
+				ft_printf("error");// matar o processo
 				exit(0);
 			}
 				
