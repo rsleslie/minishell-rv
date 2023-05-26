@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:16:44 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/18 11:45:08 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:06:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,12 @@ int	op_builtins(char *str)
 	else if (ft_strncmp(&str[0], "unset", ft_strlen(&str[0])) == 0)
 		return (1);
 	return (0);
+}
+
+void	is_null(char **fd)
+{
+	if (fd == NULL || *fd == NULL)
+		return ;
+	if (fd && *fd)
+		ft_free_tab(fd);
 }

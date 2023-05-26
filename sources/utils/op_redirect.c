@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:16:58 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/04 15:48:53 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:26:35 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,14 @@ int	op_redirect(char c)
 	else if (ft_strcmp(c, '$') == 0)
 		return (4);
 	return (0);
+}
+
+int	ft_len_dollar(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '$')
+		i++;
+	return (i);
 }

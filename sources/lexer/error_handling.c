@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 21:55:36 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 11:47:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:30:48 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	rm_quotes(t_config *data, int i)
 	int		j;
 
 	j = -1;
-	ptr = calloc(sizeof(char *), (ft_strlen(data->str) - 1));	
+	ptr = calloc(sizeof(char *), (ft_strlen(data->str) - 1));
 	while (++j < i)
 		ptr[j] = data->str[j];
 	i += 2;
@@ -36,17 +36,17 @@ void	move(t_config *data, int j)
 	int		i;
 	char	*ptr;
 
-	ptr = calloc(sizeof(char *), ft_strlen(data->str) + 1);
+	i = -1;
 	c = data->str[j];
-	i = -1;	
+	ptr = calloc(sizeof(char *), ft_strlen(data->str) + 1);
 	while (++i < j)
 		ptr[i] = data->str[i];
 	j++;
-	while(data->str[j] != 32)
+	while (data->str[j] != 32)
 		ptr[i++] = data->str[j++];
 	ptr[i++] = c;
-	while(data->str[j])
-		ptr[i++] = data->str[j++];	 
+	while (data->str[j])
+		ptr[i++] = data->str[j++];
 	ptr[i] = '\0';
 	free(data->str);
 	data->str = ft_strdup(ptr);
@@ -85,7 +85,7 @@ void	move_quotes(t_config *data, int i)
 	c = data->str[i];
 	while (data->str[x])
 	{
-		if (data->str[x] == 32 ||  data->str[x] == c)
+		if (data->str[x] == 32 || data->str[x] == c)
 			break ;
 		x++;
 	}
@@ -99,7 +99,7 @@ void	error_quotes(t_config *data)
 {
 	int		i;
 	char	c;
-	
+
 	i = -1;
 	while (data->str[++i])
 	{

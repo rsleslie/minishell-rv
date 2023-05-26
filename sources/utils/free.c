@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/23 17:04:08 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:05:58 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_free_tab(char **str)
 	i = 0;
 	if (str == NULL)
 		return ;
-	if(str && str[i])
+	if (str && str[i])
 	{
 		i = -1;
 		while (str[++i] != NULL)
@@ -60,7 +60,7 @@ void	ft_free_tab_int(int **fd, int size)
 		return ;
 	if (size < 1)
 		return ;
-	if(fd && fd[i])
+	if (fd && fd[i])
 	{
 		i = -1;
 		while (++i < size)
@@ -73,34 +73,26 @@ void	ft_free_tab_int(int **fd, int size)
 		free(fd);
 }
 
-void	is_null(char **fd)
+void	free_exec_list(t_exec *exec)
 {
-	if (fd == NULL || *fd == NULL)
-		return ;
-	if(fd && *fd)
-		ft_free_tab(fd);
-}
+	t_exec	*aux;
+	t_exec	*next;
+	int		i;
 
-void free_exec_list(t_exec *head) 
-{
-    t_exec *current = head;
-    t_exec *next;
-    
-    while (current != NULL) {
-        // Libera a memória alocada para cmd e redirect
-        for (int i = 0; current->cmd[i]; i++) {
-            free(current->cmd[i]);
-        }
-        free(current->cmd);
-		
-        for (int i = 0; current->redirect[i]; i++) {
-            free(current->redirect[i]);
-        }
-        
-		free(current->redirect);
-        // Move para o próximo elemento da lista
-        next = current->next;
-        free(current);
-        current = next;
-    }
+	i = -1;
+	aux = exec;
+	while (aux != NULL)
+	{
+		i = -1;
+		while (aux->cmd[++i])
+			free(aux->cmd[i]);
+		free(aux->cmd);
+		i = -1;
+		while (aux->redirect[++i])
+			free(aux->redirect[i]);
+		free(aux->redirect);
+		next = aux->next;
+		free(aux);
+		aux = next;
+	}
 }

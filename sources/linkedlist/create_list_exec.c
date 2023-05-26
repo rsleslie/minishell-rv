@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:26:43 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/14 13:12:02 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:36:52 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_exec	*create_node_exec(char **str_cmd, char **str_redirect, t_lexer *exec)
 {
-	t_exec *node;
-	
+	t_exec	*node;
+
 	node = malloc(sizeof(t_exec));
 	node->cmd = strdup_tab(str_cmd, exec->j, exec->i);
 	node->redirect = strdup_tab(str_redirect, 0, ft_tab_len(str_redirect));

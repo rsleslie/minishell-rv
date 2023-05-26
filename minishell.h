@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/24 22:22:52 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:46:13 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int g_status_code;
 typedef struct s_config
 {
 	char		*str;
-	char		**cmd;
 	char		**paths;
 	char		**tokens;
 	int			fd;
@@ -54,8 +53,6 @@ typedef struct s_lexer
 	int		j;
 	int		builtins;
 	int		index;
-	char	**tokens;
-	char	**redirect;
 }	t_lexer;
 
 
@@ -65,13 +62,14 @@ typedef struct s_exec {
 	int				is_builtin;
 	int				index;
 	struct s_exec	*next;
-}   t_exec;
+}	t_exec;
 
-// typedef struct s_lexer
-// {
-// }	t_lexer;
+// free
+
+void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec);
 
 // check
+
 void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec);
 void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
 int		check_space(t_config *data);
@@ -86,16 +84,16 @@ int		op_builtins(char *str);
 int		counter_redirect(char *s);
 void	is_null(char **str);
 int		ft_char_counter(char *s, char c);
-// void	dollar_sign(t_config *data, t_node *env);
-void dollar_sign(t_exec *exec, t_node *env);
 char	*strdup_empty(char *dst, char *exec);
 char	*search_var_quotes(t_node *list, char *exec, char *key);
-//void	dollar_quotes(t_node *env, char *str);
 void	dollar_quotes(t_node *env, t_exec *exec, int size);
 char	*remove_quotes(char *str);
 int		ft_len_dollar(char *str);
 char	*strdup_quotes(char *dst, char *exec, char *value);
 void	ft_free_tab_int(int **str, int size);
+int		parse_export(t_node **list, char *key);
+int		error_equal(char *key);
+void	is_null(char **fd);
 
 // linked list
 t_node	*create_node(char *data);
@@ -144,14 +142,21 @@ void	ft_lexer(t_config *data);
 void	lexer_tokens(t_exec **exec, t_config *data);
 
 // parsa
-int parser(t_config *data);
-int quotes_parser(t_config *data);
+int		parser(t_config *data);
+int		quotes_parser(t_config *data);
 void	error_quotes(t_config *data);
-int	pipe_parser(t_config *data);
-int	redirect_parser(t_config *data);
-int builtin_parser(t_config *data, char *s);
-int	executables_parser(t_config *data, char *s);
-void unquotes(t_exec *exec);
+int		pipe_parser(t_config *data);
+int		redirect_parser(t_config *data);
+int		builtin_parser(t_config *data, char *s);
+int		executables_parser(t_config *data, char *s);
+void	unquotes(t_exec *exec);
+void	dollar_sign(t_exec *exec, t_node *env);
+char	*dollar_refesh(char *cmd);
+void	status_code(t_exec *exec, int i);
+char	*search_var(t_node *list, char *exec, char *key);
+char	*refresh_value(char *s1, char *s2, int j, int size);
+char	*get_key(char *ptr, int j);
+char	*search_expansion(char *data, t_node *list, char *key, int j);
 
 //signal
 
@@ -163,16 +168,32 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	pipex(t_exec *exec, int **fd, int i);
 void	executor(t_exec *exec, t_config *data, int **fd, t_node *env, t_node *export);
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
-void	execute_cmd(t_exec *exec, t_config *data, int i);
+int		execute_cmd(t_exec *exec, t_config *data, int i);
 void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 //teste
-// void	test(t_config *data, t_exec *exec);
 char	**strdup_tab(char **tab, int start, int end);
-// void ft_lexer_tokens(t_exec **exec, t_config *data);
-void ft_lexer_tokens(t_exec **exec, t_config *data);
-
-// void	expantion(t_config *data);
+void	ft_lexer_tokens(t_exec **exec, t_config *data);
 void	expantion(t_config *data, t_node *env);
+
+// pipex
+
+void	pipex(t_exec *exec, int **fd, int i);
+int		pipe_counter(char **tokens);
+void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
+
+// init_exec
+
+void	input_redirection(t_config *data, t_exec *exec, int i);
+void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
+
+// executor
+
+void	executor(t_exec *exec, t_config *data, int **fd, t_node *env, t_node *export);
+void	execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *data);
+void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
+char	*exec_path(t_config *data, t_exec *exec);
+int		execute_cmd(t_exec *exec, t_config *data, int i);
 #endif

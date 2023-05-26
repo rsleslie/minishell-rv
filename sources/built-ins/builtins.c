@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:24:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 16:44:10 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:47:24 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	exec_builtins(t_exec *exec, t_node *env, t_node *export)
 		print_export(export);
 	else if (ft_strncmp(exec->cmd[0], "export", ft_strlen(exec->cmd[0])) == 0)
 		arguments_export(exec->cmd, env, export);
-	else if ((ft_strncmp(exec->cmd[0], "unset", ft_strlen(exec->cmd[0])) == 0) && exec->cmd[1])
+	else if ((ft_strncmp(exec->cmd[0], "unset", ft_strlen(exec->cmd[0])) == 0)
+		&& exec->cmd[1])
 		arguments_unset(exec->cmd, env, export);
 }

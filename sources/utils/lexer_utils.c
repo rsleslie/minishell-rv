@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:02:35 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/05 10:45:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:16:41 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_char_counter(char *s, char c)
 {
 	size_t	i;
-	int	counter;
+	int		counter;
 
 	i = 0;
 	counter = 0;
@@ -34,13 +34,13 @@ int	ft_char_counter(char *s, char c)
 
 int	counter_redirect(char *s)
 {
-	int i;
-	int len;
-	int c;
-	
+	int	i;
+	int	len;
+	int	c;
+
 	i = 0;
 	len = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (op_redirect(s[i]) != 0 && op_redirect(s[i]) != 4)
 		{

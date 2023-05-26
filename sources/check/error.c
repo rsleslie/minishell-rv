@@ -6,11 +6,21 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 13:42:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:24:21 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec)
+{
+	ft_free_list(env);
+	ft_free_list(export);
+	free(data->str);
+	ft_free_tab(data->paths);
+	ft_free_tab(data->tokens);
+	free_exec_list(exec);
+}
 
 void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg)
 {
@@ -19,10 +29,19 @@ void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg)
 	ft_free_list(env);
 	ft_free_list(export);
 	free(data->str);
-	//ft_free_tab(data->cmd);
 	ft_free_tab(data->paths);
 	ft_free_tab(data->tokens);
 	exit (0);
+}
+
+void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
+{
+	printf("exit\nminishell: exit: %s: numeric argument required\n",
+		s[1]);
+	{
+		ft_free_tab(s);
+		terminate(env, export, data, NULL);
+	}
 }
 
 void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
@@ -41,13 +60,8 @@ void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 		}
 		else if (ft_isnum(split_exit[1]) == 0)
 		{
-			printf("exit\nminishell: exit: %s: numeric argument required\n",
-				split_exit[1]);
-			{
-				free_exec_list(exec);
-				ft_free_tab(split_exit);
-				terminate(env, export, data, NULL);
-			}
+			norminette_exit(split_exit, data, env, export);
+			free_exec_list(exec);
 		}
 		else if (ft_tab_len(split_exit) > 2)
 			printf("exit\nminishell: exit: too many arguments\n");
@@ -59,10 +73,10 @@ int	check_space(t_config *data)
 {
 	int	i;
 	int	counter;
-	
+
 	i = 0;
 	counter = 0;
-	while(data->str[i])
+	while (data->str[i])
 	{
 		if (data->str[i] != 32 && !(data->str[i] >= 9 && data->str[i] <= 13))
 			counter++;
