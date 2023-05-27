@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:30:10 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 20:24:43 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 		}
 		vars.status = 0;
 		waitpid(vars.pid, &vars.status, 0);
+		if (WIFEXITED(vars.status))
+        	g_status_code = WEXITSTATUS(vars.status);
 	}
 	return (0);	
 }
@@ -87,14 +89,11 @@ char	*exec_path(t_config *data, t_exec *exec)
 	char	*path_check;
 	int		i;
 
-	i = 0;
-	while (data->paths[i])
+	i = -1;
+	while (data->paths[++i])
 	{
 		if (access(exec->cmd[0], X_OK) != -1)
-		{
-			ft_printf("error");
 			return (0);
-		}
 		path_check = ft_strdup(data->paths[i]);
 		path_check = ft_strjoin(path_check, "/");
 		path_check = ft_strjoin(path_check, exec->cmd[0]);
@@ -106,7 +105,6 @@ char	*exec_path(t_config *data, t_exec *exec)
 			
 			return (exec->cmd[0]);
 		}
-		i++;
 		free(path_check);
 	}
 	return (0);
@@ -115,7 +113,6 @@ char	*exec_path(t_config *data, t_exec *exec)
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 {
 	int			fd;
-	int			bkp;
 	int			i;
 
 	if (exec->redirect[0][0] != '-')
@@ -130,14 +127,7 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 				if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
 					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 				if (i == (ft_tab_len(exec->redirect) - 1))
-				{
-					bkp = dup(1);
-					dup2(fd, 1);
-					exec_builtins(exec, env, export);
-					dup2(bkp, 1);
-					close(fd);
-					close(bkp);
-				}
+					norminette_exec_builtins(fd, exec, env, export);
 			}
 		}
 	}
@@ -147,31 +137,13 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 
 void	execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *data)
 {
-	int			fd;
-	int			i;
-
 	if (exec->redirect[0][0] != '-')
 	{	
-		i = -1;
-		while (exec->redirect[++i])
+		data->i = -1;
+		while (exec->redirect[++data->i])
 		{
-			if ((i % 2) != 0)
-			{
-				if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
-					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
-				if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
-					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
-				if (i == (ft_tab_len(exec->redirect) - 1))
-				{
-					dup2(fd, 1);
-					exec_builtins(exec, env, export);
-					close(fd);
-					ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-					free_var(env, export, data, exec);
-					exit(0);
-				}
-				close(fd);
-			}
+			if ((data->i % 2) != 0)
+				norm_execute_builtins_pipe(exec, env, export, data);
 		}
 	}
 	else
@@ -188,10 +160,9 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	t_config	vars;
 	t_exec	*aux;
 
-
 	aux = exec;
-	vars.i = 0;
-	while (vars.i <= aux->index)
+	vars.i = -1;
+	while (++vars.i <= aux->index)
 	{
 		vars.pid = fork();
 		if (vars.pid == 0)
@@ -208,7 +179,6 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			close(exec->fd[vars.i][1]);
 			close(exec->fd[vars.i - 1][0]);
 		}
-		vars.i++;
 		if (aux->next != NULL)
 			aux = aux->next;
 	}
@@ -217,5 +187,7 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	while (++vars.i <= aux->index)
 	{
 		waitpid(vars.pid, &vars.status, 0);
+		if (WIFEXITED(vars.status))
+        	g_status_code = WEXITSTATUS(vars.status);
 	}
 }

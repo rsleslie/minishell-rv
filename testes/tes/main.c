@@ -1,5 +1,7 @@
 #include "../../minishell.h"
 
+int g_status_code;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_config    data;
@@ -10,6 +12,7 @@ int	main(int argc, char **argv, char **envp)
 
 	i = 0;
 	argc = 0;
+	g_status_code = 0;
 	init_signals();
 	data.tokens = NULL;
 	(void)argv;  

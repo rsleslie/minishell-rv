@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 20:53:35 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:58:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,7 @@ void	status_code(t_exec *exec, int i)
 		exec->cmd[i] = dollar_refesh(exec->cmd[i]);
 		return ;
 	}
-	if (g_status_code == 0)
-	{
-		free(exec->cmd[i]);
-		exec->cmd[i] = ft_strdup("0");
-		return ;
-	}
-	if (g_status_code == 1)
-	{
-		free(exec->cmd[i]);
-		exec->cmd[i] = ft_strdup("1");
-		return ;
-	}
-	if (g_status_code == 127)
-	{
-		free(exec->cmd[i]);
-		exec->cmd[i] = ft_strdup("127");
-		return ;
-	}
+	exec->cmd[i] = ft_strdup(ft_itoa(g_status_code));
 }
 
 char	*dollar_refesh(char *cmd)

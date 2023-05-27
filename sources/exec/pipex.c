@@ -6,41 +6,48 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:37:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:15:36 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:08:36 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	norm_execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
+{
+	int			i;
+	
+	i = -1;
+	while (exec->redirect[++i])
+	{
+		if ((i % 2) != 0)
+		{
+			if (execute_cmd(exec, data, i) == 1)
+			{
+				ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
+				free_var(env, export, data, exec);
+				printf("error");
+				exit(0);
+			}
+		}
+	}
+}
+
 void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	extern char **environ;
-	int			i;
+	
 	
 	if (op_builtins(exec->cmd[0]) != 0)
 		execute_builtins_pipe(exec, env, export, data);
 	else
 	{
 		if (exec->redirect[0][0] != '-')
-		{
-			i = -1;
-			while (exec->redirect[++i])
-			{
-				if ((i % 2) != 0)
-				{
-					if (execute_cmd(exec, data, i) == 1)
-					{
-						free_var(env, export, data, exec);
-						printf("error");
-						exit(0);
-					}
-				}
-			}
-		}
+			norm_execute_pipe(exec, data, env, export);
 		else
 		{
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
+				ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 				free_var(env, export, data, exec);
 				ft_printf("error");// matar o processo
 				exit(0);

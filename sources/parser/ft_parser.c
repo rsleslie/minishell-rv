@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:00:31 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 21:13:50 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,24 @@ int	parser(t_config *data)
 		return (1);
 	if (redirect_parser(data) == 2)
 	{
-		printf("minishell: syntax error near unexpected token\n");
+		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 		return (1);
 	}
 	if (quotes_parser(data) == 1)
 	{
-		ft_printf("Minishell: Quotes error\n");
+		ft_putstr_fd("Minishell: Quotes error\n", 2);
 		return (1);
 	}
 	if (pipe_parser(data) == 1)
 	{
-		ft_printf("Mnishell: syntax error near unexpected token \n");
+		ft_putstr_fd("Mnishell: syntax error near unexpected token \n", 2);
 		return (1);
 	}
 	if ((builtin_parser(data, data->tokens[0]) == 1
 			&& executables_parser(data, data->tokens[0]) == 1))
 	{	
-		ft_printf("%s: Command not found\n", data->tokens[0]);
+		g_status_code = 127;
+		perror(data->tokens[0]);
 		return (1);
 	}
 	return (0);
@@ -94,7 +95,8 @@ int	redirect_parser(t_config *data)
 			{
 				if (access(data->tokens[i + 1], F_OK) == -1)
 				{
-					printf("%s: No such file or directory\n", data->tokens[i + 1]);
+					// g_status_code = 127;
+					perror(data->tokens[i + 1]);
 					return (1);
 				}
 			}
@@ -134,13 +136,17 @@ int	executables_parser(t_config *data, char *s)
 	i = 0;
 	while (data->paths[i])
 	{
-		if (access(data->tokens[0], X_OK) != -1)
+		if (access(data->tokens[0], F_OK) != -1)
+		{
+			g_status_code = 127;
 			return (0);
+		}
 		path_check = ft_strdup(data->paths[i]);
 		path_check = ft_strjoin(path_check, "/");
 		path_check = ft_strjoin(path_check, s);
 		if (access(path_check, X_OK) != -1)
 		{
+			g_status_code = 127;
 			free(path_check);
 			return (0);
 		}

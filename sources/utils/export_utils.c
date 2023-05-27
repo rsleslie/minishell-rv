@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:55:48 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:03:02 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:30:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ int	error_equal(char *key)
 		if (key[i] == '=')
 		{
 			if (i == 0)
+			{
+				ft_printf(" not a valid identifier");
 				return (1);
+			}
 			if (key[i - 1] == '-')
+			{
+				ft_printf(" not a valid identifier");
 				return (1);
+			}
 		}
 		i++;
 	}
@@ -69,7 +75,8 @@ int	aux_parser(t_node **list, char *key)
 
 int	parse_export(t_node **list, char *key)
 {
-	if (key[ft_strlen(key) -1] == '-' || error_equal(key) == 1)
+	if (key[ft_strlen(key) -1] == '-' || error_equal(key) == 1
+		|| ft_isdigit(key[0]) != 0)
 	{
 		g_status_code = 1;
 		return (1);

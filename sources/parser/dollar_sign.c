@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:14:44 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:57:05 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 char	*value_code(void)
 {
-	if (g_status_code == 0)
-		return (ft_strdup("0"));
-	if (g_status_code == 1)
-		return (ft_strdup("1"));
-	if (g_status_code == 127)
-		return (ft_strdup("127"));
-	return (ft_strdup("0"));
+	return (ft_strdup(ft_itoa(g_status_code)));
 }
 
 char	*search_expansion(char *data, t_node *list, char *key, int j)
@@ -38,11 +32,8 @@ char	*search_expansion(char *data, t_node *list, char *key, int j)
 		return (value_code());
 	if (data[j] == '$' && (data[j + 1] == 32
 			|| data[j + 1] == DOUBLE_QUOTE || data[j + 1] == SIMPLE_QUOTE))
-	{
-		free(key);
 		return (ft_strdup("$"));
-	}
-	return (ft_strdup("-1"));
+	return (ft_strdup(" "));
 }
 
 char	*get_key(char *ptr, int j)

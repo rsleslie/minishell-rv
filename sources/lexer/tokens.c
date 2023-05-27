@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 20:34:07 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:24:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_exec	*node_exec(t_config *data, t_lexer *point)
 			return (node);
 		}
 		else if (op_redirect(data->tokens[point->i][0]) == 2
-			&& op_redirect(data->tokens[point->i][0]) != 1)
+			|| op_redirect(data->tokens[point->i][0]) == 1)
 		{
 			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i++]);
 			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i]);

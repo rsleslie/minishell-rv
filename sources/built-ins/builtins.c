@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:24:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 19:47:24 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:46:00 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	exec_builtins(t_exec *exec, t_node *env, t_node *export)
 {
 	if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0
-		&& (ft_tab_len(exec->cmd)) > 2)
-		printf("too many arguments\n");
+		&& ft_tab_len(exec->cmd) > 1)
+	{
+		g_status_code = 1;
+		return ;
+	}
 	else if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0)
 		ft_cd(exec->cmd, env);
 	else if (ft_strncmp(exec->cmd[0], "echo", ft_strlen(exec->cmd[0])) == 0)
