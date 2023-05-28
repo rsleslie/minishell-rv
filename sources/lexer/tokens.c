@@ -83,8 +83,10 @@ t_exec	*node_exec(t_config *data, t_lexer *point)
 		else if (op_redirect(data->tokens[point->i][0]) == 2
 			|| op_redirect(data->tokens[point->i][0]) == 1)
 		{
-			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i++]);
-			node->redirect = strjoin_tab(node->redirect, &data->tokens[point->i]);
+			node->redirect = strjoin_tab(node->redirect,
+					&data->tokens[point->i++]);
+			node->redirect = strjoin_tab(node->redirect,
+					&data->tokens[point->i]);
 		}
 		else
 			node->cmd = strjoin_tab(node->cmd, &data->tokens[point->i]);

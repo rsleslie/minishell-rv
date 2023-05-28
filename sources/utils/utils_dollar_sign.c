@@ -80,7 +80,8 @@ void	dollar_quotes(t_node *env, t_exec *exec, int size)
 			else if (exec->cmd[size][i] == '$' && exec->cmd[size][i + 1]
 				!= '?' && exec->cmd[size][i + 1] != 32)
 			{
-				new = search_var_quotes(env, exec->cmd[size], &exec->cmd[size][i + 1]);
+				new = search_var_quotes(env, exec->cmd[size],
+						&exec->cmd[size][i + 1]);
 				printf("->%s\n", new);
 				free(exec->cmd);
 				exec->cmd[size] = ft_strdup(new);

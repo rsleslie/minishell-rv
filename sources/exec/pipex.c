@@ -12,10 +12,11 @@
 
 #include "../../minishell.h"
 
-void	norm_execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
+void	norm_execute_pipe(t_exec *exec, t_config *data,
+	t_node *env, t_node *export)
 {
 	int			i;
-	
+
 	i = -1;
 	while (exec->redirect[++i])
 	{
@@ -34,9 +35,8 @@ void	norm_execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export
 
 void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
-	extern char **environ;
-	
-	
+	extern char	**environ;
+
 	if (op_builtins(exec->cmd[0]) != 0)
 		execute_builtins_pipe(exec, env, export, data);
 	else
@@ -53,15 +53,14 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 				ft_printf("error");// matar o processo
 				exit(g_status_code);
 			}
-				
 		}
 	}
 }
 
 int	pipe_counter(char **tokens)
 {
-	int counter;
-	int i;
+	int	counter;
+	int	i;
 
 	counter = 0;
 	i = -1;

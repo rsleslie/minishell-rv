@@ -32,10 +32,11 @@ void	norm_pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	vars.status = 0;
 	waitpid(vars.pid, &vars.status, 0);
 	if (WIFEXITED(vars.status))
-        g_status_code = WEXITSTATUS(vars.status);
+		g_status_code = WEXITSTATUS(vars.status);
 }
 
-void	norminette_exec_builtins(int fd, t_exec *exec, t_node *env, t_node *export)
+void	norminette_exec_builtins(int fd, t_exec *exec,
+	t_node *env, t_node *export)
 {
 	int			bkp;
 
@@ -47,7 +48,8 @@ void	norminette_exec_builtins(int fd, t_exec *exec, t_node *env, t_node *export)
 	close(bkp);
 }
 
-void	norm_execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *data)
+void	norm_execute_builtins_pipe(t_exec *exec,
+	t_node *env, t_node *export, t_config *data)
 {
 	if (ft_strncmp(exec->redirect[data->i - 1],
 			">", ft_strlen(exec->redirect[data->i - 1])) == 0)

@@ -97,7 +97,8 @@ void	expantion(t_config *data, t_node *env)
 				{
 					key = get_key(data->tokens[i], j + 1);
 					value = search_expansion(data->tokens[i], env, key, j);
-					value = refresh_value(data->tokens[i], value, j, ft_strlen(key));
+					value = refresh_value(data->tokens[i], value, j,
+						ft_strlen(key));
 					free(data->tokens[i]);
 					data->tokens[i] = ft_strdup(value);
 					free(value);
@@ -106,4 +107,3 @@ void	expantion(t_config *data, t_node *env)
 			}
 		}
 	}
-}

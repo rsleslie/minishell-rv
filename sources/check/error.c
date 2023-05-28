@@ -44,7 +44,7 @@ void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 	}
 }
 
-void 	exit_num(char *str)
+void	exit_num(char *str)
 {
 	if (ft_atoi(str) == 123)
 		g_status_code = 123;
@@ -76,7 +76,7 @@ int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 		if (split_exit[1])
 		{
 			if (split_exit[1][0] == DOUBLE_QUOTE)
-				split_exit[1] = ft_strtrim(split_exit[1], "\"");	
+				split_exit[1] = ft_strtrim(split_exit[1], "\"");
 		}
 		if ((ft_tab_len(split_exit) == 1) || (ft_tab_len(split_exit) == 2
 				&& ft_isnum(split_exit[1]) == 1))

@@ -19,25 +19,23 @@ void	input_redirection_pipe(t_config *data, t_exec *exec, int i)
 
 	if (access(exec->redirect[i], R_OK) == 0)
 	{
-	
-			vars.fd = open(exec->redirect[i], O_RDONLY);
-			dup2(vars.fd, 0);
-			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-			{
-				g_status_code = 127;
-				//free_var(env, export, data, exec);
-				printf("error");// matar o processo
-				exit(127);
-			}
-			close(vars.fd);
-			g_status_code = 0;
+		vars.fd = open(exec->redirect[i], O_RDONLY);
+		dup2(vars.fd, 0);
+		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
+		{
+			g_status_code = 127;
+			//free_var(env, export, data, exec);
+			printf("error");// matar o processo
+			exit(127);
+		}
+		close(vars.fd);
+		g_status_code = 0;
 	}
 	else if (access(exec->redirect[i], R_OK) != 0)
 	{
 		ft_printf("minishell: %s: Permission denied\n", exec->redirect[i]);
 		g_status_code = 1;
 	}
-	
 }
 
 void	input_redirection(t_config *data, t_exec *exec, int i)
@@ -65,14 +63,13 @@ void	input_redirection(t_config *data, t_exec *exec, int i)
 		vars.status = 0;
 		waitpid(vars.pid, &vars.status, 0);
 		if (WIFEXITED(vars.status))
-        	g_status_code = WEXITSTATUS(vars.status);
+			g_status_code = WEXITSTATUS(vars.status);
 	}
 	else if (access(exec->redirect[i], R_OK) != 0)
 	{
 		ft_putstr_fd("Permission denied\n", 2);
 		g_status_code = 1;
 	}
-	
 }
 
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
@@ -100,7 +97,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	int			i;
-	
+
 	if (exec->next == NULL)
 	{
 		pipeless(exec, data, env, export);
@@ -109,7 +106,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	else
 	{
 		i = -1;
-		exec->fd = (int**)malloc(sizeof(int[2]) * pipe_counter(data->tokens));
+		exec->fd = (int **)malloc(sizeof(int [2]) * pipe_counter(data->tokens));
 		while (++i < pipe_counter(data->tokens))
 		{
 			exec->fd[i] = (int *)malloc(sizeof(int) * 2);

@@ -27,7 +27,7 @@
 # include <signal.h>
 # include <errno.h>
 
-extern int g_status_code;
+extern int	g_status_code;
 
 typedef struct s_config
 {
@@ -55,7 +55,6 @@ typedef struct s_lexer
 	int		builtins;
 	int		index;
 }	t_lexer;
-
 
 typedef struct s_exec {
 	int				**fd;
@@ -120,7 +119,8 @@ int		cmd_exist(t_config *data, char *key);
 //export
 void	arguments_export(char **data_str, t_node *env, t_node *export);
 void	arguments_unset(char **data_str, t_node *env, t_node *export);
-void	parse_builtins(char **data_str, t_node *env, t_node *export, t_config *data);
+void	parse_builtins(char **data_str, t_node *env,
+		t_node *export, t_config *data);
 
 //built-ins
 void	ft_unset(t_node **list, char *key);
@@ -185,7 +185,8 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 // executor
 
 void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *data);
+void	execute_builtins_pipe(t_exec *exec, t_node *env,
+		t_node *export, t_config *data);
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
 char	*exec_path(t_config *data, t_exec *exec);
 int		execute_cmd(t_exec *exec, t_config *data, int i);
@@ -193,8 +194,11 @@ int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i);
 
 //utils norm
 
-void	norm_pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	norminette_exec_builtins(int fd, t_exec *exec, t_node *env, t_node *export);
-void	norm_execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *data);
+void	norm_pipeless(t_exec *exec, t_config *data,
+		t_node *env, t_node *export);
+void	norminette_exec_builtins(int fd, t_exec *exec,
+		t_node *env, t_node *export);
+void	norm_execute_builtins_pipe(t_exec *exec, t_node *env,
+		t_node *export, t_config *data);
 
 #endif
