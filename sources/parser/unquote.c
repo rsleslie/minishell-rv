@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 14:48:27 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:51:27 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,43 +53,5 @@ void	unquotes(t_exec *exec)
 			}
 		}
 		aux = aux->next;
-	}
-}
-
-char	*str_strip_quotes(char *exec)
-{
-	char	*ptr;
-	int		size;
-	int		j;
-
-	ptr = (char *)malloc(sizeof(char) * (ft_strlen(exec) - 1));
-	size = 1;
-	j = 0;
-	while (exec[size + 1])
-	{
-		ptr[j] = exec[size];
-		size++;
-		j++;
-	}
-	ptr[j] = '\0';
-	return (ptr);
-}
-
-void	str_unquotes(char *exec)
-{
-	int		i;
-	char	*new_value;
-
-	i = -1;
-	while (exec[++i])
-	{
-		if (exec[i] == DOUBLE_QUOTE
-			|| exec[i] == SIMPLE_QUOTE)
-		{
-			new_value = str_strip_quotes(exec);
-			free(exec);
-			exec = ft_strdup(new_value);
-			free(new_value);
-		}
 	}
 }

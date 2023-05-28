@@ -30,7 +30,8 @@ int	main(int argc, char **argv, char **envp)
 		if (*data.str && check_space(&data) != 0)
 		{
 			add_history(data.str);
-			ft_exit(&data, env, export, exec);
+			if (ft_exit(&data, env, export, exec) == 1)
+				continue ;
 			error_quotes(&data);
 			ft_lexer(&data);
 			if (parser(&data) == 1)

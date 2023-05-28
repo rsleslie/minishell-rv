@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:24:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:46:00 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:41:36 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	exec_builtins(t_exec *exec, t_node *env, t_node *export)
 {
-	if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0
-		&& ft_tab_len(exec->cmd) > 1)
+	if (ft_strncmp(exec->cmd[0], "pwd", ft_strlen(exec->cmd[0])) == 0)
+		ft_pwd();
+	else if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0
+		&& ft_tab_len(exec->cmd) > 2)
 	{
 		g_status_code = 1;
 		return ;
@@ -24,8 +26,6 @@ void	exec_builtins(t_exec *exec, t_node *env, t_node *export)
 		ft_cd(exec->cmd, env);
 	else if (ft_strncmp(exec->cmd[0], "echo", ft_strlen(exec->cmd[0])) == 0)
 		ft_echo(exec->cmd);
-	else if (ft_strncmp(exec->cmd[0], "pwd", ft_strlen(exec->cmd[0])) == 0)
-		ft_pwd();
 	else if (ft_strncmp(exec->cmd[0], "env", ft_strlen(exec->cmd[0])) == 0
 		&& !exec->cmd[1])
 		print_env(env);

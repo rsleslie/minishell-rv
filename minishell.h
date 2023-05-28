@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 14:48:21 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:38:37 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec);
 
 // check
 
-void	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec);
+int		ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec);
 void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
 int		check_space(t_config *data);
 
