@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 14:05:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:05:54 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,23 @@ void	input_redirection(t_config *data, t_exec *exec, int i)
 			{
 				g_status_code = 127;
 				//free_var(env, export, data, exec);
-				ft_printf("error");// matar o processo
-				exit(127);
+				perror("error");// matar o processo
+				close(vars.fd);
+				exit(g_status_code);
 			}
 			close(vars.fd);
-			exit(1);
 		}
+		vars.status = 0;
+		waitpid(vars.pid, &vars.status, 0);
+		if (WIFEXITED(vars.status))
+        	g_status_code = WEXITSTATUS(vars.status);
 	}
 	else if (access(exec->redirect[i], R_OK) != 0)
-		ft_printf("minishell: %s: Permission denied\n", exec->redirect[i]);
-	vars.status = 0;
-	waitpid(vars.pid, &vars.status, 0);
-	if (WIFEXITED(vars.status))
-        g_status_code = WEXITSTATUS(vars.status);
+	{
+		ft_putstr_fd("Permission denied\n", 2);
+		g_status_code = 1;
+	}
+	
 }
 
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)

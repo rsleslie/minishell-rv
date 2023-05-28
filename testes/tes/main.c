@@ -43,6 +43,8 @@ int	main(int argc, char **argv, char **envp)
 			init_exec(exec, &data, env, export);
 		}
 
+		// 
+
 		// while (exec != NULL)
 		// {
 		// 	i = -1;

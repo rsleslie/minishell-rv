@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 14:16:58 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:39:57 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 	
 	if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
-	if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
+	if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i - 1])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 	if (ft_strncmp(exec->redirect[i - 1], "<", ft_strlen(exec->redirect[i])) == 0)
 	{
@@ -60,7 +60,7 @@ int		execute_cmd(t_exec *exec, t_config *data, int i)
 	
 	if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
-	if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
+	if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i - 1])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 	if (ft_strncmp(exec->redirect[i - 1], "<", ft_strlen(exec->redirect[i])) == 0)
 	{
@@ -73,10 +73,11 @@ int		execute_cmd(t_exec *exec, t_config *data, int i)
 			dup2(vars.fd, 1);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
-				//ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-				//free_var(env, export, data, exec);
+				// tem que dar free
 				g_status_code = 127;
-				ft_printf("error");
+				dup2(vars.bkp, 1);
+				close(vars.fd);
+				close(vars.bkp);
 				exit(g_status_code);
 			}
 			dup2(vars.bkp, 1);
@@ -130,7 +131,7 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 			{
 				if (ft_strncmp(exec->redirect[i - 1], ">", ft_strlen(exec->redirect[i - 1])) == 0)
 					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
-				if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i])) == 0)
+				if (ft_strncmp(exec->redirect[i - 1], ">>", ft_strlen(exec->redirect[i - 1])) == 0)
 					fd = open(exec->redirect[i], O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 				if (i == (ft_tab_len(exec->redirect) - 1))
 					norminette_exec_builtins(fd, exec, env, export);
