@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:25:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:05:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,20 @@ void	input_redirection_pipe(t_config *data, t_exec *exec, int i)
 			dup2(vars.fd, 0);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
+				g_status_code = 127;
 				//free_var(env, export, data, exec);
 				printf("error");// matar o processo
-				exit(0);
+				exit(127);
 			}
 			close(vars.fd);
+			g_status_code = 0;
 	}
 	else if (access(exec->redirect[i], R_OK) != 0)
+	{
 		ft_printf("minishell: %s: Permission denied\n", exec->redirect[i]);
+		g_status_code = 1;
+	}
+	
 }
 
 void	input_redirection(t_config *data, t_exec *exec, int i)
@@ -48,9 +54,10 @@ void	input_redirection(t_config *data, t_exec *exec, int i)
 			dup2(vars.fd, 0);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
+				g_status_code = 127;
 				//free_var(env, export, data, exec);
-				printf("error");// matar o processo
-				exit(0);
+				ft_printf("error");// matar o processo
+				exit(127);
 			}
 			close(vars.fd);
 			exit(1);

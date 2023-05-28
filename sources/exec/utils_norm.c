@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 18:07:35 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:25:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	norm_pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	}
 	vars.status = 0;
 	waitpid(vars.pid, &vars.status, 0);
-	// ft_printf("status: %i", vars.status);
+	if (WIFEXITED(vars.status))
+        g_status_code = WEXITSTATUS(vars.status);
 }
 
 void	norminette_exec_builtins(int fd, t_exec *exec, t_node *env, t_node *export)

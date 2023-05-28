@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:24:43 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:16:58 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 				dup2(vars.fd, 1);
 				if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 				{
+					g_status_code = 127;
 					//ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 					//free_var(env, export, data, exec);
 					ft_printf("error");
-					exit(0);
+					exit(g_status_code);
 				}
 				dup2(vars.bkp, 1);
 				close(vars.fd);
@@ -74,8 +75,9 @@ int		execute_cmd(t_exec *exec, t_config *data, int i)
 			{
 				//ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 				//free_var(env, export, data, exec);
+				g_status_code = 127;
 				ft_printf("error");
-				exit(0);
+				exit(g_status_code);
 			}
 			dup2(vars.bkp, 1);
 			close(vars.fd);
@@ -93,12 +95,16 @@ char	*exec_path(t_config *data, t_exec *exec)
 	while (data->paths[++i])
 	{
 		if (access(exec->cmd[0], X_OK) != -1)
+		{
+			g_status_code = 1;
 			return (0);
+		}
 		path_check = ft_strdup(data->paths[i]);
 		path_check = ft_strjoin(path_check, "/");
 		path_check = ft_strjoin(path_check, exec->cmd[0]);
 		if (access(path_check, X_OK) != -1)
 		{
+			g_status_code = 1;
 			free(exec->cmd[0]);
 			exec->cmd[0] = ft_strdup(path_check);
 			free(path_check);
@@ -151,7 +157,7 @@ void	execute_builtins_pipe(t_exec *exec, t_node *env, t_node *export, t_config *
 		exec_builtins(exec, env, export);
 		ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 		free_var(env, export, data, exec);
-		exit(0);
+		exit(g_status_code);
 	}
 }
 
