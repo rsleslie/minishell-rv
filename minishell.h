@@ -201,4 +201,6 @@ void	norminette_exec_builtins(int fd, t_exec *exec,
 void	norm_execute_builtins_pipe(t_exec *exec, t_node *env,
 		t_node *export, t_config *data);
 
+int	reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
+
 #endif

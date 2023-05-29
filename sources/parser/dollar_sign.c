@@ -107,3 +107,4 @@ void	expantion(t_config *data, t_node *env)
 			}
 		}
 	}
+}
