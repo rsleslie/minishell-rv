@@ -42,7 +42,7 @@ SRC= main.c    											\
 	../../sources/exec/init_exec.c  					\
 	../../sources/exec/pipex.c  						\
 	../../sources/exec/utils_norm.c  					\
-	
+	../../sources/exec/heredoc.c
 
 	
 OBJ= $(.c=.o)

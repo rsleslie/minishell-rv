@@ -207,4 +207,9 @@ int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
 void	free_exec_child_list(t_exec *exec);
 void	free_child_list(t_node *exec);
 
+// heredoc
+
+int	heredoc(t_exec *exec, t_config *data, int i);
+void	input_heredoc_pipe(t_config *data, t_exec *exec, int i);
+
 #endif

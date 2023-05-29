@@ -25,6 +25,12 @@ int	execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 			ft_strlen(exec->redirect[i - 1])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR
 				| O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+	if (ft_strncmp(exec->redirect[i - 1], "<<",
+			ft_strlen(exec->redirect[i - 1])) == 0)
+	{
+		input_heredoc_pipe(data, exec, i);
+			return (1);
+	}
 	if (ft_strncmp(exec->redirect[i - 1], "<",
 			ft_strlen(exec->redirect[i - 1])) == 0)
 	{
