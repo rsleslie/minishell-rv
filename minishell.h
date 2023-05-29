@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 13:24:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:43:10 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // init_exec
 
-void	input_redirection(t_config *data, t_exec *exec, int i);
+int		input_redirection(t_config *data, t_exec *exec, int i);
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
@@ -201,6 +201,10 @@ void	norminette_exec_builtins(int fd, t_exec *exec,
 void	norm_execute_builtins_pipe(t_exec *exec, t_node *env,
 		t_node *export, t_config *data);
 
-int	reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
+int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
+// free
+
+void	free_exec_child_list(t_exec *exec);
+void	free_child_list(t_node *exec);
 
 #endif

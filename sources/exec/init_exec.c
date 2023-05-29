@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 13:24:18 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:43:15 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	input_redirection_pipe(t_config *data, t_exec *exec, int i)
 	}
 }
 
-void	input_redirection(t_config *data, t_exec *exec, int i)
+int	input_redirection(t_config *data, t_exec *exec, int i)
 {
 	t_config	vars;
 	extern char	**environ;
@@ -52,11 +52,9 @@ void	input_redirection(t_config *data, t_exec *exec, int i)
 			dup2(vars.fd, 0);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
-				g_status_code = 127;
-				//free_var(env, export, data, exec);
-				perror("error");// matar o processo
 				close(vars.fd);
-				exit(g_status_code);
+				g_status_code = 127;
+				return (1);
 			}
 			close(vars.fd);
 		}
@@ -70,6 +68,7 @@ void	input_redirection(t_config *data, t_exec *exec, int i)
 		ft_putstr_fd("Permission denied\n", 2);
 		g_status_code = 1;
 	}
+	return (0);
 }
 
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
@@ -86,7 +85,15 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			while (exec->redirect[++i])
 			{
 				if ((i % 2) != 0)
-					execute_cmd_pipeless(exec, data, i);
+				{
+					if (execute_cmd_pipeless(exec, data, i) == 1)
+					{
+						ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
+						free_var(env, export, data, exec);
+						ft_putstr_fd("error", 2);
+						exit(g_status_code);
+					}
+				}
 			}
 		}
 		else

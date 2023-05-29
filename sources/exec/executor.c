@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 13:29:48 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:43:02 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 		vars.fd = open(exec->redirect[i], O_RDWR
 				| O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 	if (ft_strncmp(exec->redirect[i - 1], "<",
-			ft_strlen(exec->redirect[i])) == 0)
+			ft_strlen(exec->redirect[i - 1])) == 0)
 	{
-		input_redirection(data, exec, i);
+		if (input_redirection(data, exec, i) == 1)
+			return (1);
 		return (0);
 	}
 	if (vars.fd == -1)
@@ -45,11 +46,11 @@ int	execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 			dup2(vars.fd, 1);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
+				dup2(vars.bkp, 1);
+				close(vars.fd);
+				close(vars.bkp);
 				g_status_code = 127;
-				//ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-				//free_var(env, export, data, exec);
-				ft_printf("error");
-				exit(g_status_code);
+				return (1);
 			}
 			dup2(vars.bkp, 1);
 			close(vars.fd);
@@ -79,7 +80,11 @@ int	execute_cmd(t_exec *exec, t_config *data, int i)
 	if (ft_strncmp(exec->redirect[i - 1], "<",
 			ft_strlen(exec->redirect[i])) == 0)
 	{
-		input_redirection(data, exec, i);
+		if (input_redirection(data, exec, i) == 1)
+		{
+			close(vars.fd);
+			return (1);
+		}
 		return (0);
 	}
 	if (vars.fd == -1)
@@ -148,11 +153,11 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 			{
 				if (ft_strncmp(exec->redirect[i - 1], ">",
 						ft_strlen(exec->redirect[i - 1])) == 0)
-					fd = open(exec->redirect[i], O_RDWR
+					fd = open(exec->redirect[i], O_WRONLY
 							| O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
 				if (ft_strncmp(exec->redirect[i - 1], ">>",
 						ft_strlen(exec->redirect[i - 1])) == 0)
-					fd = open(exec->redirect[i], O_RDWR
+					fd = open(exec->redirect[i], O_WRONLY
 							| O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 				if (fd == -1)
 				{
@@ -183,7 +188,7 @@ void	execute_builtins_pipe(t_exec *exec, t_node *env,
 	else
 	{
 		exec_builtins(exec, env, export);
-		ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
+		// ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 		free_var(env, export, data, exec);
 		exit(g_status_code);
 	}

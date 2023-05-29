@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 13:23:49 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:58:52 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec)
 {
-	ft_free_list(env);
-	ft_free_list(export);
 	free(data->str);
 	ft_free_tab(data->paths);
 	ft_free_tab(data->tokens);
-	free_exec_list(exec);
+	free_child_list(export);
+	free_child_list(env);
+	free_exec_child_list(exec);
 }
 
 void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg)
 {
 	if (error_msg)
-		ft_printf("%s\n", error_msg);
+		ft_putstr_fd(error_msg, 2);
 	ft_free_list(env);
 	ft_free_list(export);
 	free(data->str);

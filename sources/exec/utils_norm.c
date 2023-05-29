@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 13:25:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:14:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	norm_pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 			free_var(env, export, data, exec);
 			ft_putstr_fd("error", 2);
-			exit(127);
+			exit(g_status_code);
 		}
 	}
 	vars.status = 0;
@@ -64,13 +64,11 @@ void	norm_execute_builtins_pipe(t_exec *exec,
 		g_status_code = 1;
 		return ;
 	}
-	if (data->i == (ft_tab_len(exec->redirect) - 1) && data->fd > 0)
+	if (data->i == (ft_tab_len(exec->redirect) - 1))
 	{
 		dup2(data->fd, 1);
 		exec_builtins(exec, env, export);
-		close(data->fd);
-		ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-		free_var(env, export, data, exec);
+		close(data->fd);		
 		exit(g_status_code);
 	}
 	if (data->fd > 0)

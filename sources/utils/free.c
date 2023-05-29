@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:05:58 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:53:28 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,38 @@ void	free_exec_list(t_exec *exec)
 		while (aux->redirect[++i])
 			free(aux->redirect[i]);
 		free(aux->redirect);
+		next = aux->next;
+		free(aux);
+		aux = next;
+	}
+}
+
+void	free_child_list(t_node *exec)
+{
+	t_node	*aux;
+	t_node	*next;
+	int		i;
+
+	i = -1;
+	aux = exec;
+	while (aux != NULL)
+	{
+		next = aux->next;
+		free(aux);
+		aux = next;
+	}
+}
+
+void	free_exec_child_list(t_exec *exec)
+{
+	t_exec	*aux;
+	t_exec	*next;
+	int		i;
+
+	i = -1;
+	aux = exec;
+	while (aux != NULL)
+	{
 		next = aux->next;
 		free(aux);
 		aux = next;

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 12:18:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:02:30 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	redirect_parser(t_config *data)
 				if (access(data->tokens[i + 1], F_OK) == -1)
 				{
 					g_status_code = 1;
-					perror(data->tokens[i + 1]);
 					return (1);
 				}
 			}
