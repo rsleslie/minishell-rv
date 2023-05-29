@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:43:15 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:30:19 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,22 @@ void	input_redirection_pipe(t_config *data, t_exec *exec, int i)
 	if (access(exec->redirect[i], R_OK) == 0)
 	{
 		vars.fd = open(exec->redirect[i], O_RDONLY);
+		if (vars.fd == -1)
+			//fazer error
 		dup2(vars.fd, 0);
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
 			g_status_code = 127;
 			//free_var(env, export, data, exec);
-			printf("error");// matar o processo
-			exit(127);
+			ft_putstr_fd("error", 2);// matar o processo
+			exit(g_status_code);
 		}
 		close(vars.fd);
 		g_status_code = 0;
 	}
 	else if (access(exec->redirect[i], R_OK) != 0)
 	{
-		ft_printf("minishell: %s: Permission denied\n", exec->redirect[i]);
+		ft_putstr_fd("Permission denied\n", 2);
 		g_status_code = 1;
 	}
 }
@@ -49,6 +51,12 @@ int	input_redirection(t_config *data, t_exec *exec, int i)
 		if (vars.pid == 0)
 		{
 			vars.fd = open(exec->redirect[i], O_RDONLY);
+			if (vars.fd == -1)
+			{
+				close(vars.fd);
+				g_status_code = 127;
+				return (1);
+			}
 			dup2(vars.fd, 0);
 			if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 			{
@@ -69,6 +77,32 @@ int	input_redirection(t_config *data, t_exec *exec, int i)
 		g_status_code = 1;
 	}
 	return (0);
+}
+
+void input_redi_aux(t_exec *exec, t_node *env, t_node *export, int i)
+{
+	t_config	vars;
+	extern char	**environ;
+
+	if (access(exec->redirect[i], R_OK) == 0)
+	{
+		vars.fd = open(exec->redirect[i], O_RDONLY);
+		if (vars.fd == -1)
+		{
+			close(vars.fd);
+			g_status_code = 1;
+			return ;
+		}
+		dup2(vars.fd, 0);
+		exec_builtins(exec, env, export);
+		close(vars.fd);
+		exit(0);
+	}
+	else if (access(exec->redirect[i], R_OK) != 0)
+	{
+		ft_putstr_fd("Permission denied\n", 2);
+		g_status_code = 1;
+	}
 }
 
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)

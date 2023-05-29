@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:58:32 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 18:25:55 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,17 @@ void	dollar_sign(t_exec *exec, t_node *env)
 		i = 0;
 		while (aux->cmd[i])
 		{
-			if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
-				status_code(exec, i);
-			if (aux->cmd[i][0] == '$' && aux->cmd[i][2])
+			// if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
+			// 	status_code(exec, i);
+			if (aux->cmd[i][0] == '$' && aux->cmd[i][1])
 				aux->cmd[i] = search_var(env, exec->cmd[i], &exec->cmd[i][1]);
 			i++;
+		}
+		i = -1;
+		while (aux->redirect[++i])
+		{
+			if (aux->redirect[i][0] == '$' && aux->redirect[i][1])
+				aux->redirect[i] = search_var(env, exec->redirect[i], &exec->redirect[i][1]);
 		}
 		aux = aux->next;
 	}

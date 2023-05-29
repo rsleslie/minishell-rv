@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:55:48 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:30:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:12:36 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	error_equal(char *key)
 		{
 			if (i == 0)
 			{
-				ft_printf(" not a valid identifier");
+				ft_putstr_fd(" not a valid identifier", 2);
 				return (1);
 			}
 			if (key[i - 1] == '-')
 			{
-				ft_printf(" not a valid identifier");
+				ft_putstr_fd(" not a valid identifier", 2);
 				return (1);
 			}
 		}

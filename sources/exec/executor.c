@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:43:02 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:26:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,28 @@ int	execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 	return (0);	
 }
 
+int counter_redect(char *key, t_exec *exec)
+{
+	int i;
+	int	counter;
+	
+	i = -1;
+	counter = 0;
+	while(exec->redirect[++i])
+	{
+		if(ft_strncmp(exec->redirect[i - 1], key, ft_strlen(exec->redirect[i])) == 0)
+			counter++;
+	}
+	return (counter);
+}
+
 int	execute_cmd(t_exec *exec, t_config *data, int i)
 {
 	t_config		vars;
 	extern char		**environ;
+	int				counter;
 
+	counter = 0;
 	if (ft_strncmp(exec->redirect[i - 1], ">",
 			ft_strlen(exec->redirect[i - 1])) == 0)
 		vars.fd = open(exec->redirect[i], O_RDWR
@@ -159,6 +176,9 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 						ft_strlen(exec->redirect[i - 1])) == 0)
 					fd = open(exec->redirect[i], O_WRONLY
 							| O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+				if (ft_strncmp(exec->redirect[i - 1], "<",
+						ft_strlen(exec->redirect[i])) == 0)
+					fd = open(exec->redirect[i], O_RDONLY);						
 				if (fd == -1)
 				{
 					g_status_code = 1;
@@ -188,7 +208,6 @@ void	execute_builtins_pipe(t_exec *exec, t_node *env,
 	else
 	{
 		exec_builtins(exec, env, export);
-		// ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 		free_var(env, export, data, exec);
 		exit(g_status_code);
 	}
