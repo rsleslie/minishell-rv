@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:37:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 17:52:49 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:24:03 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 				g_status_code = 127;
 				ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 				free_var(env, export, data, exec);
-				ft_printf("error");// matar o processo
+				ft_printf("error");
 				exit(g_status_code);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 18:39:57 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:29:48 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	execute_cmd_pipeless(t_exec *exec, t_config *data, int i)
 	{
 		input_redirection(data, exec, i);
 		return (0);
+	}
+	if (vars.fd == -1)
+	{
+		g_status_code = 1;
+		return (1);
 	}
 	if (i == (ft_tab_len(exec->redirect) - 1))
 	{
@@ -77,18 +82,21 @@ int	execute_cmd(t_exec *exec, t_config *data, int i)
 		input_redirection(data, exec, i);
 		return (0);
 	}
+	if (vars.fd == -1)
+	{
+		g_status_code = 1;
+		return (1);
+	}
 	if (i == (ft_tab_len(exec->redirect) - 1))
 	{
 		vars.bkp = dup(1);
 		dup2(vars.fd, 1);
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
-			// tem que dar free
-			g_status_code = 127;
 			dup2(vars.bkp, 1);
 			close(vars.fd);
 			close(vars.bkp);
-			exit(g_status_code);
+			return 1;
 		}
 		dup2(vars.bkp, 1);
 		close(vars.fd);
@@ -146,6 +154,11 @@ void	execute_builtins(t_exec *exec, t_node *env, t_node *export)
 						ft_strlen(exec->redirect[i - 1])) == 0)
 					fd = open(exec->redirect[i], O_RDWR
 							| O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+				if (fd == -1)
+				{
+					g_status_code = 1;
+					return ;
+				}
 				if (i == (ft_tab_len(exec->redirect) - 1))
 					norminette_exec_builtins(fd, exec, env, export);
 			}

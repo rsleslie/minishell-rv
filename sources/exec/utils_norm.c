@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 18:30:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:25:59 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	norm_execute_builtins_pipe(t_exec *exec,
 			">>", ft_strlen(exec->redirect[data->i - 1])) == 0)
 		data->fd = open(exec->redirect[data->i], O_RDWR | O_CREAT
 				| O_APPEND, S_IRUSR | S_IWUSR, 0644);
+	if (data->fd == -1)
+	{
+		g_status_code = 1;
+		return ;
+	}
 	if (data->i == (ft_tab_len(exec->redirect) - 1) && data->fd > 0)
 	{
 		dup2(data->fd, 1);
