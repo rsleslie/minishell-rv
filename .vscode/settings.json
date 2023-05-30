@@ -3,6 +3,8 @@
         "minishell.h": "c",
         "types.h": "c",
         "history.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "errno.h": "c",
+        "errno-base.h": "c"
     }
 }

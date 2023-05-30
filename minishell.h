@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:43:10 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/30 20:22:56 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_config
 	char	**paths;
 	char	**tokens;
 	int		fd;
+	int		fd_input;
+	int		fd_output;
 	int		bkp;
 	int		status;
 	int		i;
@@ -178,7 +180,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // init_exec
 
-int		input_redirection(t_config *data, t_exec *exec, int i);
+// int		input_redirection(t_config *data, t_exec *exec, int i);
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
@@ -206,5 +208,16 @@ int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
 
 void	free_exec_child_list(t_exec *exec);
 void	free_child_list(t_node *exec);
+void	input_redirection_pipe(t_config *data, t_exec *exec, int i);
+
+// new exec
+
+int		get_fd(t_exec *exec, t_config *data);
+int		validation_cmd(t_exec *exec, t_config *data);
+int 	cmd_acess(char *str);
+int		output_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
+int		input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
+int		get_fd_output(t_exec *exec);
+int		get_fd_input(t_exec *exec);
 
 #endif

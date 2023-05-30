@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/05/26 17:12:51 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/05/30 18:01:21 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRC= main.c    											\
 	../../sources/exec/executor.c  						\
 	../../sources/exec/init_exec.c  					\
 	../../sources/exec/pipex.c  						\
-	../../sources/exec/utils_norm.c  					\
+	../../sources/exec/pipeless.c  						\
+	../../sources/exec/utils_executor.c  						\
 	
 
 	

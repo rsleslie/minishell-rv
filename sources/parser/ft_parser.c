@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:02:30 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:10:23 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	parser(t_config *data)
 		ft_putstr_fd("Mnishell: syntax error near unexpected token \n", 2);
 		return (1);
 	}
-	if ((builtin_parser(data, data->tokens[0]) == 1
-			&& executables_parser(data, data->tokens[0]) == 1))
-	{	
-		g_status_code = 127;
-		perror(data->tokens[0]);
-		return (1);
-	}
+	// if ((builtin_parser(data, data->tokens[0]) == 1
+	// 		&& executables_parser(data, data->tokens[0]) == 1))
+	// {	
+	// 	g_status_code = 127;
+	// 	perror(data->tokens[0]);
+	// 	return (1);
+	// } validar na execução
 	return (0);
 }
 
@@ -148,7 +148,7 @@ int	executables_parser(t_config *data, char *s)
 	i = 0;
 	while (data->paths[i])
 	{
-		if (access(data->tokens[0], F_OK) != -1)
+		if (access(data->tokens[0], F_OK | X_OK) != -1)
 		{
 			g_status_code = 127;
 			return (0);
