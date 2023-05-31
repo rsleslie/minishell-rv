@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/30 20:24:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:56:50 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		if (vars.pid == 0)
 		{
 			pipex(aux, exec->fd, vars.i);
-			pipeless(aux, data, env, export);
+			pipeless(aux, data, env, export, exec);
 			if (op_builtins(aux->cmd[0]) != 0)
 			{
 				ft_free_tab_int(exec->fd, pipe_counter(data->tokens));

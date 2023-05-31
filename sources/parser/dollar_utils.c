@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/30 13:33:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/30 20:52:13 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	dollar_sign(t_exec *exec, t_node *env)
 			if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
 			{
 				free(aux->cmd[i]);
-				aux->cmd[i] = ft_strdup(ft_itoa(g_status_code));
+				aux->cmd[i] = ft_itoa(g_status_code);
 			}
 		}
 		i = -1;
@@ -95,7 +95,7 @@ void	dollar_sign(t_exec *exec, t_node *env)
 			if (aux->redirect[i][0] == '$' && aux->redirect[i][1] == '?')
 			{
 				free(aux->cmd[i]);
-				aux->cmd[i] = ft_strdup(ft_itoa(g_status_code));
+				aux->cmd[i] = ft_itoa(g_status_code);
 			}
 		}
 		aux = aux->next;

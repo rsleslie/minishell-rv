@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:16:44 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:06:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:13:35 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 int	op_builtins(char *str)
 {
-	if (ft_strncmp(&str[0], "echo", ft_strlen(&str[0])) == 0)
+	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
 		return (1);
-	if (ft_strncmp(&str[0], "pwd", ft_strlen(&str[0])) == 0)
+	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
 		return (1);
-	if (ft_strncmp(&str[0], "cd", ft_strlen(&str[0])) == 0)
+	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
 		return (1);
-	else if (ft_strncmp(&str[0], "env", ft_strlen(&str[0])) == 0)
+	else if (ft_strncmp(str, "env", ft_strlen(str)) == 0)
 		return (1);
-	else if (ft_strncmp(&str[0], "export", ft_strlen(&str[0])) == 0)
+	else if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
 		return (1);
-	else if (ft_strncmp(&str[0], "unset", ft_strlen(&str[0])) == 0
+	else if (ft_strncmp(str, "unset", ft_strlen(str)) == 0
 		&& !str[1])
 		return (1);
-	else if (ft_strncmp(&str[0], "unset", ft_strlen(&str[0])) == 0)
+	else if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
 		return (1);
 	return (0);
 }

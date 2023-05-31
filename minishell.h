@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/30 20:22:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:48:24 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 // init_exec
 
 // int		input_redirection(t_config *data, t_exec *exec, int i);
-void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export, t_exec *e);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // executor
@@ -190,7 +190,6 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	execute_builtins_pipe(t_exec *exec, t_node *env,
 		t_node *export, t_config *data);
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
-char	*exec_path(t_config *data, t_exec *exec);
 int		execute_cmd(t_exec *exec, t_config *data, int i);
 int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i);
 
@@ -219,5 +218,6 @@ int		output_redirection(t_config *data, t_exec *exec, t_node *env, t_node *expor
 int		input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
 int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec);
+char	*exec_path(t_config *data, t_exec *exec);
 
 #endif

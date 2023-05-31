@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/28 14:51:27 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:03:20 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	unquotes(t_exec *exec)
 			if (aux->cmd[i][0] == DOUBLE_QUOTE
 				|| aux->cmd[i][0] == SIMPLE_QUOTE)
 			{
+				if ( aux->cmd[i][0])
 				new_value = strip_quotes(exec, i);
 				free(exec->cmd[i]);
 				exec->cmd[i] = ft_strdup(new_value);
