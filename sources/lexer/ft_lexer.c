@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:35:40 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 20:21:53 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:39:41 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_lexer(t_config *data)
 	char	*ptr;
 	int		size;
 
+	
 	size = ft_strlen(data->str) + ((counter_redirect(data->str) + 2) * 2);
 	counter.i = 0;
 	counter.j = 0;

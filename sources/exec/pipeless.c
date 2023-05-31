@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:14:00 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 13:48:49 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:02:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 
 int cmd_acess(char *str)
 {
-	if (access(str, X_OK) == -1 && str[0] == '.')
+	if (access(str, F_OK) == 0 )
 	{
-		ft_putstr_fd("Permission denied\n", 2);
-		g_status_code = 126;
-		return (1);
+		if (access(str, X_OK) == 0)
+			return (0);
+		else
+		{
+			ft_putstr_fd("Permission denied\n", 2);
+			g_status_code = 126;
+			return (1);
+		}
 	}
-	return (0);
-	if (access(str, F_OK) == -1 && str[0] == '/')
+	else
 	{
 		ft_putstr_fd("No such file or directory\n", 2);
 		g_status_code = 127;
@@ -58,12 +62,12 @@ int	validation_cmd(t_exec *exec, t_config *data)
 			free(path_check);
 		}
 	}
-	else
+	else if (exec->cmd[0][0] == '.' || exec->cmd[0][0] == '/')
 	{
-		if ((cmd_acess(exec->cmd[0])) == 0)
-			return (0);
-		else
+		if ((cmd_acess(exec->cmd[0])) == 1)
 			return (1);
+		else
+			return (0);
 	}
 	if (op_builtins(exec->cmd[0]) != 0)
 		return (0);

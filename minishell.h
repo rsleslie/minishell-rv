@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 13:48:24 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:25:50 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,5 +219,6 @@ int		input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export
 int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec);
 char	*exec_path(t_config *data, t_exec *exec);
+void	remove_empty(t_config *data);
 
 #endif

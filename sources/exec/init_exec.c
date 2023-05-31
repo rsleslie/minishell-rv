@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 13:47:16 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:00:27 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	exec->fd = NULL;
 	if (exec->next == NULL)
 	{
+		if (get_fd(exec, data) == 1)
+		{
+			g_status_code = 1;
+			return ;
+		}
 		if (validation_cmd(exec, data) != 0)
 				return ;
 		if (op_builtins(exec->cmd[0]) != 0)

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:37:28 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/30 20:37:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:15:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ char	*exec_path(t_config *data, t_exec *exec)
 	int		i;
 
 	i = -1;
+	if (exec->cmd[0][0] == '.' || exec->cmd[0][0] == '/')
+	{
+		path_check = ft_strdup(exec->cmd[0]);
+		free(exec->cmd[0]);
+		exec->cmd[0] = ft_strdup(path_check);
+		free(path_check);
+		return (exec->cmd[0]);
+	}
 	while (data->paths[++i])
 	{
 		if (access(exec->cmd[0], X_OK) != -1)
@@ -40,3 +48,6 @@ char	*exec_path(t_config *data, t_exec *exec)
 	}
 	return (0);
 }
+
+//curl pkmn.li 
+// curl wttr.in
