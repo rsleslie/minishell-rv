@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:37:28 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 14:18:08 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:45:31 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,22 @@ char	*exec_path(t_config *data, t_exec *exec)
 			return (exec->cmd[0]);
 		free(path_check);
 	}
+	return (0);
+}
+
+int	input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export)
+{
+	extern char	**environ;
+
+	dup2(data->fd_input, 0);
+	if (op_builtins(exec->cmd[0]) != 0)
+		exec_builtins(exec, env, export, data);
+	else
+	{
+		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
+			return (1);
+	}
+	close(data->fd_input);
 	return (0);
 }
 

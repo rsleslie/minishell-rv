@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 13:50:33 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:32:22 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // init_exec
 
-void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export, t_exec *e);
+int		pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // executor
@@ -195,6 +195,7 @@ void	execute_builtins_pipe(t_exec *exec, t_node *env,
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
 int		execute_cmd(t_exec *exec, t_config *data, int i);
 int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i);
+void	free_pipelees(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 //utils norm
 
@@ -204,6 +205,10 @@ void	norminette_exec_builtins(int fd, t_exec *exec,
 		t_node *env, t_node *export);
 void	norm_execute_builtins_pipe(t_exec *exec, t_node *env,
 		t_node *export, t_config *data);
+int	cmd_acess(char *str);
+int	aux_validation(t_config *data, t_exec *exec);
+int	validation_cmd(t_exec *exec, t_config *data);
+
 
 int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
 // free

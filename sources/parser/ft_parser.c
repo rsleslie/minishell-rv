@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 11:31:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:55:31 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	quotes_parser(t_config *data)
 			|| data->tokens[i][0] == DOUBLE_QUOTE)
 				&& ft_char_counter(data->tokens[i], data->tokens[i][0]) == 1)
 			return (1);
-		i++; 
+		i++;
 	}
 	return (0);
 }
@@ -91,8 +91,9 @@ int	redirect_parser(t_config *data)
 				g_status_code = 2;
 				return (2);
 			}
-			if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>' || data->tokens[i + 1][0] == '<'
-				|| data->tokens[i + 1][0] == '|'))
+			if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>'
+				|| data->tokens[i + 1][0] == '<'
+					|| data->tokens[i + 1][0] == '|'))
 			{
 				g_status_code = 2;
 				return (2);

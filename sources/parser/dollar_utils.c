@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 11:17:35 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:54:26 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,23 @@ char	*dollar_refesh(char *cmd)
 	return (ptr);
 }
 
+void	aux_dollar(t_exec *aux, t_node *env)
+{
+	int	i;
+
+	i = -1;
+	while (aux->cmd[++i])
+	{
+		if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
+		{
+			free(aux->cmd[i]);
+			aux->cmd[i] = ft_itoa(g_status_code);
+		}
+		if (aux->cmd[i][0] == '$' && aux->cmd[i][1])
+			aux->cmd[i] = search_var(env, aux->cmd[i], &aux->cmd[i][1]);
+	}
+}
+
 void	dollar_sign(t_exec *exec, t_node *env)
 {
 	t_exec	*aux;
@@ -76,21 +93,10 @@ void	dollar_sign(t_exec *exec, t_node *env)
 	int		j;
 
 	j = 0;
-	(void)env;
 	aux = exec;
 	while (aux)
 	{
-		i = -1;
-		while (aux->cmd[++i])
-		{
-			if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
-			{
-				free(aux->cmd[i]);
-				aux->cmd[i] = ft_itoa(g_status_code);
-			}
-			if (aux->cmd[i][0] == '$' && aux->cmd[i][1])
-				aux->cmd[i] = search_var(env, exec->cmd[i], &exec->cmd[i][1]);
-		}
+		aux_dollar(aux, env);
 		i = -1;
 		while (aux->redirect[++i])
 		{
