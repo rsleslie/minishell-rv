@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:45:24 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:52:38 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,19 @@ int	get_fd_input(t_exec *exec)
 					close(fd);
 				fd = open(exec->redirect[i + 1], O_RDWR);
 			}
+			if (ft_strncmp(exec->redirect[i], "<<",
+					ft_strlen(exec->redirect[i])) == 0)
+			{
+				if (fd != 0)
+					close(fd);
+				if (heredoc(exec->redirect[i + 1]) == 130)
+					return (-1);
+				fd = open("heredoc", O_RDONLY);
+			}
 		}
 		if (fd == -1)
 		{
+			g_status_code = 1;
 			ft_putstr_fd("Permission denied\n", 2);
 			return (fd);
 		}
@@ -100,6 +110,7 @@ int	get_fd(t_exec *exec, t_config *data)
 				close(data->fd_input);
 			data->fd_input = 0;
 			data->fd_output = 0;
+			// ft_putstr_fd("No such file or directory\n", 2);
 			return (1);
 		}
 	}

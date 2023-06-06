@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:14:00 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:37:08 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:23:10 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	if (get_fd(exec, data) == 1)
 		g_status_code = 1;
+	// abrindo o fd duas vezes
 	if (validation_cmd(exec, data) == 0)
 	{
 		if (exec_redirect(exec, data, env, export) == 0)

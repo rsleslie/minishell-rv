@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:49:41 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:59:21 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	only_command(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	else
 	{
 		vars.pid = fork();
+		signal_handler_child();
 		if (vars.pid == 0)
 		{
 			if (pipeless(exec, data, env, export) == 1)
@@ -58,6 +59,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	if (exec->next == NULL)
 	{
 		only_command(exec, data, env, export);
+		unlink("heredoc");
 		return ;
 	}
 	else
@@ -72,5 +74,6 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		}
 		executor(exec, data, env, export);
 	}
+	unlink("heredoc");
 	ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 }

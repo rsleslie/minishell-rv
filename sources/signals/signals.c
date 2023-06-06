@@ -6,11 +6,41 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:02:12 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:47:29 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	handler_child(int signal)
+{
+	if (signal == SIGINT)
+	{
+		g_status_code = 130;
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_replace_line("", 0);
+	}
+	if (signal == SIGQUIT)
+	{
+		g_status_code = 131;
+		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+		rl_replace_line("", 0);
+	}
+}
+
+void	signal_handler_child(void)
+{
+	signal(SIGINT, &handler_child);
+	signal(SIGQUIT, &handler_child);
+}
+
+void	handle_heredoc_sigint(int signal)
+{
+	(void)signal;
+	
+	// ft_putchar_fd('\n', 1);
+	exit(130);	
+}
 
 void	handle_sigint(int signal, siginfo_t *info, void *context)
 {

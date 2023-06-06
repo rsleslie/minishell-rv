@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:32:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:46:51 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,9 @@ char	*search_expansion(char *data, t_node *list, char *key, int j);
 
 void	handle_sigint(int signal, siginfo_t *info, void *context);
 void	init_signals(void);
+void	handle_heredoc_sigint(int signal);
+void	signal_handler_child(void);
+void	handler_child(int signal);
 
 //teste
 char	**strdup_tab(char **tab, int start, int end);
@@ -228,5 +231,8 @@ int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec);
 char	*exec_path(t_config *data, t_exec *exec);
 void	remove_empty(t_config *data);
+
+// heredoc
+int	heredoc(char *eof);
 
 #endif
