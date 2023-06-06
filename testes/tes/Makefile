@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/06/06 15:30:16 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/06/06 16:03:42 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC= main.c    											\
 	../../sources/parser/unquote.c 						\
 	../../sources/parser/dollar_sign.c 					\
 	../../sources/parser/dollar_utils.c 				\
+	../../sources/parser/utils_parser.c 				\
 	../../sources/built-ins/ft_unset.c 					\
 	../../sources/built-ins/builtins.c 					\
 	../../sources/built-ins/ft_export.c 				\

@@ -6,50 +6,11 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:55:31 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:02:10 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	parser(t_config *data)
-{
-	if (redirect_parser(data) == 1)
-		return (1);
-	if (redirect_parser(data) == 2)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
-		return (1);
-	}
-	if (quotes_parser(data) == 1)
-	{
-		ft_putstr_fd("Minishell: Quotes error\n", 2);
-		g_status_code = 130;
-		return (1);
-	}
-	if (pipe_parser(data) == 1)
-	{
-		ft_putstr_fd("Mnishell: syntax error near unexpected token \n", 2);
-		return (1);
-	}
-	return (0);
-}
-
-int	quotes_parser(t_config *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->tokens[i])
-	{
-		if ((data->tokens[i][0] == SIMPLE_QUOTE
-			|| data->tokens[i][0] == DOUBLE_QUOTE)
-				&& ft_char_counter(data->tokens[i], data->tokens[i][0]) == 1)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int	pipe_parser(t_config *data)
 {
@@ -76,6 +37,24 @@ int	pipe_parser(t_config *data)
 	return (0);
 }
 
+int	aux_redirect_parser(t_config *data, int i)
+{
+	if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '<'
+		|| data->tokens[ft_tab_len(data->tokens) - 1][0] == '>')
+	{
+		g_status_code = 2;
+		return (2);
+	}
+	if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>'
+		|| data->tokens[i + 1][0] == '<'
+			|| data->tokens[i + 1][0] == '|'))
+	{
+		g_status_code = 2;
+		return (2);
+	}
+	return (0);
+}
+
 int	redirect_parser(t_config *data)
 {
 	int	i;
@@ -85,19 +64,8 @@ int	redirect_parser(t_config *data)
 	{
 		if (data->tokens[i][0] == '>' || data->tokens[i][0] == '<')
 		{
-			if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '<'
-				|| data->tokens[ft_tab_len(data->tokens) - 1][0] == '>')
-			{
-				g_status_code = 2;
+			if(aux_redirect_parser(data, i) == 2)
 				return (2);
-			}
-			if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>'
-				|| data->tokens[i + 1][0] == '<'
-					|| data->tokens[i + 1][0] == '|'))
-			{
-				g_status_code = 2;
-				return (2);
-			}
 		}
 	}
 	if (data->tokens[0][0] == '>' && ft_tab_len(data->tokens) == 2)
