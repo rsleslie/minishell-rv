@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 21:55:36 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:37:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 18:07:28 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	move_quotes(t_config *data, int i)
 
 	x = i + 1;
 	c = data->str[i];
+	if (data->str[i - 1] == '<')
+		return ;
 	while (data->str[x])
 	{
 		if (data->str[x] == 32 || data->str[x] == c)

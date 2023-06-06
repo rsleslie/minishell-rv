@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:14:00 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:02:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 10:10:47 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export, t_exec 
 		if (exec_redirect(exec, data, env, export) == 0)
 		{
 			if (data->fd_output != 0)
-			{
 				output_redirection(data, exec, env, export);
-				exit(g_status_code);
-			}
 			else
 			{
 				if (op_builtins(exec->cmd[0]) != 0)
@@ -153,5 +150,3 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export, t_exec 
 		exit (g_status_code);
 	}
 }
-
-//export e cd unset 

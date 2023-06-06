@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 14:52:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:59:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	get_fd_input(t_exec *exec)
             {
                 if (fd != 0)
 				    close(fd);
-				fd = open(exec->redirect[i + 1], O_RDONLY);
+				fd = open(exec->redirect[i + 1], O_RDWR);
             }
 		}
 		if (fd == -1)
