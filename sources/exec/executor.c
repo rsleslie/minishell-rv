@@ -6,11 +6,36 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 10:08:54 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:52:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	close_fd(t_exec *aux, t_exec *exec, t_config vars)
+{
+	if (aux->index == 0)
+		close(exec->fd[vars.i][1]);
+	else if (aux->next == NULL)
+		close(exec->fd[vars.i - 1][0]);
+	else
+	{
+		close(exec->fd[vars.i][1]);
+		close(exec->fd[vars.i - 1][0]);
+	}
+}
+
+void close_pid(t_config vars, t_exec *aux)
+{
+	vars.i = -1;
+	vars.status = 0;
+	while (++vars.i <= aux->index)
+	{
+		waitpid(vars.pid, &vars.status, 0);
+		if (WIFEXITED(vars.status))
+			g_status_code = WEXITSTATUS(vars.status);
+	}
+}
 
 void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
@@ -33,24 +58,9 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 				exit(g_status_code);
 			}
 		}
-		if (aux->index == 0)
-			close(exec->fd[vars.i][1]);
-		else if (aux->next == NULL)
-			close(exec->fd[vars.i - 1][0]);
-		else
-		{
-			close(exec->fd[vars.i][1]);
-			close(exec->fd[vars.i - 1][0]);
-		}
+		close_fd(aux, exec, vars);
 		if (aux->next != NULL)
 			aux = aux->next;
 	}
-	vars.i = -1;
-	vars.status = 0;
-	while (++vars.i <= aux->index)
-	{
-		waitpid(vars.pid, &vars.status, 0);
-		if (WIFEXITED(vars.status))
-        	g_status_code = WEXITSTATUS(vars.status);
-	}
+	close_pid(vars, aux);
 }
