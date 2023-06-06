@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 16:02:10 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:05:29 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	redirect_parser(t_config *data)
 	{
 		if (data->tokens[i][0] == '>' || data->tokens[i][0] == '<')
 		{
-			if(aux_redirect_parser(data, i) == 2)
+			if (aux_redirect_parser(data, i) == 2)
 				return (2);
 		}
 	}
