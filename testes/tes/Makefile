@@ -6,13 +6,14 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/05/30 20:39:25 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/06/06 13:35:08 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= minishell
 SRC= main.c    											\
 	../../sources/check/error.c  						\
+	../../sources/check/error_utils.c  					\
 	../../sources/utils/free.c  						\
 	../../sources/utils/builtins_utils.c  				\
 	../../sources/utils/lexer_utils.c  					\
@@ -24,6 +25,7 @@ SRC= main.c    											\
 	../../sources/linkedlist/create_list_exec.c 		\
 	../../sources/lexer/ft_lexer.c 						\
 	../../sources/lexer/error_handling.c 				\
+	../../sources/lexer/error_norm.c 					\
 	../../sources/lexer/tokens.c 						\
 	../../sources/parser/ft_parser.c 					\
 	../../sources/parser/unquote.c 						\

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:30:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:24:04 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:49:46 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,29 @@ char	**strdup_tab(char **tab, int start, int end)
 	return (str);
 }
 
-char	**strjoin_tab(char **s1, char **s2)
+void	norm_node_exec(t_config *data, t_lexer *point, t_exec *node)
 {
-	char	**str;
-	size_t	i;
-	int		x;
+	if (op_redirect(data->tokens[point->i][0]) == 2
+		|| op_redirect(data->tokens[point->i][0]) == 1)
+	{
+		node->redirect = strjoin_tab(node->redirect,
+				&data->tokens[point->i++]);
+		node->redirect = strjoin_tab(node->redirect,
+				&data->tokens[point->i]);
+	}
+	else
+		node->cmd = strjoin_tab(node->cmd, &data->tokens[point->i]);
+	point->i++;
+}
 
-	i = 0;
-	x = 0;
-	if (!s1)
-	{
-		s1 = (char **)calloc(sizeof(char *), 1);
-		s1 [0] = NULL;
-	}
-	str = (char **)calloc(sizeof(char **), (1 + ft_tab_len(s1)) + 1);
-	if (str == NULL || !s1 || !s2)
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = ft_strdup(s1[i]);
-		i++;
-	}
-	while (x < 1)
-		str[i++] = ft_strdup(s2[x++]);
-	str[i] = NULL;
-	if (s1)
-		ft_free_tab(s1);
-	return ((char **)str);
+void	norm_node_two(t_exec *node, t_config *data,
+	char **if_null, t_lexer *point)
+{
+	if (!node->redirect)
+		node->redirect = strdup_tab(if_null, 0, ft_tab_len(if_null));
+	node->is_builtin = op_builtins(data->tokens[0]);
+	node->index = point->index;
+	node->next = NULL;
 }
 
 t_exec	*node_exec(t_config *data, t_lexer *point)
@@ -80,23 +76,10 @@ t_exec	*node_exec(t_config *data, t_lexer *point)
 			node->next = NULL;
 			return (node);
 		}
-		else if (op_redirect(data->tokens[point->i][0]) == 2
-			|| op_redirect(data->tokens[point->i][0]) == 1)
-		{
-			node->redirect = strjoin_tab(node->redirect,
-					&data->tokens[point->i++]);
-			node->redirect = strjoin_tab(node->redirect,
-					&data->tokens[point->i]);
-		}
 		else
-			node->cmd = strjoin_tab(node->cmd, &data->tokens[point->i]);
-		point->i++;
+			norm_node_exec(data, point, node);
 	}
-	if (!node->redirect)
-		node->redirect = strdup_tab(if_null, 0, ft_tab_len(if_null));
-	node->is_builtin = op_builtins(data->tokens[0]);
-	node->index = point->index;
-	node->next = NULL;
+	norm_node_two(node, data, if_null, point);
 	return (node);
 }
 

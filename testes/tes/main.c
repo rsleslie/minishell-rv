@@ -9,7 +9,7 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 	if (data->str == NULL)
 	{
 		free_exec_list(exec);
-		terminate(env, export, data, "exit");
+		terminate(env, export, data);
 	}
 	if (*data->str && check_space(data) != 0)
 	{

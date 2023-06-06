@@ -6,16 +6,11 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:57:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:58:45 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*value_code(void)
-{
-	return (ft_strdup(ft_itoa(g_status_code)));
-}
 
 char	*search_expansion(char *data, t_node *list, char *key, int j)
 {
@@ -29,7 +24,7 @@ char	*search_expansion(char *data, t_node *list, char *key, int j)
 		aux = aux->next;
 	}
 	if (data[j] == '$' && data[j + 1] == '?')
-		return (value_code());
+		return (ft_itoa(g_status_code));
 	if (data[j] == '$' && (data[j + 1] == 32
 			|| data[j + 1] == DOUBLE_QUOTE || data[j + 1] == SIMPLE_QUOTE))
 		return (ft_strdup("$"));
@@ -78,12 +73,28 @@ char	*refresh_value(char *s1, char *s2, int j, int size)
 	return (dst);
 }
 
+void	norm_expantion(int i, int j, t_config *data, t_node *env)
+{
+	char	*value;
+	char	*key;
+
+	if (data->tokens[i][j] == '$')
+	{
+		key = get_key(data->tokens[i], j + 1);
+		value = search_expansion(data->tokens[i], env, key, j);
+		value = refresh_value(data->tokens[i], value, j,
+				ft_strlen(key));
+		free(data->tokens[i]);
+		data->tokens[i] = ft_strdup(value);
+		free(value);
+		free(key);
+	}
+}
+
 void	expantion(t_config *data, t_node *env)
 {
 	int		i;
 	int		j;
-	char	*value;
-	char	*key;
 
 	i = -1;
 	while (data->tokens[++i])
@@ -93,17 +104,7 @@ void	expantion(t_config *data, t_node *env)
 			j = -1;
 			while (data->tokens[i][++j])
 			{
-				if (data->tokens[i][j] == '$')
-				{
-					key = get_key(data->tokens[i], j + 1);
-					value = search_expansion(data->tokens[i], env, key, j);
-					value = refresh_value(data->tokens[i], value, j,
-						ft_strlen(key));
-					free(data->tokens[i]);
-					data->tokens[i] = ft_strdup(value);
-					free(value);
-					free(key);
-				}
+				norm_expantion(i, j, data, env);
 			}
 		}
 	}

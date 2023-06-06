@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:31:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 21:26:26 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:02:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	dollar_quotes(t_node *env, t_exec *exec, int size)
 			{
 				new = search_var_quotes(env, exec->cmd[size],
 						&exec->cmd[size][i + 1]);
-				printf("->%s\n", new);
 				free(exec->cmd);
 				exec->cmd[size] = ft_strdup(new);
 				free(new);

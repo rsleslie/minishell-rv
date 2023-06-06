@@ -6,34 +6,11 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 13:17:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:09:57 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec)
-{
-	free(data->str);
-	ft_free_tab(data->paths);
-	ft_free_tab(data->tokens);
-	ft_free_list(env);
-	ft_free_list(export);
-	free_exec_list(exec);
-}
-
-void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg)
-{
-	(void)error_msg;
-	// if (error_msg)
-	// 	ft_putstr_fd(error_msg, 1);
-	ft_free_list(env);
-	ft_free_list(export);
-	free(data->str);
-	ft_free_tab(data->paths);
-	ft_free_tab(data->tokens);
-	exit (g_status_code);
-}
 
 void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 {
@@ -41,7 +18,7 @@ void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 	{
 		g_status_code = 2;
 		ft_free_tab(s);
-		terminate(env, export, data, NULL);
+		terminate(env, export, data);
 	}
 }
 
@@ -67,6 +44,29 @@ void	exit_num(char *str)
 		g_status_code = 2;
 }
 
+void	trim_quotes(char **split_exit)
+{
+	if (split_exit[1])
+	{
+		if (split_exit[1][0] == DOUBLE_QUOTE)
+			split_exit[1] = ft_strtrim(split_exit[1], "\"");
+	}
+}
+
+int	exit_norm(char **split_exit, t_exec *exec)
+{
+	if ((ft_tab_len(split_exit) == 1) || (ft_tab_len(split_exit) == 2
+			&& ft_isnum(split_exit[1]) == 1))
+	{
+		if (ft_tab_len(split_exit) == 2)
+			exit_num(split_exit[1]);
+		free_exec_list(exec);
+		ft_free_tab(split_exit);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 {
 	char	**split_exit;
@@ -74,20 +74,9 @@ int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 	split_exit = ft_split(data->str, ' ');
 	if (ft_strncmp(split_exit[0], "exit", ft_strlen(split_exit[0])) == 0)
 	{
-		if (split_exit[1])
-		{
-			if (split_exit[1][0] == DOUBLE_QUOTE)
-				split_exit[1] = ft_strtrim(split_exit[1], "\"");
-		}
-		if ((ft_tab_len(split_exit) == 1) || (ft_tab_len(split_exit) == 2
-				&& ft_isnum(split_exit[1]) == 1))
-		{
-			if (ft_tab_len(split_exit) == 2)
-				exit_num(split_exit[1]);
-			free_exec_list(exec);
-			ft_free_tab(split_exit);
-			terminate(env, export, data, "exit");
-		}
+		trim_quotes(split_exit);
+		if (exit_norm(split_exit, exec) == 1)
+			terminate(env, export, data);
 		else if (ft_tab_len(split_exit) > 2)
 		{
 			g_status_code = 1;
@@ -103,20 +92,4 @@ int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 	}
 	ft_free_tab(split_exit);
 	return (0);
-}
-
-int	check_space(t_config *data)
-{
-	int	i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	while (data->str[i])
-	{
-		if (data->str[i] != 32 && !(data->str[i] >= 9 && data->str[i] <= 13))
-			counter++;
-		i++;
-	}
-	return (counter);
 }

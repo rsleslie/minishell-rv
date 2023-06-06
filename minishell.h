@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 12:21:24 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:50:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec);
 // check
 
 int		ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec);
-void	terminate(t_node *env, t_node *export, t_config *data, char *error_msg);
+void	terminate(t_node *env, t_node *export, t_config *data);
 int		check_space(t_config *data);
 
 // utils
@@ -117,6 +117,9 @@ void	print_env(t_node *env);
 char	**split_path(char *path);
 void	handle_path(t_node **env, t_config *data);
 int		cmd_exist(t_config *data, char *key);
+void	remov_quotes(t_config *data, int j);
+void	move(t_config *data, int j);
+void	rm_quotes(t_config *data, int i);
 
 //export
 void	arguments_export(char **data_str, t_node *env, t_node *export);
@@ -144,6 +147,7 @@ int		op_redirect(char c);
 // lexer
 void	ft_lexer(t_config *data);
 void	lexer_tokens(t_exec **exec, t_config *data);
+char	**strjoin_tab(char **s1, char **s2);
 
 // parsa
 int		parser(t_config *data);
@@ -180,7 +184,6 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // init_exec
 
-// int		input_redirection(t_config *data, t_exec *exec, int i);
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export, t_exec *e);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
