@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:14:00 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 10:10:47 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:21:56 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	exec_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		dup2(data->fd_input, 0);
 		dup2(data->fd_output, 1);
 		if (op_builtins(exec->cmd[0]) != 0)
-			exec_builtins(exec, env, export);
+			exec_builtins(exec, env, export, data);
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
 			close(data->fd_input);
@@ -124,7 +124,7 @@ void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export, t_exec 
 			else
 			{
 				if (op_builtins(exec->cmd[0]) != 0)
-					exec_builtins(exec, env, export);
+					exec_builtins(exec, env, export, data);
 				else if(execve(exec_path(data, exec), exec->cmd, environ) == -1)
 				{
 					ft_free_tab_int(exec->fd, pipe_counter(data->tokens));

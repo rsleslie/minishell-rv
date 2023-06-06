@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 17:43:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:31:05 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	parser(t_config *data)
 	if (quotes_parser(data) == 1)
 	{
 		ft_putstr_fd("Minishell: Quotes error\n", 2);
+		g_status_code = 130;
 		return (1);
 	}
 	if (pipe_parser(data) == 1)
@@ -31,13 +32,6 @@ int	parser(t_config *data)
 		ft_putstr_fd("Mnishell: syntax error near unexpected token \n", 2);
 		return (1);
 	}
-	// if ((builtin_parser(data, data->tokens[0]) == 1
-	// 		&& executables_parser(data, data->tokens[0]) == 1))
-	// {	
-	// 	g_status_code = 127;
-	// 	perror(data->tokens[0]);
-	// 	return (1);
-	// } validar na execução
 	return (0);
 }
 
@@ -52,7 +46,7 @@ int	quotes_parser(t_config *data)
 			|| data->tokens[i][0] == DOUBLE_QUOTE)
 				&& ft_char_counter(data->tokens[i], data->tokens[i][0]) == 1)
 			return (1);
-		i++;
+		i++; 
 	}
 	return (0);
 }
@@ -103,14 +97,6 @@ int	redirect_parser(t_config *data)
 				g_status_code = 2;
 				return (2);
 			}
-			// if (data->tokens[i][0] == '<' && pipe_counter(data->tokens) == 0)
-			// {
-			// 	if (access(data->tokens[i + 1], F_OK) == -1)
-			// 	{
-			// 		g_status_code = 1;
-			// 		return (1);
-			// 	}
-			// }
 		}
 	}
 	if (data->tokens[0][0] == '>' && ft_tab_len(data->tokens) == 2)

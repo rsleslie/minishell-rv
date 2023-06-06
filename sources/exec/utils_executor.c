@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 17:59:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:22:07 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export)
 	
 	dup2(data->fd_input, 0);
 	if (op_builtins(exec->cmd[0]) != 0)
-		exec_builtins(exec, env, export);
+		exec_builtins(exec, env, export, data);
 	else
 	{
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
@@ -118,7 +118,7 @@ int	output_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export
 	bkp = dup(1);
 	dup2(data->fd_output, 1);
 	if (op_builtins(exec->cmd[0]) != 0)
-		exec_builtins(exec, env, export);
+		exec_builtins(exec, env, export, data);
 	else
 	{
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 11:07:02 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:17:39 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,8 @@ char	*strip_quotes(t_exec *exec, int i)
 	ptr[j] = '\0';
 	return (ptr);
 }
-//expansão, cat |cat | ls, exit coolocar como builtin, "$t"
-// No such file or directory
-/*Habla$ "'ls"
-Minishell: Quotes error
-Habla$ "'ls"
-*/
+//cat |cat | ls, exit coolocar como builtin
+
 void	unquotes(t_exec *exec)
 {
 	int		i;

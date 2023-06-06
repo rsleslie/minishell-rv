@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 16:25:50 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:21:24 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		ft_key_parser(char *key);
 void	ft_pwd(void);
 void	ft_cd(char **data_str, t_node *env);
 void	ft_echo(char **data_str);
-void	exec_builtins(t_exec *exec, t_node *env, t_node *export);
+void	exec_builtins(t_exec *exec, t_node *env, t_node *export, t_config *data);
 
 //print e search foram add temporariamente
 int		search_env(char *data, char *key);

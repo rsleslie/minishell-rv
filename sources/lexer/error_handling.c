@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 21:55:36 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 18:07:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:16:30 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,19 @@ void	move_quotes(t_config *data, int i)
 		remov_quotes(data, i);
 }
 
+int	ft_strrchr_int(const char *s, int c, int position)
+{
+	int	i;
+
+	i = position;
+	while (s[++i])
+	{
+		if (s[i] == (unsigned char)c)
+			return (i);
+	}
+	return (i);
+}
+
 void	error_quotes(t_config *data)
 {
 	int		i;
@@ -106,6 +119,8 @@ void	error_quotes(t_config *data)
 	while (data->str[++i])
 	{
 		c = data->str[i];
+		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE) && i == 0)
+			i = ft_strrchr_int(data->str, c, i);
 		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
 			&& data->str[i + 1] == c && data->str[i - 1] != 32)
 			rm_quotes(data, i);
