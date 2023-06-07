@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 18:52:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:30:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ int	output_redirection(t_config *data, t_exec *exec,
 	else
 	{
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-			return (1);
+			write(STDERR_FILENO, "DEU RUIM\n", 9);
+		exit(126);
 	}
 	dup2(bkp, 1);
 	close(data->fd_output);

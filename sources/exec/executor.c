@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 19:04:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:24:05 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,34 @@ void	close_fd(t_exec *aux, t_exec *exec, t_config vars)
 	}
 }
 
-void	close_pid(t_config vars, t_exec *aux)
+void	close_pid(pid_t *pid, t_config *data)
 {
-	vars.i = -1;
-	vars.status = 0;
-	while (++vars.i <= aux->index)
-	{
-		waitpid(vars.pid, &vars.status, 0);
-		if (WIFEXITED(vars.status))
-			g_status_code = WEXITSTATUS(vars.status);
-	}
+	int i = -1;
+	int status = 0;
+	waitpid(pid[pipe_counter(data->tokens) - 1], &status, 0);
+	if (WIFEXITED(status))
+		g_status_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_status_code = WEXITSTATUS(status) + 128;
+	while (++i < (pipe_counter(data->tokens)))
+		wait(NULL);
 }
+
 void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	t_config	vars;
 	t_exec		*aux;
-
+	pid_t		*pid;
+	
 	aux = exec;
 	vars.i = -1;
+	pid = (pid_t *)ft_calloc(sizeof(pid_t), pipe_counter(data->tokens) + 1);
 	while (++vars.i <= aux->index)
 	{
-		vars.pid = fork();
-		signal_handler_child();
-		if (vars.pid == 0)
+		pid[vars.i] = fork();
+		if (pid[vars.i] == 0)
 		{
+			signal_handler_child();
 			pipex(aux, exec->fd, vars.i);
 			if (pipeless(aux, data, env, export) == 1)
 				free_pipelees(exec, data, env, export);
@@ -63,7 +67,9 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		if (aux->next != NULL)
 			aux = aux->next;
 	}
-	close_pid(vars, aux);
+	close_pid(pid, data);
+	free(pid);
 }
 
 //fazer um vetor de pid
+//exi arrumar

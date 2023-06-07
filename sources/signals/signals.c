@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 18:47:29 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:11:02 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	handler_child(int signal)
 
 void	signal_handler_child(void)
 {
-	signal(SIGINT, &handler_child);
-	signal(SIGQUIT, &handler_child);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	handle_heredoc_sigint(int signal)
