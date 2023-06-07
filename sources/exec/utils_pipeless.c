@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:29:03 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:09:02 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	aux_validation(t_config *data, t_exec *exec)
 			if (access(path_check, X_OK) == -1)
 			{
 				ft_putstr_fd("Permission denied\n", 2);
-				g_status_code = 126;
+				g_status_code = 127;
 				return (1);
 			}
 			free(path_check);

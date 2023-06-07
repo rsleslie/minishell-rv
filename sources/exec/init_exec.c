@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 16:01:41 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:41:35 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	aux_only_command(t_exec *exec, t_config *data)
 {
+	if (validation_cmd(exec, data) != 0)
+		return (1);
 	if (get_fd(exec, data) == 1)
 	{
 		g_status_code = 1;
 		return (1);
 	}
-	if (validation_cmd(exec, data) != 0)
-		return (1);
 	return (0);
 }
 

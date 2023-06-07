@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 16:24:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:50:25 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	close_pid(pid_t *pid, t_config *data)
 	waitpid(pid[pipe_counter(data->tokens) - 1], &status, 0);
 	if (WIFEXITED(status))
 		g_status_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		g_status_code = WEXITSTATUS(status) + 128;
+	// else if (WIFSIGNALED(status))
+	// 	g_status_code = WEXITSTATUS(status) + 128;
 	while (++i < (pipe_counter(data->tokens)))
 		wait(NULL);
 }

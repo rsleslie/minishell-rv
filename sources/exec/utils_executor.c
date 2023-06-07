@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 13:30:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:05:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	get_fd_input(t_exec *exec)
 					close(fd);
 				fd = open(exec->redirect[i + 1], O_RDWR);
 			}
-			if (ft_strncmp(exec->redirect[i], "<<",
-					ft_strlen(exec->redirect[i])) == 0)
+			if (ft_strncmp(exec->redirect[i], "<<", 2) == 0)
 			{
 				if (fd != 0)
 					close(fd);
@@ -43,7 +42,7 @@ int	get_fd_input(t_exec *exec)
 		if (fd == -1)
 		{
 			g_status_code = 1;
-			ft_putstr_fd("Permission denied\n", 2);
+			//ft_putstr_fd("Permission denied\n", 2);
 			return (fd);
 		}
 	}
@@ -60,8 +59,7 @@ int	aux_get_fd_output(t_exec *exec, int fd, int i)
 		fd = open(exec->redirect[i + 1],
 				O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR, 0644);
 	}
-	if (ft_strncmp(exec->redirect[i], ">>",
-			ft_strlen(exec->redirect[i])) == 0)
+	if (ft_strncmp(exec->redirect[i], ">>", 2) == 0)
 	{
 		if (fd != 0)
 			close(fd);
@@ -85,7 +83,7 @@ int	get_fd_output(t_exec *exec)
 			fd = aux_get_fd_output(exec, fd, i);
 			if (fd == -1)
 			{
-				ft_putstr_fd("Permission denied\n", 2);
+				//ft_putstr_fd("Permission denied\n", 2);
 				g_status_code = 1;
 				return (fd);
 			}
@@ -110,7 +108,7 @@ int	get_fd(t_exec *exec, t_config *data)
 				close(data->fd_input);
 			data->fd_input = 0;
 			data->fd_output = 0;
-			// ft_putstr_fd("No such file or directory\n", 2);
+			ft_putstr_fd("No such file or directory\n", 2);
 			return (1);
 		}
 	}
@@ -130,8 +128,12 @@ int	output_redirection(t_config *data, t_exec *exec,
 	else
 	{
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
-			write(STDERR_FILENO, "DEU RUIM\n", 9);
-		exit(126);
+		{
+			ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
+			free_var(env, export, data, exec);
+			g_status_code = 126;
+			exit (g_status_code);
+		}
 	}
 	dup2(bkp, 1);
 	close(data->fd_output);

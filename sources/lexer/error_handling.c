@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 21:55:36 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 13:34:27 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:13:37 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	remove_empty(t_config *data)
 	char	*new_str;
 
 	ptr = ft_split(data->str, 32);
-	if ((ft_strncmp(ptr[0], "$EMPTY", ft_strlen(ptr[0])) == 0) && !ptr[1])
+	if ((ft_strncmp(ptr[0], "$EMPTY", 7) == 0) && !ptr[1])
 	{
 		add_history(data->str);
 		free(data->str);
 		data->str = ft_strdup(" ");
 	}
-	else if ((ft_strncmp(ptr[0], "$EMPTY", ft_strlen(ptr[0])) == 0) && ptr[1])
+	else if ((ft_strncmp(ptr[0], "$EMPTY", 7) == 0) && ptr[1])
 	{
 		add_history(data->str);
 		new_str = (char *)calloc(sizeof(char), (ft_strlen(data->str) - 5));

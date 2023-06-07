@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:14:00 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 13:38:29 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:05:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	pipeless_aux_redirect(t_exec *exec, t_config *data,
 	close(data->fd_output);
 	ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 	free_var(env, export, data, exec);
-	g_status_code = 127;
+	g_status_code = 126;
 }
 
 int	exec_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export)
@@ -73,7 +73,7 @@ void	norm_aux(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		{
 			ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
 			free_var(env, export, data, exec);
-			g_status_code = 127;
+			g_status_code = 126;
 			exit (g_status_code);
 		}
 	}	

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 15:54:26 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:33:50 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	aux_dollar(t_exec *aux, t_node *env)
 	i = -1;
 	while (aux->cmd[++i])
 	{
-		if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?')
+		if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?' && !aux->cmd[i][2])
 		{
 			free(aux->cmd[i]);
 			aux->cmd[i] = ft_itoa(g_status_code);
