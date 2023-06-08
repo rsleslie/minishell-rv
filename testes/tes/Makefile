@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/06/06 17:12:39 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/06/08 18:03:43 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,10 +47,11 @@ SRC= main.c    											\
 	../../sources/exec/pipeless.c  						\
 	../../sources/exec/utils_executor.c  				\
 	../../sources/exec/utils_exec.c  					\
-	../../sources/exec/utils_pipeless.c  				\
-	../../sources/heredoc/heredoc.c  \
+	../../sources/exec/redirect.c 		  				\
+	../../sources/exec/executor_pipe.c  				\
+	../../sources/exec/validation.c  					\
+	../../sources/heredoc/heredoc.c  					\
 	
-
 	
 OBJ= $(.c=.o)
 CC= cc

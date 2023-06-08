@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 16:01:14 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:49:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ typedef struct s_config
 	char	**paths;
 	char	**tokens;
 	int		fd;
-	int		fd_input;
-	int		fd_output;
 	int		bkp;
 	int		status;
 	int		i;
@@ -64,6 +62,8 @@ typedef struct s_exec {
 	char			**redirect;
 	int				is_builtin;
 	int				index;
+	int				fd_input;
+	int				fd_output;
 	struct s_exec	*next;
 }	t_exec;
 
@@ -187,12 +187,12 @@ void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // init_exec
 
-int		pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void		pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 
 // executor
 
-void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
+// void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	execute_builtins_pipe(t_exec *exec, t_node *env,
 		t_node *export, t_config *data);
 void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
@@ -230,6 +230,26 @@ int		input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export
 int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec);
 char	*exec_path(t_config *data, t_exec *exec);
+
+//----test
+
+
+void	norm_executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export);
+int		executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
+int		validation_fd_inp(char *fd);
+int		validation_fd_out(char *fd);
+void		get_redirect(t_exec *exec);
+int		get_fd_output(t_exec *exec);
+int		aux_get_fd_output(t_exec *exec, int fd, int i);
+int		get_fd_input(t_exec *exec);
+
+
+
+
+// --
+
 void	remove_empty(t_config *data);
 
 // heredoc

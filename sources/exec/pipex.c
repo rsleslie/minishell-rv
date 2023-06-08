@@ -6,26 +6,11 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:37:07 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 15:58:31 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:35:23 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	pipe_counter(char **tokens)
-{
-	int	counter;
-	int	i;
-
-	counter = 0;
-	i = -1;
-	while (tokens[++i])
-	{
-		if (ft_strncmp(&tokens[i][0], "|", 2) == 0)
-			counter++;
-	}
-	return (counter);
-}
 
 void	pipex(t_exec *exec, int **fd, int i)
 {
