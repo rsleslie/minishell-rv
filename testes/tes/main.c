@@ -7,10 +7,10 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 {
 	init_signals();
 	data->str = readline("Habla$ ");
-	// remove_empty(data);
+	if (remove_empty(data) == 1)
+		reset_loop(export, env, data, exec);
 	if (data->str == NULL)
 	{
-		// printf("fudeu\n");
 		g_status_code = 139;
 		free_exec_list(exec);
 		terminate(env, export, data);
@@ -27,7 +27,6 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 		expantion(data, env);
 		ft_lexer_tokens(&exec, data);
 		dollar_sign(exec, env);
-		g_status_code = 0;
 		unquotes(exec);
 		init_exec(exec, data, env, export);
 	}
@@ -58,8 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	g_status_code = 0;
 	data.tokens = NULL;
-	(void)argv;
-	init_signals();  
+	(void)argv; 
 	get_env(&env, envp);
 	get_export(&export, envp);
 	handle_path(&env, &data);

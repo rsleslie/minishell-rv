@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/10 17:29:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:20:03 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,28 @@
 // 	exit(130);	
 // }
 
+void	handler_child_heredoc(int signal)
+{
+	if (signal == SIGINT)
+		g_status_code = 130;
+}
+
+
+void	signal_handler_child_heredoc(void)
+{
+	signal(SIGINT, &handler_child_heredoc);
+	signal(SIGQUIT, &handler_child);
+}
+
+void	handle_heredoc_sigint(int signal)
+{
+	(void)signal;
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	rl_replace_line("", 0);
+	// ft_putchar_fd('\n', 1);
+	exit(130);	
+}
+
 void	handler_child(int signal)
 {
 	if (signal == SIGINT)
@@ -58,32 +80,12 @@ void	handler_child(int signal)
 	}
 }
 
-void	handler_child_heredoc(int signal)
-{
-	if (signal == SIGINT)
-		g_status_code = 130;
-}
-
 void	signal_handler_child(void)
 {
 	signal(SIGINT, &handler_child);
 	signal(SIGQUIT, &handler_child);
 }
 
-void	signal_handler_child_heredoc(void)
-{
-	signal(SIGINT, &handler_child_heredoc);
-	signal(SIGQUIT, &handler_child);
-}
-
-void	handle_heredoc_sigint(int signal)
-{
-	(void)signal;
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_replace_line("", 0);
-	// ft_putchar_fd('\n', 1);
-	exit(130);	
-}
 
 void	handle_sigint(int signal, siginfo_t *info, void *context)
 {

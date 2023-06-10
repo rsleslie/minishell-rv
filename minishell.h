@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/10 17:30:15 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:31:59 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,12 @@ int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec);
 
 //remove space
-void	remove_empty(t_config *data);
+int	remove_empty(t_config *data);
 
 // heredoc
 int	heredoc(char *eof);
+int	reset_heredoc(char *eof, char *buffer, int fd, int bkp);
+int	heredoc_loop(char *eof, char *buffer, int fd, int bkp);
 
 void	close_fd(int **fd, t_config *data);
 
