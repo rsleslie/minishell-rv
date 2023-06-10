@@ -6,13 +6,13 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 {
 	init_signals();
 	data->str = readline("Habla$ ");
-	remove_empty(data);
 	if (data->str == NULL)
 	{
 		g_status_code = 139;
 		free_exec_list(exec);
 		terminate(env, export, data);
 	}
+	remove_empty(data);
 	if (*data->str && check_space(data) != 0)
 	{
 		add_history(data->str);
@@ -25,6 +25,7 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 		expantion(data, env);
 		ft_lexer_tokens(&exec, data);
 		dollar_sign(exec, env);
+		g_status_code = 0;
 		unquotes(exec);
 		init_exec(exec, data, env, export);
 	}
@@ -50,13 +51,13 @@ int	main(int argc, char **argv, char **envp)
 	t_exec		*exec = NULL;
 	t_node		*env = NULL;
 	t_node		*export = NULL;
-	int			i;
-
-	i = 0;
+	
 	argc = 0;
+	(void)argc;
 	g_status_code = 0;
 	data.tokens = NULL;
-	(void)argv;  
+	(void)argv;
+	init_signals();  
 	get_env(&env, envp);
 	get_export(&export, envp);
 	handle_path(&env, &data);
@@ -65,3 +66,5 @@ int	main(int argc, char **argv, char **envp)
 }
 
 // valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --quiet ./minishell 
+
+// valgrind -q --leak-check=full --show-leak-kinds=all --trace-children=yes --suppressions=readline.supp --track-fds=yes --track-origins=yes --trace-children-skip='/bin/,/sbin/' ./minishell
