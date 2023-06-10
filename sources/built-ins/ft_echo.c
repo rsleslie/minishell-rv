@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 13:26:21 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 13:17:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:52:55 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	aux_echo(char **data_str, int tab_len)
 	i = 0;
 	while (++i < tab_len)
 	{
-		printf("%s", data_str[i]);
+		ft_printf("%s", data_str[i]);
 		if (i != tab_len - 1)
-			printf(" ");
+			ft_printf(" ");
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
 void	ft_echo(char **data_str)

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 20:33:50 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:02:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,35 @@ char	*dollar_refesh(char *cmd)
 void	aux_dollar(t_exec *aux, t_node *env)
 {
 	int	i;
-
+	int j;
+	char	*new_str;
+	
+	j = -1;
 	i = -1;
 	while (aux->cmd[++i])
 	{
-		if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?' && !aux->cmd[i][2])
+		if ((ft_strncmp(aux->cmd[i], "$EMPTY", 7) == 0) && !aux->cmd[i + 1])
+		{
+			free(aux->cmd[i]);
+			aux->cmd[i] = ft_strdup("");
+		}
+		else if ((ft_strncmp(aux->cmd[i], "$EMPTY", 7) == 0) && aux->cmd[i + 1])
+		{
+			new_str = (char *)calloc(sizeof(char), (ft_strlen(aux->cmd[i]) - 5));
+			j = 5;
+			while (aux->cmd[i][++j])
+				new_str[j - 6] = aux->cmd[i][j];
+			new_str[i - 6] = '\0';
+			free(aux->cmd[i]);
+			aux->cmd[i] = ft_strdup(new_str);
+			free(new_str);
+		}
+		else if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?' && !aux->cmd[i][2])
 		{
 			free(aux->cmd[i]);
 			aux->cmd[i] = ft_itoa(g_status_code);
 		}
-		if (aux->cmd[i][0] == '$' && aux->cmd[i][1])
+		else if (aux->cmd[i][0] == '$' && aux->cmd[i][1])
 			aux->cmd[i] = search_var(env, aux->cmd[i], &aux->cmd[i][1]);
 	}
 }
@@ -90,9 +109,7 @@ void	dollar_sign(t_exec *exec, t_node *env)
 {
 	t_exec	*aux;
 	int		i;
-	int		j;
-
-	j = 0;
+	
 	aux = exec;
 	while (aux)
 	{

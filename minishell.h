@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/08 17:49:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:30:15 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ typedef struct s_exec {
 	int				fd_output;
 	struct s_exec	*next;
 }	t_exec;
+
+//main
+
+int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
 
 // free
 
@@ -171,6 +175,7 @@ char	*search_expansion(char *data, t_node *list, char *key, int j);
 void	handle_sigint(int signal, siginfo_t *info, void *context);
 void	init_signals(void);
 void	handle_heredoc_sigint(int signal);
+void	signal_handler_child_heredoc(void);
 void	signal_handler_child(void);
 void	handler_child(int signal);
 
@@ -179,80 +184,35 @@ char	**strdup_tab(char **tab, int start, int end);
 void	ft_lexer_tokens(t_exec **exec, t_config *data);
 void	expantion(t_config *data, t_node *env);
 
-// pipex
-
-void	pipex(t_exec *exec, int **fd, int i);
-int		pipe_counter(char **tokens);
-void	execute_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
-
-// init_exec
-
-void		pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
-
 // executor
 
-// void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	execute_builtins_pipe(t_exec *exec, t_node *env,
-		t_node *export, t_config *data);
-void	execute_builtins(t_exec *exec, t_node *env, t_node *export);
-int		execute_cmd(t_exec *exec, t_config *data, int i);
-int		execute_cmd_pipeless(t_exec *exec, t_config *data, int i);
-void	free_pipelees(t_exec *exec, t_config *data, t_node *env, t_node *export);
-
-//utils norm
-
-void	norm_pipeless(t_exec *exec, t_config *data,
-		t_node *env, t_node *export);
-void	norminette_exec_builtins(int fd, t_exec *exec,
-		t_node *env, t_node *export);
-void	norm_execute_builtins_pipe(t_exec *exec, t_node *env,
-		t_node *export, t_config *data);
-int	cmd_acess(char *str);
-int	aux_validation(t_config *data, t_exec *exec);
-int	validation_cmd(t_exec *exec, t_config *data);
-
-
-int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
-// free
-
-void	free_exec_child_list(t_exec *exec);
-void	free_child_list(t_node *exec);
-void	input_redirection_pipe(t_config *data, t_exec *exec, int i);
-
-// new exec
-
-int		get_fd(t_exec *exec, t_config *data);
-int		validation_cmd(t_exec *exec, t_config *data);
-int 	cmd_acess(char *str);
+void	pipex(t_exec *exec, int **fd, int i, t_config *data);
+int		pipe_counter(char **tokens);
+void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
+int		cmd_acess(char *str);
 int		output_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
 int		input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
-int		get_fd_output(t_exec *exec);
-int		get_fd_input(t_exec *exec);
 char	*exec_path(t_config *data, t_exec *exec);
-
-//----test
-
-
 void	norm_executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export);
 int		executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
+int		validation_cmd(t_exec *exec, t_config *data);
 int		validation_fd_inp(char *fd);
 int		validation_fd_out(char *fd);
-void		get_redirect(t_exec *exec);
-int		get_fd_output(t_exec *exec);
+int		aux_validation(t_config *data, t_exec *exec);
 int		aux_get_fd_output(t_exec *exec, int fd, int i);
+void	get_redirect(t_exec *exec);
+int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec);
 
-
-
-
-// --
-
+//remove space
 void	remove_empty(t_config *data);
 
 // heredoc
 int	heredoc(char *eof);
+
+void	close_fd(int **fd, t_config *data);
 
 #endif

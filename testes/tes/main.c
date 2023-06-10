@@ -1,18 +1,20 @@
 #include "../../minishell.h"
 
+// colocar o fd do pipe na data
 int g_status_code;
 
 int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 {
 	init_signals();
 	data->str = readline("Habla$ ");
+	// remove_empty(data);
 	if (data->str == NULL)
 	{
+		// printf("fudeu\n");
 		g_status_code = 139;
 		free_exec_list(exec);
 		terminate(env, export, data);
 	}
-	remove_empty(data);
 	if (*data->str && check_space(data) != 0)
 	{
 		add_history(data->str);
