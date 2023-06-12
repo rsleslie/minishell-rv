@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:18:21 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:18:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	handler_child(int signal)
 		ft_free_tab_int(g_data.fd_pipe, pipe_counter(g_data.tokens));
 		free_var(g_data.node_env, g_data.node_export, &g_data, g_data.node_exec);
 		rl_replace_line("", 0);
+		exit(g_data.status_code);
 	}
 }
 

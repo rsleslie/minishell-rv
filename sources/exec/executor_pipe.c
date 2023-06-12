@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:49:26 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,14 @@ void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			executor(aux, data, env, export);
 			if (op_builtins(aux->cmd[0]) != 0)
 			{
-				// data->status_code = 0;
+				free(pid);
+				ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
+				free_var(data->node_env, data->node_export, data, data->node_exec);
+				exit(data->status_code);
+			}
+			if (aux->fd_input == -1 || aux->fd_output == -1)
+			{
+				free(pid);
 				ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 				free_var(data->node_env, data->node_export, data, data->node_exec);
 				exit(data->status_code);

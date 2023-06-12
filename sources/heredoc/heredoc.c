@@ -6,18 +6,30 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:13:38 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:12:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// tem que expandir
 int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp)
 {
+	char *test;
+	
 	signal(SIGINT, handle_heredoc_sigint);
 	buffer = readline("> ");
 	add_history(buffer);
+	// printf("%s\n", eof);
+	// if (eof[0] == DOUBLE_QUOTE || eof[0] == SIMPLE_QUOTE)
+	// {
+	// 	write(1, "entro1", 6);
+	if (!ft_lurkstr(buffer, '$'))
+	{
+		test = expantion_test(buffer, data->node_env);
+		free (buffer);
+		buffer = ft_strdup(expantion_test(buffer, data->node_env));
+		free(test);
+	}
 	if (!buffer)
 	{
 		ft_putendl_fd("minishell: warning: here-document delimited by end-of-file", 2);
@@ -75,34 +87,3 @@ int	heredoc(char *eof, t_config *data)
 		data->status_code = WEXITSTATUS(status);
 	return(data->status_code); 
 }
-
-		// while (1)
-		// {
-		// 	signal(SIGINT, handle_heredoc_sigint);
-		// 	buffer = readline("> ");
-		// 	add_history(buffer);
-		// 	if (!buffer)
-		// 	{
-		// 		ft_putendl_fd("minishell: warning: here-document delimited by end-of-file", 2);
-		// 		dup2(bkp, 1);
-		// 		free(buffer);
-		// 		close(bkp);
-		// 		close(fd);
-		// 		exit(131);
-		// 	}
-		// 	if (ft_strncmp(buffer, eof, ft_strlen(eof) + 1) == 0)
-		// 	{
-		// 		free(buffer);
-		// 		dup2(bkp, 1);
-		// 		close(bkp);
-		// 		close(fd);
-		// 		exit(0);
-		// 	}
-		// 	dup2(fd, 1);
-		// 	ft_putendl_fd(buffer, fd);
-		// 	dup2(bkp, 1);
-		// 	free(buffer);
-		// }
-		// free(buffer);
-		// close(bkp);
-		// close(fd);

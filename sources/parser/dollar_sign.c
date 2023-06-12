@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:11:55 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:09:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_key(char *ptr, int j)
 	key = calloc(sizeof(char *), i + 1);
 	j -= i;
 	i = -1;
-	while (ptr[j + 1] && ptr[j] != 32)
+	while (ptr[j] && ptr[j] != 32)
 		key[++i] = ptr[j++];
 	key[++i] = '\0';
 	return (key);
@@ -108,4 +108,41 @@ void	expantion(t_config *data, t_node *env)
 			}
 		}
 	}
+}
+
+
+char	*norm_expantion_test(int j, char *ptr, t_node *env)
+{
+	char	*value;
+	char	*key;
+
+	value = NULL;
+	if (ptr[j] == '$' && ptr[j + 1])
+	{
+		key = get_key(ptr, j + 1);
+		value = search_expansion(ptr, env, key, j);
+		value = refresh_value(ptr, value, j,
+				ft_strlen(key));
+		free(ptr);
+		ptr = ft_strdup(value);
+		free(key);
+		free(value);
+		return(ptr);
+	}
+	return(ptr);
+}
+
+char	*expantion_test(char *ptr, t_node *env)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	new = ft_strdup(ptr);
+	while (new[i] != '\0')
+	{
+		new = norm_expantion_test(i, new, env);
+		i++;
+	}
+	return (new);
 }
