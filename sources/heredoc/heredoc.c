@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:13:38 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 17:38:34 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:51:29 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp)
 	{
 		test = expantion_test(buffer, data->node_env);
 		free (buffer);
-		buffer = ft_strdup(expantion_test(buffer, data->node_env));
+		buffer = ft_strdup(test);
 		free(test);
 	}
 	if (!buffer)

@@ -9,7 +9,7 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 	data->str = readline("Habla$ ");
 	if (data->str == NULL)
 	{
-		data->status_code = 139;
+		g_data.status_code = 139;
 		free_exec_list(exec);
 		terminate(env, export, data);
 	}

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 19:08:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:06:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	}
 	close_fd(data->fd_pipe, data);
 	close_pid(pid, data);
-	init_signals();
 	free(pid);
 }
 

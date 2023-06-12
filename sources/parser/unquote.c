@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 18:58:04 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:40:34 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*strip_quotes_two(t_exec *exec, int i)
 	ptr[j] = '\0';
 	return (ptr);
 }
-//cat |cat | ls, exit coolocar como builtin
 
 void	unquotes(t_exec *exec)
 {

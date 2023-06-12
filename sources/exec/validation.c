@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:00:41 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:17:20 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:55:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	validation_fd_out(char *fd)
 	{
 		if (access(fd, R_OK | W_OK) == -1)
 		{
-			ft_putstr_fd("Permission denied\n", 2);
+			ft_putstr_fd(" Permission denied\n", 2);
 			g_data.status_code = 1;
 			return (1);
 		}
@@ -34,14 +34,14 @@ int	validation_fd_inp(char *fd)
 	{
 		if (access(fd, R_OK | W_OK) == -1)
 		{
-			ft_putstr_fd("Permission denied\n", 2);
+			ft_putstr_fd(" Permission denied\n", 2);
 			g_data.status_code = 1;
 			return (1);
 		}
 		g_data.status_code = 0;
 		return (0);
 	}
-	ft_putstr_fd("No such file or directory\n", 2);
+	ft_putstr_fd(" No such file or directory\n", 2);
 	g_data.status_code = 1;
 	return (1);
 }
@@ -54,14 +54,14 @@ int	cmd_acess(char *str)
 			return (0);
 		else
 		{
-			ft_putstr_fd("Permission denied\n", 2);
+			ft_putstr_fd(" Permission denied\n", 2);
 			g_data.status_code = 126;
 			return (1);
 		}
 	}
 	else
 	{
-		ft_putstr_fd("command not found\n", 2);
+		ft_putstr_fd(" command not found\n", 2);
 		g_data.status_code = 127;
 		return (1);
 	}
@@ -82,7 +82,7 @@ int	aux_validation(t_config *data, t_exec *exec)
 		{
 			if (access(path_check, X_OK) == -1)
 			{
-				ft_putstr_fd("Permission denied\n", 2);
+				ft_putstr_fd(" Permission denied\n", 2);
 				g_data.status_code = 126;
 				return (1);
 			}
@@ -92,7 +92,7 @@ int	aux_validation(t_config *data, t_exec *exec)
 		}
 		free(path_check);
 	}
-	ft_putstr_fd("command not found\n", 2);
+	ft_putstr_fd(" command not found\n", 2);
 	g_data.status_code = 127;
 	return (1);
 }

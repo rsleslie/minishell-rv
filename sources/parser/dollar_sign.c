@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 17:09:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:52:55 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_key(char *ptr, int j)
 	key = calloc(sizeof(char *), i + 1);
 	j -= i;
 	i = -1;
-	while (ptr[j] && ptr[j] != 32)
+	while (ptr[j + 1] && ptr[j] != 32)
 		key[++i] = ptr[j++];
 	key[++i] = '\0';
 	return (key);
@@ -110,6 +110,25 @@ void	expantion(t_config *data, t_node *env)
 	}
 }
 
+char	*get_key_heredoc(char *ptr, int j)
+{
+	int		i;
+	char	*key;
+
+	i = 0;
+	while (ptr[j + 1] && ptr[j] != 32)
+	{
+		i++;
+		j++;
+	}
+	key = calloc(sizeof(char *), i + 1);
+	j -= i;
+	i = -1;
+	while (ptr[j] && ptr[j] != 32)
+		key[++i] = ptr[j++];
+	key[++i] = '\0';
+	return (key);
+}
 
 char	*norm_expantion_test(int j, char *ptr, t_node *env)
 {
@@ -119,7 +138,7 @@ char	*norm_expantion_test(int j, char *ptr, t_node *env)
 	value = NULL;
 	if (ptr[j] == '$' && ptr[j + 1])
 	{
-		key = get_key(ptr, j + 1);
+		key = get_key_heredoc(ptr, j + 1);
 		value = search_expansion(ptr, env, key, j);
 		value = refresh_value(ptr, value, j,
 				ft_strlen(key));
