@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 17:18:49 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:07:11 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	handle_heredoc_sigint(int signal)
 	(void)signal;
 	ft_putstr_fd("\n", STDOUT_FILENO);
 	rl_replace_line("", 0);
+	rl_redisplay();
 	ft_free_tab_int(g_data.fd_pipe, pipe_counter(g_data.tokens));
 	free_var(g_data.node_env, g_data.node_export, &g_data, g_data.node_exec);
 	exit(130);	
@@ -52,7 +53,6 @@ void	handler_child(int signal)
 		ft_free_tab_int(g_data.fd_pipe, pipe_counter(g_data.tokens));
 		free_var(g_data.node_env, g_data.node_export, &g_data, g_data.node_exec);
 		rl_replace_line("", 0);
-		exit(g_data.status_code);
 	}
 }
 
@@ -75,6 +75,12 @@ void	handle_sigint(int signal, siginfo_t *info, void *context)
 		rl_redisplay();
 	}
 }
+
+// void	dsb()
+// {
+// 	sigact.sa_sigaction = SIG_IGN;
+// 	sigaction(SIGINT, &sigact, NULL);
+// }
 
 void	init_signals(void)
 {

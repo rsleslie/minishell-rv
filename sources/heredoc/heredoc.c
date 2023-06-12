@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:13:38 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 17:12:32 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:38:34 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp)
 	signal(SIGINT, handle_heredoc_sigint);
 	buffer = readline("> ");
 	add_history(buffer);
-	// printf("%s\n", eof);
-	// if (eof[0] == DOUBLE_QUOTE || eof[0] == SIMPLE_QUOTE)
-	// {
-	// 	write(1, "entro1", 6);
 	if (!ft_lurkstr(buffer, '$'))
 	{
 		test = expantion_test(buffer, data->node_env);
