@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/08 20:28:41 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export)
 	{
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
-			ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-			free_var(env, export, data, exec);
-			g_status_code = 126;
-			exit (g_status_code);
+			ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
+			free_var(data->node_env, data->node_export, data, data->node_exec);
+			data->status_code = 126;
+			exit (data->status_code);
 		}
 	}
 	close(exec->fd_input);
@@ -62,10 +62,10 @@ int	output_redirection(t_config *data, t_exec *exec,
 	{
 		if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
-			ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-			free_var(env, export, data, exec);
-			g_status_code = 126;
-			exit (g_status_code);
+			ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
+			free_var(data->node_env, data->node_export, data, data->node_exec);
+			data->status_code = 126;
+			exit (data->status_code);
 		}
 	}
 	dup2(bkp, 1);

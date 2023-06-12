@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:02:47 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 16:43:31 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parser(t_config *data)
 	if (quotes_parser(data) == 1)
 	{
 		ft_putstr_fd("Minishell: Quotes error\n", 2);
-		g_status_code = 1;
+		data->status_code = 1;
 		return (1);
 	}
 	if (pipe_parser(data) == 1)

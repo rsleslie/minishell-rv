@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:54 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 19:58:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:09:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,17 @@ void	ft_export(t_node **list, char *key)
 	t_node	*temp;
 	int		i;
 
-	i = 0;
+	i = parse_export(list, key);
 	temp = NULL;
-	if (parse_export(list, key) == 1 || parse_export(list, key) == 2)
+	if (i == 1 || i == 2 || i == 3)
+	{
+		if (i == 3)
+			g_data.status_code = 0;
+		else
+			g_data.status_code = 1;
 		return ;
+	}
+	i = 0;
 	temp = create_node(key);
 	current = (*list);
 	while (current != NULL)
@@ -59,11 +66,13 @@ void	ft_export(t_node **list, char *key)
 			free(current->value);
 			current->value = ft_strdup(temp->value);
 			ft_free_node(temp);
+			g_data.status_code = 0;
 			return ;
 		}
 		current = current->next;
 	}
 	if (i == 0)
 		link_node_end(list, create_node(key));
+	g_data.status_code = 0;
 	ft_free_node(temp);
 }

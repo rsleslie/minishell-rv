@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 13:09:57 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:10:23 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 {
 	ft_putstr_fd("exit\nnumeric argument required\n", 2);
 	{
-		g_status_code = 2;
+		data->status_code = 2;
 		ft_free_tab(s);
 		terminate(env, export, data);
 	}
@@ -25,23 +25,23 @@ void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 void	exit_num(char *str)
 {
 	if (ft_atoi(str) == 123)
-		g_status_code = 123;
+		g_data.status_code = 123;
 	if (ft_atoi(str) == 298)
-		g_status_code = 42;
+		g_data.status_code = 42;
 	if (ft_atoi(str) == 100)
-		g_status_code = 100;
+		g_data.status_code = 100;
 	if (ft_atoi(str) == -100)
-		g_status_code = 156;
+		g_data.status_code = 156;
 	if (ft_strncmp(str, "-9223372036854775808", ft_strlen(str)) == 0)
-		g_status_code = 0;
+		g_data.status_code = 0;
 	if (ft_strncmp(str, "-9223372036854775807", ft_strlen(str)) == 0)
-		g_status_code = 1;
+		g_data.status_code = 1;
 	if (ft_strncmp(str, "-9223372036854775809", ft_strlen(str)) == 0)
-		g_status_code = 2;
+		g_data.status_code = 2;
 	if (ft_strncmp(str, "9223372036854775807", ft_strlen(str)) == 0)
-		g_status_code = 255;
+		g_data.status_code = 255;
 	if (ft_strncmp(str, "9223372036854775808 ", ft_strlen(str)) == 0)
-		g_status_code = 2;
+		g_data.status_code = 2;
 }
 
 void	trim_quotes(char **split_exit)
@@ -79,13 +79,13 @@ int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 			terminate(env, export, data);
 		else if (ft_tab_len(split_exit) > 2)
 		{
-			g_status_code = 1;
+			data->status_code = 1;
 			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 			return (1);
 		}
 		else if (ft_isnum(split_exit[1]) == 0)
 		{
-			g_status_code = 1;
+			data->status_code = 1;
 			free_exec_list(exec);
 			norminette_exit(split_exit, data, env, export);
 		}

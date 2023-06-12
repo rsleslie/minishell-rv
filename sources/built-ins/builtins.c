@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:24:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 12:20:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_builtins(t_exec *exec, t_node *env, t_node *export, t_config *data)
 	else if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0
 		&& ft_tab_len(exec->cmd) > 2)
 	{
-		g_status_code = 1;
+		data->status_code = 1;
 		return ;
 	}
 	else if (ft_strncmp(exec->cmd[0], "cd", ft_strlen(exec->cmd[0])) == 0)

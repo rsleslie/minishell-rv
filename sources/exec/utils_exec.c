@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:37:28 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/08 17:29:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:11:16 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	norm_exec_path_two(char *path_check, t_exec *exec)
 {
 	if (access(path_check, X_OK) != -1)
 	{
-		g_status_code = 1;
+		g_data.status_code = 1;
 		free(exec->cmd[0]);
 		exec->cmd[0] = ft_strdup(path_check);
 		free(path_check);
@@ -52,7 +52,7 @@ char	*exec_path(t_config *data, t_exec *exec)
 	{
 		if (access(exec->cmd[0], X_OK) != -1)
 		{
-			g_status_code = 1;
+			data->status_code = 1;
 			return (0);
 		}
 		path_check = ft_strdup(data->paths[i]);

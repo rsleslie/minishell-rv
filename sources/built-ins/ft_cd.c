@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:39:31 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 12:34:34 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:09:28 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	norminette_cd(char **data_str)
 
 	if (ft_isdigit(data_str[1][0]) != 0)
 	{
-		g_status_code = 1;
+		g_data.status_code = 1;
 		return ;
 	}
 	getcwd(buffer, sizeof(buffer));
@@ -46,9 +46,9 @@ void	norminette_cd(char **data_str)
 		temp = ft_strjoin(temp, "/");
 	}
 	if (chdir(temp) != 0)
-		g_status_code = 0;
+		g_data.status_code = 0;
 	else
-		g_status_code = 0;
+		g_data.status_code = 0;
 	free(temp);
 }
 
@@ -60,17 +60,17 @@ void	ft_cd(char **data_str, t_node *env)
 	{
 		current = aux_cd(env);
 		chdir(current->value);
-		g_status_code = 0;
+		g_data.status_code = 0;
 		return ;
 	}
 	else if (ft_strncmp(data_str[1], "..", ft_strlen(data_str[1])) == 0)
 	{
 		chdir("..");
-		g_status_code = 0;
+		g_data.status_code = 0;
 	}
 	else if (ft_strncmp(data_str[1], "$PWD", ft_strlen(data_str[1])) == 0)
 	{
-		g_status_code = 0;
+		g_data.status_code = 0;
 		return ;
 	}
 	else

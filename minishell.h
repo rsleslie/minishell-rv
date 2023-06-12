@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/10 18:31:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:05:55 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,6 @@
 # include <signal.h>
 # include <errno.h>
 
-extern int	g_status_code;
-
-typedef struct s_config
-{
-	char	*str;
-	char	**paths;
-	char	**tokens;
-	int		fd;
-	int		bkp;
-	int		status;
-	int		i;
-	pid_t	pid;
-}	t_config;
 
 typedef struct s_node
 {
@@ -67,7 +54,24 @@ typedef struct s_exec {
 	struct s_exec	*next;
 }	t_exec;
 
+typedef struct s_config
+{
+	char	*str;
+	char	**paths;
+	char	**tokens;
+	int		fd;
+	int		bkp;
+	int		status;
+	int		i;
+	int		**fd_pipe;
+	int		status_code;
+	t_exec	*node_exec;
+	t_node	*node_env;
+	t_node	*node_export;
+	pid_t	pid;
+}	t_config;
 //main
+extern t_config g_data;
 
 int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
 
@@ -203,17 +207,14 @@ int		validation_fd_inp(char *fd);
 int		validation_fd_out(char *fd);
 int		aux_validation(t_config *data, t_exec *exec);
 int		aux_get_fd_output(t_exec *exec, int fd, int i);
-void	get_redirect(t_exec *exec);
+void	get_redirect(t_exec *exec, t_config *data);
 int		get_fd_output(t_exec *exec);
-int		get_fd_input(t_exec *exec);
-
-//remove space
-int	remove_empty(t_config *data);
+int		get_fd_input(t_exec *exec, t_config *data);
 
 // heredoc
-int	heredoc(char *eof);
-int	reset_heredoc(char *eof, char *buffer, int fd, int bkp);
-int	heredoc_loop(char *eof, char *buffer, int fd, int bkp);
+int	heredoc(char *eof, t_config *data);
+int	reset_heredoc(char *eof, char *buffer, t_config *data, int bkp);
+int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp);
 
 void	close_fd(int **fd, t_config *data);
 

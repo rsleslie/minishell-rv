@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/10 18:21:19 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:49:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	int			i;
 
-	exec->fd = NULL;
-	get_redirect(exec);
+	data->node_env = env;
+	data->node_export = export;
+	data->node_exec = exec;
+	data->fd_pipe = NULL;
+	get_redirect(exec, data);
 	if (exec->next == NULL)
 	{
 		pipeless(exec, data, env, export);
@@ -27,15 +30,15 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	else
 	{
 		i = -1;
-		exec->fd = (int **)ft_calloc(sizeof(int [2]),
+		data->fd_pipe = (int **)ft_calloc(sizeof(int [2]),
 				pipe_counter(data->tokens));
 		while (++i < pipe_counter(data->tokens))
 		{
-			exec->fd[i] = (int *)ft_calloc(sizeof(int), 2);
-			pipe(exec->fd[i]);
+			data->fd_pipe[i] = (int *)ft_calloc(sizeof(int), 2);
+			pipe(data->fd_pipe[i]);
 		}
 		executor_pipe(exec, data, env, export);
 	}
 	unlink("heredoc");
-	ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
+	ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 }

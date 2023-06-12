@@ -6,13 +6,13 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/10 16:09:14 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:49:18 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	get_fd_input(t_exec *exec)
+int	get_fd_input(t_exec *exec, t_config *data)
 {
 	int	fd;
 	int	i;
@@ -37,7 +37,7 @@ int	get_fd_input(t_exec *exec)
 			{
 				if (fd != 0)
 					close(fd);
-				if (heredoc(exec->redirect[i + 1]) == 130)
+				if (heredoc(exec->redirect[i + 1], data) == 130)
 				{
 					// close(exec->fd_input);
 					// ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
@@ -97,7 +97,7 @@ int	get_fd_output(t_exec *exec)
 	return (fd);
 }
 
-void	get_redirect(t_exec *exec)
+void	get_redirect(t_exec *exec, t_config *data)
 {
 	t_exec	*aux;
 
@@ -108,7 +108,7 @@ void	get_redirect(t_exec *exec)
 		aux->fd_output = 0;
 		if (aux->redirect[0][0] != '-')
 		{
-			aux->fd_input = get_fd_input(aux);
+			aux->fd_input = get_fd_input(aux, data);
 			if (aux->fd_input == -1)
 				close(aux->fd_input);
 			else

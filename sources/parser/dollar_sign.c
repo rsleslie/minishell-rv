@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/07 20:28:14 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:11:55 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*search_expansion(char *data, t_node *list, char *key, int j)
 		aux = aux->next;
 	}
 	if (data[j] == '$' && data[j + 1] == '?')
-		return (ft_itoa(g_status_code));
+		return (ft_itoa(g_data.status_code));
 	if (data[j] == '$' && (data[j + 1] == 32
 			|| data[j + 1] == DOUBLE_QUOTE || data[j + 1] == SIMPLE_QUOTE))
 		return (ft_strdup("$"));
@@ -78,7 +78,7 @@ void	norm_expantion(int i, int j, t_config *data, t_node *env)
 	char	*value;
 	char	*key;
 
-	if (data->tokens[i][j] == '$')
+	if (data->tokens[i][j] == '$' && data->tokens[i][j + 1])
 	{
 		key = get_key(data->tokens[i], j + 1);
 		value = search_expansion(data->tokens[i], env, key, j);

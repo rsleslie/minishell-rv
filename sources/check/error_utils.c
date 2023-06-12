@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:57:21 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 13:08:31 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	terminate(t_node *env, t_node *export, t_config *data)
 	free(data->str);
 	ft_free_tab(data->paths);
 	ft_free_tab(data->tokens);
-	exit (g_status_code);
+	exit (data->status_code);
 }
 
 int	check_space(t_config *data)

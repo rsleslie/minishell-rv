@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 16:05:29 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	pipe_parser(t_config *data)
 		if (data->tokens[i][0] == '|' && (data->tokens[i + 1][0] == '|'
 			|| data->tokens[i][1] == '|'))
 		{
-			g_status_code = 2;
+			data->status_code = 2;
 			return (1);
 		}
 		if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '|')
 		{
-			g_status_code = 2;
+			data->status_code = 2;
 			return (1);
 		}
 		i++;
@@ -42,14 +42,14 @@ int	aux_redirect_parser(t_config *data, int i)
 	if (data->tokens[ft_tab_len(data->tokens) - 1][0] == '<'
 		|| data->tokens[ft_tab_len(data->tokens) - 1][0] == '>')
 	{
-		g_status_code = 2;
+		data->status_code = 2;
 		return (2);
 	}
 	if (data->tokens[i + 1] && (data->tokens[i + 1][0] == '>'
 		|| data->tokens[i + 1][0] == '<'
 			|| data->tokens[i + 1][0] == '|'))
 	{
-		g_status_code = 2;
+		data->status_code = 2;
 		return (2);
 	}
 	return (0);
@@ -71,7 +71,7 @@ int	redirect_parser(t_config *data)
 	if (data->tokens[0][0] == '>' && ft_tab_len(data->tokens) == 2)
 	{
 		open(data->tokens[1], O_CREAT, 0644);
-		g_status_code = 0;
+		data->status_code = 0;
 		return (1);
 	}
 	return (0);
@@ -105,7 +105,7 @@ int	executables_parser(t_config *data, char *s)
 	{
 		if (access(data->tokens[0], F_OK | X_OK) != -1)
 		{
-			g_status_code = 127;
+			data->status_code = 127;
 			return (0);
 		}
 		path_check = ft_strdup(data->paths[i]);
@@ -113,13 +113,13 @@ int	executables_parser(t_config *data, char *s)
 		path_check = ft_strjoin(path_check, s);
 		if (access(path_check, X_OK) != -1)
 		{
-			g_status_code = 127;
+			data->status_code = 127;
 			free(path_check);
 			return (0);
 		}
 		i++;
 		free(path_check);
 	}
-	g_status_code = 0;
+	data->status_code = 0;
 	return (1);
 }

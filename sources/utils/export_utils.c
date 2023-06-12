@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 19:55:48 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/29 17:12:36 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:13:59 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parse_export(t_node **list, char *key)
 	if (key[ft_strlen(key) -1] == '-' || error_equal(key) == 1
 		|| ft_isdigit(key[0]) != 0)
 	{
-		g_status_code = 1;
+		g_data.status_code = 1;
 		return (1);
 	}
 	if (ft_strcs(key, '=') == 0)
@@ -86,7 +86,7 @@ int	parse_export(t_node **list, char *key)
 		if (aux_search(list, key, 0) == 1)
 			return (1);
 		link_node_end(list, create_node_null(key));
-		return (1);
+		return (3);
 	}
 	if (!key[ft_strcs(key, '=') + 1])
 	{

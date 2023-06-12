@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 21:55:36 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/10 18:31:40 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/06/12 11:31:16 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/06/12 11:31:59 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,4 @@ void	error_quotes(t_config *data)
 			&& data->str[i - 1] != 32 && data->str[i + 1] != 32)
 			move_quotes(data, i);
 	}
-}
-
-int	remove_empty(t_config *data)
-{
-	int		i;
-	char	**ptr;
-	char	*new_str;
-
-	ptr = ft_split(data->str, 32);
-	if ((ft_strncmp(ptr[0], "$EMPTY", 7) == 0) && !ptr[1])
-	{
-		g_status_code = 0;
-		return (1);
-	}
-	else if ((ft_strncmp(ptr[0], "$EMPTY", 7) == 0) && ptr[1])
-	{
-		add_history(data->str);
-		new_str = (char *)calloc(sizeof(char), (ft_strlen(data->str) - 5));
-		i = 5;
-		while (data->str[++i])
-			new_str[i - 6] = data->str[i];
-		new_str[i - 6] = '\0';
-		free(data->str);
-		data->str = ft_strdup(new_str);
-		free(new_str);
-	}
-	ft_free_tab(ptr);
-	return (0);
 }
