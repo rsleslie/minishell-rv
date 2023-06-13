@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:12:46 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:59:12 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ char	*dollar_refesh(char *cmd)
 void	aux_dollar(t_exec *aux, t_node *env)
 {
 	int	i;
-	int j;
-	
+	int	j;
+
 	j = -1;
 	i = -1;
 	(void)env;
@@ -84,7 +84,8 @@ void	aux_dollar(t_exec *aux, t_node *env)
 			free(aux->cmd[i]);
 			aux->cmd[i] = ft_itoa(g_data.status_code);
 		}
-		else if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?' && aux->cmd[i][2])
+		else if (aux->cmd[i][0] == '$'
+			&& aux->cmd[i][1] == '?' && aux->cmd[i][2])
 			aux->cmd[i] = dollar_refesh(aux->cmd[i]);
 	}
 }
@@ -93,7 +94,7 @@ void	dollar_sign(t_exec *exec, t_node *env)
 {
 	t_exec	*aux;
 	int		i;
-	
+
 	aux = exec;
 	while (aux)
 	{

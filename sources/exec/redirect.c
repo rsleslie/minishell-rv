@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 14:49:18 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:42:23 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,7 @@ int	get_fd_input(t_exec *exec, t_config *data)
 				if (fd != 0)
 					close(fd);
 				if (heredoc(exec->redirect[i + 1], data) == 130)
-				{
-					// close(exec->fd_input);
-					// ft_free_tab_int(exec->fd, pipe_counter(data->tokens));
-					//free_var(env, export, data, exec);
 					return (-1);
-				}
-				//free_var(env, export, data, exec);
 				fd = open("heredoc", O_RDONLY);
 			}
 		}
@@ -124,5 +118,3 @@ void	get_redirect(t_exec *exec, t_config *data)
 		aux = aux->next;
 	}
 }
-
-// enter dando errado

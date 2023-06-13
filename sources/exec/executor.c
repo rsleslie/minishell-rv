@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:52:39 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	if (exec->fd_input == 0 && exec->fd_output == 0)
 	{
 		if (op_builtins(exec->cmd[0]) != 0)
-		{
 			exec_builtins(exec, env, export, data);
-			// data->status_code = 0;
-		}
 		else if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
 			ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
@@ -92,5 +89,3 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			norm_executor_redirect(exec, data, env, export);
 	}
 }
-
-/// tem que dar free na builtins

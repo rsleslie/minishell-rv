@@ -6,38 +6,57 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:13:38 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:34:07 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// tem que expandir
+void	ctrl_d_heredoc(int bkp, char *buffer, t_config *data)
+{
+	ft_putendl_fd("minishell: warning: here-document delimited by end-of-file",
+		2);
+	dup2(bkp, 1);
+	free(buffer);
+	close(bkp);
+	close(data->fd);
+	ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
+	free_var(data->node_env, data->node_export, data, data->node_exec);
+}
+
+void	eof_heredoc(int bkp, char *buffer, t_config *data)
+{
+	free(buffer);
+	dup2(bkp, 1);
+	close(bkp);
+	close(data->fd);
+	ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
+	free_var(data->node_env, data->node_export, data, data->node_exec);
+}
+
 int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp)
 {
+	char	*test;
+
 	signal(SIGINT, handle_heredoc_sigint);
 	buffer = readline("> ");
 	add_history(buffer);
+	if (!ft_lurkstr(buffer, '$'))
+	{
+		test = expantion_heredoc(buffer, data->node_env);
+		free (buffer);
+		buffer = ft_strdup(test);
+		free(test);
+	}
 	if (!buffer)
 	{
-		ft_putendl_fd("minishell: warning: here-document delimited by end-of-file", 2);
-		dup2(bkp, 1);
-		free(buffer);
-		close(bkp);
-		close(data->fd);
-		ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
-		free_var(data->node_env, data->node_export, data, data->node_exec);
-		return(131);
+		ctrl_d_heredoc(bkp, buffer, data);
+		return (131);
 	}
 	if (ft_strncmp(buffer, eof, ft_strlen(eof) + 1) == 0)
 	{
-		free(buffer);
-		dup2(bkp, 1);
-		close(bkp);
-		close(data->fd);
-		ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
-		free_var(data->node_env, data->node_export, data, data->node_exec);
-		return(0);
+		eof_heredoc(bkp, buffer, data);
+		return (0);
 	}
 	reset_heredoc(eof, buffer, data, bkp);
 	return (0);
@@ -60,7 +79,7 @@ int	heredoc(char *eof, t_config *data)
 	int		pid;
 	int		status;
 
-	status = 0;	
+	status = 0;
 	buffer = NULL;
 	bkp = dup(1);
 	pid = fork();
@@ -73,36 +92,5 @@ int	heredoc(char *eof, t_config *data)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		data->status_code = WEXITSTATUS(status);
-	return(data->status_code); 
+	return (data->status_code);
 }
-
-		// while (1)
-		// {
-		// 	signal(SIGINT, handle_heredoc_sigint);
-		// 	buffer = readline("> ");
-		// 	add_history(buffer);
-		// 	if (!buffer)
-		// 	{
-		// 		ft_putendl_fd("minishell: warning: here-document delimited by end-of-file", 2);
-		// 		dup2(bkp, 1);
-		// 		free(buffer);
-		// 		close(bkp);
-		// 		close(fd);
-		// 		exit(131);
-		// 	}
-		// 	if (ft_strncmp(buffer, eof, ft_strlen(eof) + 1) == 0)
-		// 	{
-		// 		free(buffer);
-		// 		dup2(bkp, 1);
-		// 		close(bkp);
-		// 		close(fd);
-		// 		exit(0);
-		// 	}
-		// 	dup2(fd, 1);
-		// 	ft_putendl_fd(buffer, fd);
-		// 	dup2(bkp, 1);
-		// 	free(buffer);
-		// }
-		// free(buffer);
-		// close(bkp);
-		// close(fd);

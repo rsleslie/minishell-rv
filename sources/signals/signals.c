@@ -6,33 +6,11 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:18:21 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:38:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	handler_child_heredoc(int signal)
-{
-	if (signal == SIGINT)
-		g_data.status_code = 130;
-}
-
-void	signal_handler_child_heredoc(void)
-{
-	signal(SIGINT, &handler_child_heredoc);
-	signal(SIGQUIT, &handler_child);
-}
-
-void	handle_heredoc_sigint(int signal)
-{
-	(void)signal;
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_replace_line("", 0);
-	ft_free_tab_int(g_data.fd_pipe, pipe_counter(g_data.tokens));
-	free_var(g_data.node_env, g_data.node_export, &g_data, g_data.node_exec);
-	exit(130);	
-}
 
 void	handler_child(int signal)
 {
@@ -41,16 +19,11 @@ void	handler_child(int signal)
 		g_data.status_code = 130;
 		rl_replace_line("", 0);
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		ft_free_tab_int(g_data.fd_pipe, pipe_counter(g_data.tokens));
-		free_var(g_data.node_env, g_data.node_export, &g_data, g_data.node_exec);
-		exit(g_data.status_code);
 	}
 	if (signal == SIGQUIT)
 	{
 		g_data.status_code = 131;
 		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
-		ft_free_tab_int(g_data.fd_pipe, pipe_counter(g_data.tokens));
-		free_var(g_data.node_env, g_data.node_export, &g_data, g_data.node_exec);
 		rl_replace_line("", 0);
 	}
 }
@@ -60,7 +33,6 @@ void	signal_handler_child(void)
 	signal(SIGINT, &handler_child);
 	signal(SIGQUIT, &handler_child);
 }
-
 
 void	handle_sigint(int signal, siginfo_t *info, void *context)
 {

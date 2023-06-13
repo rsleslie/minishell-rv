@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/06/12 11:32:12 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/06/13 12:39:18 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC= main.c    											\
 	../../sources/lexer/tokens.c 						\
 	../../sources/parser/ft_parser.c 					\
 	../../sources/parser/unquote.c 						\
+	../../sources/parser/utils_unquotes.c 				\
 	../../sources/parser/dollar_sign.c 					\
 	../../sources/parser/dollar_utils.c 				\
 	../../sources/parser/utils_parser.c 				\
@@ -41,6 +42,7 @@ SRC= main.c    											\
 	../../sources/built-ins/ft_pwd.c 					\
 	../../sources/handle/handle_path.c 					\
 	../../sources/signals/signals.c 					\
+	../../sources/signals/utils_signals.c				\
 	../../sources/exec/executor.c  						\
 	../../sources/exec/init_exec.c  					\
 	../../sources/exec/pipex.c  						\
