@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 14:43:26 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:11:00 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	output_redirection(t_config *data, t_exec *exec,
 			free_var(data->node_env, data->node_export, data, data->node_exec);
 			data->status_code = 126;
 			close_fd(data->fd_pipe, data);
+			if (exec->fd_output != 0)
+				close(exec->fd_output);
 			exit (data->status_code);
 		}
 	}

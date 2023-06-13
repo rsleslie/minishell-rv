@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 13:25:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:19:12 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@ void	ref_list(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	data->fd_pipe = NULL;
 }
 
+void	close_redirect(t_exec *exec)
+{
+	t_exec *aux;
+
+	aux = exec;
+	while(aux != NULL)
+	{
+		if (aux->fd_input != 0 && aux->fd_input != -1)
+			close(aux->fd_input);
+		if (aux->fd_output != 0 && aux->fd_output != -1)
+			close(aux->fd_output);
+		aux = aux->next;
+	}
+}
+
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	int	i;
@@ -29,6 +44,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	if (exec->next == NULL)
 	{
 		pipeless(exec, data, env, export);
+		close_redirect(exec);
 		unlink("heredoc");
 		return ;
 	}
@@ -44,6 +60,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		}
 		executor_pipe(exec, data, env, export);
 	}
+	close_redirect(exec);
 	unlink("heredoc");
 	ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 }

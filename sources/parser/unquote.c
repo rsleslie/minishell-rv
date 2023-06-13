@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:56:17 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:58:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	unquotes(t_exec *exec)
 	while (aux != NULL)
 	{
 		i = -1;
-		while (aux->cmd[++i])
+		while (aux->cmd && aux->cmd[++i])
 		{
 			if (aux->cmd[i][0] == DOUBLE_QUOTE
 				|| aux->cmd[i][0] == SIMPLE_QUOTE)

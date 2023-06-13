@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:59:12 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:55:16 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	aux_dollar(t_exec *aux, t_node *env)
 	j = -1;
 	i = -1;
 	(void)env;
-	while (aux->cmd[++i])
+	while (aux->cmd && aux->cmd[++i])
 	{
 		if (aux->cmd[i][0] == '$' && aux->cmd[i][1] == '?' && !aux->cmd[i][2])
 		{
