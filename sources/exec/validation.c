@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:00:41 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 19:55:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:19:44 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,7 @@ int	validation_fd_inp(char *fd)
 	return (1);
 }
 
-int	cmd_acess(char *str)
-{
-	if (access(str, F_OK) == 0)
-	{
-		if (access(str, X_OK) == 0)
-			return (0);
-		else
-		{
-			ft_putstr_fd(" Permission denied\n", 2);
-			g_data.status_code = 126;
-			return (1);
-		}
-	}
-	else
-	{
-		ft_putstr_fd(" command not found\n", 2);
-		g_data.status_code = 127;
-		return (1);
-	}
-}
-
-int	aux_validation(t_config *data, t_exec *exec)
+int	norm_aux_validation(t_config *data, t_exec *exec)
 {
 	char	*path_check;
 	int		i;
@@ -92,6 +71,16 @@ int	aux_validation(t_config *data, t_exec *exec)
 		}
 		free(path_check);
 	}
+	return (2);
+}
+
+int	aux_validation(t_config *data, t_exec *exec)
+{
+	int	i;
+
+	i = norm_aux_validation(data, exec);
+	if (i == 1 || i == 0)
+		return (i);
 	ft_putstr_fd(" command not found\n", 2);
 	g_data.status_code = 127;
 	return (1);
@@ -115,5 +104,5 @@ int	validation_cmd(t_exec *exec, t_config *data)
 		else
 			return (0);
 	}
-	return(0);
+	return (0);
 }

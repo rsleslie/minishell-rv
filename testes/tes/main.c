@@ -16,8 +16,6 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 	if (*data->str && check_space(data) != 0)
 	{
 		add_history(data->str);
-		// if (ft_exit(data, env, export, exec) == 1)
-		// 	reset_loop(export, env, data, exec);
 		error_quotes(data);
 		ft_lexer(data);
 		if (parser(data) == 1)

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 19:40:34 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:11:13 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,25 @@ char	*strip_quotes_two(t_exec *exec, int i)
 	return (ptr);
 }
 
+void	aux_unquotes(t_exec *aux)
+{
+	int		i;
+	char	*new_value;
+
+	i = -1;
+	while (aux->redirect[++i])
+	{
+		if (aux->redirect[i][0] == DOUBLE_QUOTE
+			|| aux->redirect[i][0] == SIMPLE_QUOTE)
+		{
+			new_value = strip_quotes_two(aux, i);
+			free(aux->redirect[i]);
+			aux->redirect[i] = ft_strdup(new_value);
+			free(new_value);
+		}
+	}
+}
+
 void	unquotes(t_exec *exec)
 {
 	int		i;
@@ -71,18 +90,7 @@ void	unquotes(t_exec *exec)
 				free(new_value);
 			}
 		}
-		i = -1;
-		while (aux->redirect[++i])
-		{
-			if (aux->redirect[i][0] == DOUBLE_QUOTE
-				|| aux->redirect[i][0] == SIMPLE_QUOTE)
-			{
-				new_value = strip_quotes_two(aux, i);
-				free(aux->redirect[i]);
-				aux->redirect[i] = ft_strdup(new_value);
-				free(new_value);
-			}
-		}
+		aux_unquotes(aux);
 		aux = aux->next;
 	}
 }

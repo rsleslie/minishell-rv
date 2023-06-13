@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 13:26:21 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 19:57:53 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:26:08 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void	ft_echo(char **data_str)
 	i = 0;
 	tab_len = ft_tab_len(data_str);
 	if (tab_len == 1)
-	{
 		write(1, "\n", 1);
-		g_data.status_code = 0;
-	}
 	else if (ft_strncmp(data_str[1], "-n", ft_strlen(data_str[1])) == 0)
 	{
 		if (tab_len > 2)
@@ -50,9 +47,9 @@ void	ft_echo(char **data_str)
 				if (i != tab_len - 1)
 					ft_printf(" ");
 			}
-			g_data.status_code = 0;	
 		}
 	}
 	else
 		aux_echo(data_str, tab_len);
+	g_data.status_code = 0;
 }

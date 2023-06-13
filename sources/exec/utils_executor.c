@@ -6,11 +6,32 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 17:27:55 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:19:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	cmd_acess(char *str)
+{
+	if (access(str, F_OK) == 0)
+	{
+		if (access(str, X_OK) == 0)
+			return (0);
+		else
+		{
+			ft_putstr_fd(" Permission denied\n", 2);
+			g_data.status_code = 126;
+			return (1);
+		}
+	}
+	else
+	{
+		ft_putstr_fd(" command not found\n", 2);
+		g_data.status_code = 127;
+		return (1);
+	}
+}
 
 int	pipe_counter(char **tokens)
 {

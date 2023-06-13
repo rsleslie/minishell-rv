@@ -6,11 +6,34 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 19:54:46 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:23:17 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	norm_get_fd_output(int i, int fd, t_exec *exec, t_config *data)
+{
+	if (ft_strncmp(exec->redirect[i], "<",
+			ft_strlen(exec->redirect[i])) == 0)
+	{
+		if (fd != 0)
+			close(fd);
+		if (validation_fd_inp(exec->redirect[i + 1]) == 1)
+			return (-1);
+		else
+			fd = open(exec->redirect[i + 1], O_RDWR);
+	}
+	if (ft_strncmp(exec->redirect[i], "<<", 2) == 0)
+	{
+		if (fd != 0)
+			close(fd);
+		if (heredoc(exec->redirect[i + 1], data) == 130)
+			return (-1);
+		fd = open("heredoc", O_RDONLY);
+	}
+	return (fd);
+}
 
 int	get_fd_input(t_exec *exec, t_config *data)
 {
@@ -22,26 +45,7 @@ int	get_fd_input(t_exec *exec, t_config *data)
 	while (exec->redirect[++i])
 	{
 		if ((i % 2) == 0)
-		{
-			if (ft_strncmp(exec->redirect[i], "<",
-					ft_strlen(exec->redirect[i])) == 0)
-			{
-				if (fd != 0)
-					close(fd);
-				if (validation_fd_inp(exec->redirect[i + 1]) == 1)
-					return (-1);
-				else
-					fd = open(exec->redirect[i + 1], O_RDWR);
-			}
-			if (ft_strncmp(exec->redirect[i], "<<", 2) == 0)
-			{
-				if (fd != 0)
-					close(fd);
-				if (heredoc(exec->redirect[i + 1], data) == 130)
-					return (-1);
-				fd = open("heredoc", O_RDONLY);
-			}
-		}
+			fd = norm_get_fd_output(i, fd, exec, data);
 	}
 	return (fd);
 }
@@ -118,5 +122,3 @@ void	get_redirect(t_exec *exec, t_config *data)
 		aux = aux->next;
 	}
 }
-
-// enter dando errado
