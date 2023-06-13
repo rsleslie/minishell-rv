@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:57:21 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:39:46 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	terminate(t_node *env, t_node *export, t_config *data)
 	free(data->str);
 	ft_free_tab(data->paths);
 	ft_free_tab(data->tokens);
+	close(STDOUT_FILENO);
 	exit (data->status_code);
 }
 

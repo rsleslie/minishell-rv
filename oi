@@ -1,0 +1,5 @@
+NAME= minishell
+all: $(NAME) 
+$(NAME): $(OBJ)
+		$(CC) $(SRC) $(LIBFT) $(FLAG) $(RL) -o $(NAME)
+		rm -rf $(NAME)

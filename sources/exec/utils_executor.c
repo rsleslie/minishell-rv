@@ -6,11 +6,32 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:43:26 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	cmd_acess(char *str)
+{
+	if (access(str, F_OK) == 0)
+	{
+		if (access(str, X_OK) == 0)
+			return (0);
+		else
+		{
+			ft_putstr_fd(" Permission denied\n", 2);
+			g_data.status_code = 126;
+			return (1);
+		}
+	}
+	else
+	{
+		ft_putstr_fd(" command not found\n", 2);
+		g_data.status_code = 127;
+		return (1);
+	}
+}
 
 int	pipe_counter(char **tokens)
 {
@@ -41,6 +62,8 @@ int	input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export)
 			ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 			free_var(data->node_env, data->node_export, data, data->node_exec);
 			data->status_code = 126;
+			close(exec->fd_input);
+			close_fd(data->fd_pipe, data);
 			exit (data->status_code);
 		}
 	}
@@ -65,6 +88,7 @@ int	output_redirection(t_config *data, t_exec *exec,
 			ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 			free_var(data->node_env, data->node_export, data, data->node_exec);
 			data->status_code = 126;
+			close_fd(data->fd_pipe, data);
 			exit (data->status_code);
 		}
 	}

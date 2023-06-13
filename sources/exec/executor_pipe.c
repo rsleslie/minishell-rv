@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 12:50:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:54:32 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,17 @@ void	close_pid(pid_t *pid, t_config *data)
 		wait(NULL);
 }
 
-void	norm_aux_exec_pipe(t_exec *aux, t_config *data)
+void	norm_aux_exec_pipe(t_exec *aux, t_config *data, pid_t *pid)
 {
 	if (op_builtins(aux->cmd[0]) != 0)
 	{
+		free(pid);
+		close_fd(data->fd_pipe, data);
 		ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 		free_var(data->node_env,
 			data->node_export, data, data->node_exec);
+		close(STDOUT_FILENO);
+		close(STDIN_FILENO);
 		exit (data->status_code);
 	}
 }
@@ -69,7 +73,7 @@ void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		{
 			pipex(aux, data->fd_pipe, vars.i, data);
 			executor(aux, data, env, export);
-			norm_aux_exec_pipe(aux, data);
+			norm_aux_exec_pipe(aux, data, pid);
 		}
 		if (aux->next != NULL)
 			aux = aux->next;

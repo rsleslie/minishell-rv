@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 12:42:23 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:59:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	get_fd_input(t_exec *exec, t_config *data)
 			{
 				if (fd != 0)
 					close(fd);
-				if (heredoc(exec->redirect[i + 1], data) == 130)
+				if (heredoc(exec->redirect[i + 1], data) > 129)
 					return (-1);
 				fd = open("heredoc", O_RDONLY);
 			}

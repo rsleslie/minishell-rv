@@ -6,20 +6,25 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 14:49:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:25:09 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
+void	ref_list(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
-	int			i;
-
 	data->node_env = env;
 	data->node_export = export;
 	data->node_exec = exec;
 	data->fd_pipe = NULL;
+}
+
+void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
+{
+	int	i;
+
+	ref_list(exec, data, env, export);
 	get_redirect(exec, data);
 	if (exec->next == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:13:38 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 12:34:07 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:05:58 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	ctrl_d_heredoc(int bkp, char *buffer, t_config *data)
 	ft_putendl_fd("minishell: warning: here-document delimited by end-of-file",
 		2);
 	dup2(bkp, 1);
-	free(buffer);
+	if (buffer)
+		free(buffer);
 	close(bkp);
 	close(data->fd);
 	ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
@@ -40,8 +41,7 @@ int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp)
 
 	signal(SIGINT, handle_heredoc_sigint);
 	buffer = readline("> ");
-	add_history(buffer);
-	if (!ft_lurkstr(buffer, '$'))
+	if (buffer && !ft_lurkstr(buffer, '$'))
 	{
 		test = expantion_heredoc(buffer, data->node_env);
 		free (buffer);

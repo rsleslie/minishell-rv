@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:39:26 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:42:08 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
-
 
 typedef struct s_node
 {
@@ -70,8 +69,9 @@ typedef struct s_config
 	t_node	*node_export;
 	pid_t	pid;
 }	t_config;
+
 //main
-extern t_config g_data;
+extern t_config	g_data;
 
 int		reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec);
 
@@ -133,7 +133,7 @@ void	rm_quotes(t_config *data, int i);
 void	arguments_export(char **data_str, t_node *env, t_node *export);
 void	arguments_unset(char **data_str, t_node *env, t_node *export);
 void	parse_builtins(char **data_str, t_node *env,
-		t_node *export, t_config *data);
+			t_node *export, t_config *data);
 
 //built-ins
 void	ft_unset(t_node **list, char *key);
@@ -142,7 +142,8 @@ int		ft_key_parser(char *key);
 void	ft_pwd(void);
 void	ft_cd(char **data_str, t_node *env);
 void	ft_echo(char **data_str);
-void	exec_builtins(t_exec *exec, t_node *env, t_node *export, t_config *data);
+void	exec_builtins(t_exec *exec, t_node *env,
+			t_node *export, t_config *data);
 
 //print e search foram add temporariamente
 int		search_env(char *data, char *key);
@@ -195,13 +196,18 @@ int		pipe_counter(char **tokens);
 void	pipeless(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export);
 int		cmd_acess(char *str);
-int		output_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
-int		input_redirection(t_config *data, t_exec *exec, t_node *env, t_node *export);
+int		output_redirection(t_config *data, t_exec *exec,
+			t_node *env, t_node *export);
+int		input_redirection(t_config *data, t_exec *exec,
+			t_node *env, t_node *export);
 char	*exec_path(t_config *data, t_exec *exec);
-void	norm_executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export);
-int		executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	norm_executor_redirect(t_exec *exec, t_config *data,
+			t_node *env, t_node *export);
+int		executor_redirect(t_exec *exec, t_config *data,
+			t_node *env, t_node *export);
 void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
-void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export);
+void	executor_pipe(t_exec *exec, t_config *data,
+			t_node *env, t_node *export);
 int		validation_cmd(t_exec *exec, t_config *data);
 int		validation_fd_inp(char *fd);
 int		validation_fd_out(char *fd);
@@ -212,9 +218,9 @@ int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec, t_config *data);
 
 // heredoc
-int	heredoc(char *eof, t_config *data);
-int	reset_heredoc(char *eof, char *buffer, t_config *data, int bkp);
-int	heredoc_loop(char *eof, char *buffer, t_config *data, int bkp);
+int		heredoc(char *eof, t_config *data);
+int		reset_heredoc(char *eof, char *buffer, t_config *data, int bkp);
+int		heredoc_loop(char *eof, char *buffer, t_config *data, int bkp);
 
 void	close_fd(int **fd, t_config *data);
 

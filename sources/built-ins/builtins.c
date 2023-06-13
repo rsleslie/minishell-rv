@@ -6,12 +6,12 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:24:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:51:24 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
+//""
 void	exec_builtins(t_exec *exec, t_node *env, t_node *export, t_config *data)
 {
 	if (ft_strncmp(exec->cmd[0], "pwd", ft_strlen(exec->cmd[0])) == 0)
