@@ -6,29 +6,73 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/03 11:34:27 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:32:59 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// colocar o fd do pipe na data
+t_config	g_data;
+
+int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
+{
+	init_signals();
+	data->str = readline("Habla$ ");
+	if (data->str == NULL)
+	{
+		g_data.status_code = 139;
+		free_exec_list(exec);
+		terminate(env, export, data);
+	}
+	if (*data->str && check_space(data) != 0)
+	{
+		add_history(data->str);
+		error_quotes(data);
+		ft_lexer(data);
+		if (parser(data) == 1)
+			reset_loop(export, env, data, exec);
+		expantion(data, env);
+		ft_lexer_tokens(&exec, data);
+		dollar_sign(exec, env);
+		unquotes(exec);
+		init_exec(exec, data, env, export);
+	}
+	reset_loop(export, env, data, exec);
+	return (0);
+}
+
+int	reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
+{
+	if (exec != NULL)
+	{
+		free_exec_list(exec);
+		exec = NULL;
+	}
+	free(data->str);
+	minishell_loop(export, env, data, exec);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_config	data;
-	t_node		*env;
-	t_node		*export;
-
-	env = NULL;
-	(void)argv;
-	if (argc != 1)
-		return (0);
+	// t_config    data;
+	t_exec		*exec = NULL;
+	t_node		*env = NULL;
+	t_node		*export = NULL;
+	
+	argc = 0;
+	(void)argc;
+	g_data.status_code = 0;
+	g_data.tokens = NULL;
+	(void)argv; 
 	get_env(&env, envp);
 	get_export(&export, envp);
-	while (1)
-	{
-		data.str = readline("Habla$ ");
-		add_history(data.str);
-		ft_exit(&data, env, export);
-		// ft_lexer(&data, env, export);
-	}
+	handle_path(&env, &g_data);
+	minishell_loop(export, env, &g_data, exec);
+	return (0);
 }
+
+// valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --quiet ./minishell 
+
+// valgrind -q --leak-check=full --show-leak-kinds=all --trace-children=yes --suppressions=readline.supp --track-fds=yes --track-origins=yes --trace-children-skip='/bin/,/sbin/' ./minishell
