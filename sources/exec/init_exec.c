@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:19:12 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:06:00 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ void	ref_list(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	data->node_export = export;
 	data->node_exec = exec;
 	data->fd_pipe = NULL;
+	get_redirect(exec, data);
 }
 
 void	close_redirect(t_exec *exec)
 {
-	t_exec *aux;
+	t_exec	*aux;
 
 	aux = exec;
-	while(aux != NULL)
+	while (aux != NULL)
 	{
 		if (aux->fd_input != 0 && aux->fd_input != -1)
 			close(aux->fd_input);
@@ -40,8 +41,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	int	i;
 
 	ref_list(exec, data, env, export);
-	get_redirect(exec, data);
-	if (exec->next == NULL)
+	if (exec->next == NULL && exec->cmd)
 	{
 		pipeless(exec, data, env, export);
 		close_redirect(exec);

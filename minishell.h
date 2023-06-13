@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 15:21:25 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:00:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,5 +227,8 @@ void	close_fd(int **fd, t_config *data);
 char	*expantion_heredoc(char *ptr, t_node *env);
 char	*norm_expantion_heredoc(int j, char *ptr, t_node *env);
 char	*get_key_heredoc(char *ptr, int j);
+
+void	norm_aux_exec_redirect(t_exec *exec,
+	t_config *data, t_node *env, t_node *export);
 
 #endif

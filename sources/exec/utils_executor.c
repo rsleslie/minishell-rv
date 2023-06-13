@@ -6,11 +6,34 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 16:11:00 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:00:02 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export)
+{
+	extern char	**environ;
+
+	if (exec->fd_input != 0 && exec->fd_output != 0)
+	{
+		norm_aux_exec_redirect(exec, data, env, export);
+		return (1);
+	}
+	else if (exec->fd_input != 0 && exec->fd_output == 0)
+	{
+		if (op_builtins(exec->cmd[0]) != 0)
+		{
+			close(exec->fd_input);
+			exec_builtins(exec, env, export, data);
+			return (1);
+		}
+		input_redirection(data, exec, env, export);
+		return (1);
+	}
+	return (0);
+}
 
 int	cmd_acess(char *str)
 {

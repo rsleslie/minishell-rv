@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:50:06 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:59:38 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	error_execve(t_exec *exec, t_config *data,
 	data->status_code = 126;
 }
 
-void	nomr_aux_exec_redirect(t_exec *exec,
+void	norm_aux_exec_redirect(t_exec *exec,
 	t_config *data, t_node *env, t_node *export)
 {
 	extern char	**environ;
@@ -48,24 +48,13 @@ void	nomr_aux_exec_redirect(t_exec *exec,
 	exit(data->status_code);
 }
 
-int	executor_redirect(t_exec *exec, t_config *data, t_node *env, t_node *export)
+int	norm_excutor(t_exec *exec, t_config *data)
 {
-	extern char	**environ;
-
-	if (exec->fd_input != 0 && exec->fd_output != 0)
-	{
-		nomr_aux_exec_redirect(exec, data, env, export);
+	if (validation_cmd(exec, data) != 0)
 		return (1);
-	}
-	else if (exec->fd_input != 0 && exec->fd_output == 0)
+	if (exec->fd_input == -1 || exec->fd_output == -1)
 	{
-		if (op_builtins(exec->cmd[0]) != 0)
-		{
-			close(exec->fd_input);
-			exec_builtins(exec, env, export, data);
-			return (1);
-		}
-		input_redirection(data, exec, env, export);
+		g_data.status_code = 1;
 		return (1);
 	}
 	return (0);
@@ -75,9 +64,7 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	extern char	**environ;
 
-	if (validation_cmd(exec, data) != 0)
-		return ;
-	if (exec->fd_input == -1 || exec->fd_output == -1)
+	if (norm_excutor(exec, data) == 1)
 		return ;
 	if (exec->fd_input == 0 && exec->fd_output == 0)
 	{
@@ -85,9 +72,9 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 			exec_builtins(exec, env, export, data);
 		else if (execve(exec_path(data, exec), exec->cmd, environ) == -1)
 		{
+			data->status_code = 126;
 			ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
 			free_var(data->node_env, data->node_export, data, data->node_exec);
-			data->status_code = 126;
 			close_fd(data->fd_pipe, data);
 			exit (data->status_code);
 		}

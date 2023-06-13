@@ -6,11 +6,34 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:48:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:04:57 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	norm_get_fd_input(int fd, int i, t_exec *exec, t_config *data)
+{
+	if (ft_strncmp(exec->redirect[i], "<",
+			ft_strlen(exec->redirect[i])) == 0)
+	{
+		if (fd != 0)
+			close(fd);
+		if (validation_fd_inp(exec->redirect[i + 1]) == 1)
+			return (-1);
+		else
+			fd = open(exec->redirect[i + 1], O_RDWR);
+	}
+	if (ft_strncmp(exec->redirect[i], "<<", 2) == 0)
+	{
+		if (fd != 0)
+			close(fd);
+		if (heredoc(exec->redirect[i + 1], data) > 129)
+			return (-1);
+		fd = open("heredoc", O_RDONLY);
+	}
+	return (fd);
+}
 
 int	get_fd_input(t_exec *exec, t_config *data)
 {
@@ -23,24 +46,9 @@ int	get_fd_input(t_exec *exec, t_config *data)
 	{
 		if ((i % 2) == 0)
 		{
-			if (ft_strncmp(exec->redirect[i], "<",
-					ft_strlen(exec->redirect[i])) == 0)
-			{
-				if (fd != 0)
-					close(fd);
-				if (validation_fd_inp(exec->redirect[i + 1]) == 1)
-					return (-1);
-				else
-					fd = open(exec->redirect[i + 1], O_RDWR);
-			}
-			if (ft_strncmp(exec->redirect[i], "<<", 2) == 0)
-			{
-				if (fd != 0)
-					close(fd);
-				if (heredoc(exec->redirect[i + 1], data) > 129)
-					return (-1);
-				fd = open("heredoc", O_RDONLY);
-			}
+			fd = norm_get_fd_input(fd, i, exec, data);
+			if (fd == -1)
+				return (fd);
 		}
 	}
 	return (fd);
