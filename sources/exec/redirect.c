@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:27:08 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:08:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:48:38 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,7 @@ void	get_redirect(t_exec *exec, t_config *data)
 		if (aux->redirect[0][0] != '-')
 		{
 			aux->fd_input = get_fd_input(aux, data);
-			// if (aux->fd_input == -1)
-			// 	close(aux->fd_input);
-			// else
 			aux->fd_output = get_fd_output(aux);
-			// if (exec->fd_output == -1)
-			// {
-			// 	if (exec->fd_output != 0)
-			// 		close(exec->fd_output);
-			// 	if (exec->fd_input != 0)
-			// 		close(exec->fd_input);
-			// }
 		}
 		aux = aux->next;
 	}

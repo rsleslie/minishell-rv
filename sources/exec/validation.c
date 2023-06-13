@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:00:41 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:03:39 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:00:22 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	aux_validation(t_config *data, t_exec *exec)
 			return (status);
 		free(path_check);
 	}
+	if (op_builtins(exec->cmd[0]) != 0)
+		return (0);
 	ft_putstr_fd(" command not found\n", 2);
 	g_data.status_code = 127;
 	return (1);
@@ -87,10 +89,14 @@ int	aux_validation(t_config *data, t_exec *exec)
 
 int	validation_cmd(t_exec *exec, t_config *data)
 {
-	if (!exec->cmd)
+	if (!exec->cmd[0])
 		return (1);
-	if (exec->cmd && (exec->cmd[0]) != 0)
-		return (0);
+	if (exec->cmd[0][0] == '\0')
+	{
+		ft_putstr_fd(" command not found\n", 2);
+		g_data.status_code = 127;
+		return (1);
+	}
 	if (exec->cmd[0][0] != '.' && exec->cmd[0][0] != '/')
 	{
 		if (aux_validation(data, exec) == 1)

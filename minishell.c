@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:20:18 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:58:44 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 	data->str = readline("Habla$ ");
 	if (data->str == NULL)
 	{
-		data->status_code = 139;
+		data->status_code = 0;
 		free_exec_list(exec);
 		terminate(env, export, data);
 	}

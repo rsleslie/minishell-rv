@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:10:23 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:50:37 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 	char	**split_exit;
 
 	split_exit = ft_split(data->str, ' ');
-	if (ft_strncmp(split_exit[0], "exit", ft_strlen(split_exit[0])) == 0)
+	if (ft_strncmp(split_exit[0], "exit", 5) == 0)
 	{
 		trim_quotes(split_exit);
 		if (exit_norm(split_exit, exec) == 1)
