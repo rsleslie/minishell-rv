@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 18:26:11 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:34:31 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*get_key(char *ptr, int j)
 		i++;
 		j++;
 	}
-	key = calloc(sizeof(char *), i + 1);
+	key = ft_calloc(sizeof(char *), i + 1);
 	j -= i;
 	i = -1;
 	while (ptr[j + 1] && ptr[j] != 32)
@@ -59,7 +59,7 @@ char	*refresh_value(char *s1, char *s2, int j, int size)
 
 	i = -1;
 	x = 0;
-	dst = calloc(sizeof(char *), (ft_strlen(s1)+ ft_strlen(s2) + 1) - size);
+	dst = ft_calloc(sizeof(char *), (ft_strlen(s1)+ ft_strlen(s2) + 1) - size);
 	while (++i < j)
 		dst[i] = s1[i];
 	while (s2[x])

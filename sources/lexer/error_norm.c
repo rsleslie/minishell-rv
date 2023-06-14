@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:34:28 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 13:49:52 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:34:20 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	**strjoin_tab(char **s1, char **s2)
 	x = 0;
 	if (!s1)
 	{
-		s1 = (char **)calloc(sizeof(char *), 1);
+		s1 = (char **)ft_calloc(sizeof(char *), 1);
 		s1 [0] = NULL;
 	}
-	str = (char **)calloc(sizeof(char **), (1 + ft_tab_len(s1)) + 1);
+	str = (char **)ft_calloc(sizeof(char **), (1 + ft_tab_len(s1)) + 1);
 	if (str == NULL || !s1 || !s2)
 		return (NULL);
 	while (s1[i])
@@ -47,7 +47,7 @@ void	rm_quotes(t_config *data, int i)
 	int		j;
 
 	j = -1;
-	ptr = calloc(sizeof(char *), (ft_strlen(data->str) - 1));
+	ptr = ft_calloc(sizeof(char *), (ft_strlen(data->str) - 1));
 	while (++j < i)
 		ptr[j] = data->str[j];
 	i += 2;
@@ -67,7 +67,7 @@ void	move(t_config *data, int j)
 
 	i = -1;
 	c = data->str[j];
-	ptr = calloc(sizeof(char *), ft_strlen(data->str) + 1);
+	ptr = ft_calloc(sizeof(char *), ft_strlen(data->str) + 1);
 	while (++i < j)
 		ptr[i] = data->str[i];
 	j++;
@@ -90,7 +90,7 @@ void	remov_quotes(t_config *data, int j)
 
 	i = -1;
 	c = data->str[j];
-	ptr = calloc(sizeof(char *), ft_strlen(data->str) - 1);
+	ptr = ft_calloc(sizeof(char *), ft_strlen(data->str) - 1);
 	while (++i < j)
 		ptr[i] = data->str[i];
 	j++;

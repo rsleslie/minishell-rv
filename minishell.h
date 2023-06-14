@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 16:18:33 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:35:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define SIMPLE_QUOTE 39
 # define DOUBLE_QUOTE 34
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include "./libft/libft.h"

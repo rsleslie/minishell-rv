@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:51:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:52:00 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:34:36 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_key_heredoc(char *ptr, int j)
 		i++;
 		j++;
 	}
-	key = calloc(sizeof(char *), i + 1);
+	key = ft_calloc(sizeof(char *), i + 1);
 	j -= i;
 	i = -1;
 	while (ptr[j] && ptr[j] != 32)

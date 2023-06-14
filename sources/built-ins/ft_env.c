@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:30:18 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 17:35:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:33:18 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_env(t_node *env)
 	temp = env;
 	while (temp)
 	{
-		printf("%s=%s\n", temp->variable, temp->value);
+		ft_printf("%s=%s\n", temp->variable, temp->value);
 		temp = temp->next;
 	}
 }
