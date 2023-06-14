@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 16:27:56 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:02:37 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	close_pid(pid_t *pid, t_config *data)
 		data->status_code = WEXITSTATUS(status) + 128;
 	while (++i <= (pipe_counter(data->tokens) - 1))
 		wait(NULL);
+	free(pid);
 }
 
 void	free_cmd_invalid(t_config *data, pid_t *pid)
@@ -80,5 +81,4 @@ void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 	}
 	close_fd(data->fd_pipe, data);
 	close_pid(pid, data);
-	free(pid);
 }
