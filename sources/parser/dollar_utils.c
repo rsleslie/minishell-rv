@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:50:51 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 16:55:16 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:08:51 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*search_var(t_node *list, char *exec, char *key)
 		aux = aux->next;
 	}
 	free(exec);
-	return (ft_strdup(""));
+	return (ft_strdup(" "));
 }
 
 void	status_code(t_exec *exec, int i)
@@ -87,6 +87,8 @@ void	aux_dollar(t_exec *aux, t_node *env)
 		else if (aux->cmd[i][0] == '$'
 			&& aux->cmd[i][1] == '?' && aux->cmd[i][2])
 			aux->cmd[i] = dollar_refesh(aux->cmd[i]);
+		else if (aux->cmd[i][0] == '$' && aux->cmd[i][1])
+			aux->cmd[i] = search_var(env, aux->cmd[i], &aux->cmd[i][1]);
 	}
 }
 
@@ -100,13 +102,16 @@ void	dollar_sign(t_exec *exec, t_node *env)
 	{
 		aux_dollar(aux, env);
 		i = -1;
-		while (aux->redirect[++i])
+		while (aux->redirect[++i] && aux->redirect)
 		{
 			if (aux->redirect[i][0] == '$' && aux->redirect[i][1] == '?')
 			{
 				free(aux->cmd[i]);
 				aux->cmd[i] = ft_itoa(g_data.status_code);
 			}
+			else if (aux->redirect[i][0] == '$' && aux->redirect[i][1])
+				aux->redirect[i] = search_var(env, aux->redirect[i],
+						&aux->redirect[i][1]);
 		}
 		aux = aux->next;
 	}

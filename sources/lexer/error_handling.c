@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:31:16 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 11:31:59 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:26:35 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_strrchr_int(const char *s, int c, int position)
 	return (i);
 }
 
-void	error_quotes(t_config *data)
+int	error_quotes(t_config *data)
 {
 	int		i;
 	char	c;
@@ -55,8 +55,16 @@ void	error_quotes(t_config *data)
 	while (data->str[++i])
 	{
 		c = data->str[i];
-		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE) && i == 0)
+		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE))
+		{
 			i = ft_strrchr_int(data->str, c, i);
+			if (data->str[i] != c)
+			{
+				g_data.status_code = 1;
+				ft_putstr_fd(" quotes error\n", 2);
+				return (1);
+			}
+		}
 		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
 			&& data->str[i + 1] == c && data->str[i - 1] != 32)
 			rm_quotes(data, i);
@@ -64,4 +72,5 @@ void	error_quotes(t_config *data)
 			&& data->str[i - 1] != 32 && data->str[i + 1] != 32)
 			move_quotes(data, i);
 	}
+	return (0);
 }

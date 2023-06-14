@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 18:59:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:20:54 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	norm_aux_exec_redirect(t_exec *exec,
 
 int	norm_excutor(t_exec *exec, t_config *data)
 {
-	if (validation_cmd(exec, data) != 0)
+	if (exec->cmd && validation_cmd(exec, data) != 0)
 		return (1);
 	if (exec->fd_input == -1 || exec->fd_output == -1)
 	{
@@ -64,6 +64,19 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	extern char	**environ;
 
+	if (!exec->cmd)
+	{
+		// write(1, "\n\nentrou\n\n", 11);
+		// close_redirect(data->node_exec);
+		// close_fd(data->fd_pipe, data);
+		// ft_free_tab_int(data->fd_pipe, pipe_counter(data->tokens));
+		// free_var(data->node_env,
+		// 	data->node_export, data, data->node_exec);
+		// close(STDOUT_FILENO);
+		// close(STDIN_FILENO);
+		// exit (data->status_code);
+		return ;
+	}
 	if (norm_excutor(exec, data) == 1)
 		return ;
 	if (exec->fd_input == 0 && exec->fd_output == 0)

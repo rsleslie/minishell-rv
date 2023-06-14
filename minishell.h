@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 19:00:33 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:18:33 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ char	**strjoin_tab(char **s1, char **s2);
 // parsa
 int		parser(t_config *data);
 int		quotes_parser(t_config *data);
-void	error_quotes(t_config *data);
+int		error_quotes(t_config *data);
 int		pipe_parser(t_config *data);
 int		redirect_parser(t_config *data);
 int		builtin_parser(t_config *data, char *s);
@@ -229,6 +229,7 @@ char	*norm_expantion_heredoc(int j, char *ptr, t_node *env);
 char	*get_key_heredoc(char *ptr, int j);
 
 void	norm_aux_exec_redirect(t_exec *exec,
-	t_config *data, t_node *env, t_node *export);
+			t_config *data, t_node *env, t_node *export);
+void	close_redirect(t_exec *exec);
 
 #endif

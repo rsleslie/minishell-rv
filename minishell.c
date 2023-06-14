@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:58:44 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:19:02 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 	if (*data->str && check_space(data) != 0)
 	{
 		add_history(data->str);
-		error_quotes(data);
+		if (error_quotes(data) == 1)
+			reset_loop(export, env, data, exec);
 		ft_lexer(data);
 		if (parser(data) == 1)
 			reset_loop(export, env, data, exec);
@@ -72,3 +73,7 @@ int	main(int argc, char **argv, char **envp)
 	minishell_loop(export, env, &g_data, exec);
 	return (0);
 }
+
+// echo kk > ola | echo 8787 > ola
+// expandir sem aspas
+// variavel q nao existe = \n 

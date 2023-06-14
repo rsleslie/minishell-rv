@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:50:37 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:17:37 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
 		trim_quotes(split_exit);
 		if (exit_norm(split_exit, exec) == 1)
 			terminate(env, export, data);
-		else if (ft_tab_len(split_exit) > 2)
+		else if (ft_tab_len(split_exit) > 2 && ft_isnum(split_exit[1]) != 0)
 		{
-			data->status_code = 1;
+			g_data.status_code = 1;
+			ft_free_tab(split_exit);
 			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 			return (1);
 		}

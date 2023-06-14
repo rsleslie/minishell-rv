@@ -6,7 +6,7 @@
 #    By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:38:17 by rleslie-          #+#    #+#              #
-#    Updated: 2023/06/13 14:25:12 by rleslie-         ###   ########.fr        #
+#    Updated: 2023/06/14 12:48:07 by rleslie-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,12 +76,3 @@ fclean: clean
 		
 re: fclean all
 
-
-# valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --trace-children-skip='*/bin*,*/sbin/*' --quiet ./minishell
-
-#  env | grep USER  
-# echo $USER
-#  cat < Makefile 
-#  <<here cat
-
-#  cat Makefile > oi << here cat Makefile 
