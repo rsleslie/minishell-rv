@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:02:47 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:17:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	parser(t_config *data)
 		return (1);
 	if (redirect_parser(data) == 2)
 	{
+		g_data.status_code = 2;
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 		return (1);
 	}

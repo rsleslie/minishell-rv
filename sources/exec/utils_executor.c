@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 19:00:02 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:00:48 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	output_redirection(t_config *data, t_exec *exec,
 			free_var(data->node_env, data->node_export, data, data->node_exec);
 			data->status_code = 126;
 			close_fd(data->fd_pipe, data);
+			close_redirect(data->node_exec);
 			if (exec->fd_output != 0)
 				close(exec->fd_output);
 			exit (data->status_code);

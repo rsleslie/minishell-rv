@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:00:41 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 18:08:05 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 20:14:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	aux_validation(t_config *data, t_exec *exec)
 	int		i;
 
 	i = -1;
-	while (data->paths[++i])
+	while (data->paths && data->paths[++i])
 	{
 		path_check = ft_strdup(data->paths[i]);
 		path_check = ft_strjoin(path_check, "/");
@@ -106,7 +106,8 @@ int	validation_cmd(t_exec *exec, t_config *data)
 	}
 	else if (exec->cmd[0][0] == '.' || exec->cmd[0][0] == '/')
 	{
-		if ((cmd_acess(exec->cmd[0])) == 1)
+		if ((exec->cmd[0][0] == '.' && ft_strlen(exec->cmd[0]) == 1)
+			|| (cmd_acess(exec->cmd[0])) == 1)
 			return (1);
 		else
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 20:19:02 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:31:45 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_config	g_data;
 
 int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 {
+	handle_path(&env, data);
 	init_signals();
 	data->str = readline("Habla$ ");
 	if (data->str == NULL)
@@ -50,6 +51,7 @@ int	reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 		exec = NULL;
 	}
 	free(data->str);
+	ft_free_tab(data->paths);
 	minishell_loop(export, env, data, exec);
 	return (0);
 }
@@ -69,7 +71,6 @@ int	main(int argc, char **argv, char **envp)
 	g_data.status_code = 0;
 	get_env(&env, envp);
 	get_export(&export, envp);
-	handle_path(&env, &g_data);
 	minishell_loop(export, env, &g_data, exec);
 	return (0);
 }

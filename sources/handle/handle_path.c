@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:52:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/05 11:08:41 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:16:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ void	handle_path(t_node **env, t_config *data)
 	while (aux->next != NULL)
 	{
 		if (search_env(aux->variable, "PATH") == 0)
-			break ;
+		{
+			data->paths = ft_split(aux->value, ':');
+			return ;
+		}
 		aux = aux->next;
 	}
-	data->paths = ft_split(aux->value, ':');
+	data->paths = NULL;
 }

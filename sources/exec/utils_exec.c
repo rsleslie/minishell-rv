@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:37:28 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 12:35:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:17:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*exec_path(t_config *data, t_exec *exec)
 	i = -1;
 	if (norm_exec_path(exec) == 0)
 		return (exec->cmd[0]);
-	while (data->paths[++i])
+	while (data->paths && data->paths[++i])
 	{
 		if (access(exec->cmd[0], X_OK) != -1)
 		{

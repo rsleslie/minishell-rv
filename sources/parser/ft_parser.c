@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:08:09 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:17:38 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	executables_parser(t_config *data, char *s)
 	int		i;
 
 	i = 0;
-	while (data->paths[i])
+	while (data->paths && data->paths[i])
 	{
 		if (access(data->tokens[0], F_OK | X_OK) != -1)
 		{
