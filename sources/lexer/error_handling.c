@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:31:16 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 17:28:01 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:57:15 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ int	error_quotes(t_config *data)
 			ft_putstr_fd(" quotes error\n", 2);
 			return (1);
 		}
-		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
-			&& data->str[i + 1] == c && data->str[i - 1] != 32)
-			rm_quotes(data, i);
-		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
-			&& data->str[i - 1] != 32 && data->str[i + 1] != 32)
-			move_quotes(data, i);
+		if (i != 0)
+		{
+			if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
+				&& data->str[i + 1] == c && data->str[i - 1] != 32)
+				rm_quotes(data, i);
+			if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
+				&& data->str[i - 1] != 32 && data->str[i + 1] != 32)
+				move_quotes(data, i);
+		}
 	}
 	return (0);
 }
