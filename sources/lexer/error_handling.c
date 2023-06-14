@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:31:16 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 15:26:35 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:28:01 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,12 @@ int	error_quotes(t_config *data)
 	while (data->str[++i])
 	{
 		c = data->str[i];
-		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE))
+		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
+			&& data->str[i + 1] == c && (i + 1) == 1)
 		{
-			i = ft_strrchr_int(data->str, c, i);
-			if (data->str[i] != c)
-			{
-				g_data.status_code = 1;
-				ft_putstr_fd(" quotes error\n", 2);
-				return (1);
-			}
+			g_data.status_code = 1;
+			ft_putstr_fd(" quotes error\n", 2);
+			return (1);
 		}
 		if ((c == DOUBLE_QUOTE || c == SIMPLE_QUOTE)
 			&& data->str[i + 1] == c && data->str[i - 1] != 32)
