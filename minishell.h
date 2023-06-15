@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 22:14:22 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:03:21 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,20 @@ typedef struct s_exec {
 
 typedef struct s_config
 {
-	char	*str;
-	char	**paths;
-	char	**tokens;
-	int		fd;
-	int		bkp;
-	int		status;
-	int		i;
-	int		**fd_pipe;
-	int		status_code;
-	t_exec	*node_exec;
-	t_node	*node_env;
-	t_node	*node_export;
-	pid_t	pid;
+	char			*str;
+	char			**paths;
+	char			**tokens;
+	int				fd;
+	int				bkp;
+	int				status;
+	int				i;
+	int				**fd_pipe;
+	long long		status_code;
+	t_exec			*node_exec;
+	t_node			*node_env;
+	t_node			*node_export;
+	pid_t			pid;
+	pid_t			*pid_array;
 }	t_config;
 
 //main
@@ -80,9 +81,13 @@ void	free_var(t_node *env, t_node *export, t_config *data, t_exec *exec);
 
 // check
 
-int		ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec);
+int		ft_exit(t_config *data);
 void	terminate(t_node *env, t_node *export, t_config *data);
 int		check_space(t_config *data);
+int		ft_init_exit(t_config *data, char **split_exit);
+void	trim_quotes(char **split_exit);
+int		exit_norm(char **split_exit, t_exec *exec);
+void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export);
 
 // utils
 void	free_exec_list(t_exec *head);
@@ -182,11 +187,12 @@ void	handle_heredoc_sigint(int signal);
 void	signal_handler_child_heredoc(void);
 void	signal_handler_child(void);
 void	handler_child(int signal);
+void	broken_pipe(int signal);
 
 //teste
 char	**strdup_tab(char **tab, int start, int end);
 void	ft_lexer_tokens(t_exec **exec, t_config *data);
-void	expantion(t_config *data, t_node *env);
+void	expansion(t_config *data, t_node *env);
 
 // executor
 
@@ -215,7 +221,7 @@ int		aux_get_fd_output(t_exec *exec, int fd, int i);
 void	get_redirect(t_exec *exec, t_config *data);
 int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec, t_config *data);
-void    empty_cmd_handle(t_exec *exec);
+void	empty_cmd_handle(t_exec *exec);
 
 // heredoc
 int		heredoc(char *eof, t_config *data);
@@ -224,8 +230,8 @@ int		heredoc_loop(char *eof, char *buffer, t_config *data);
 
 void	close_fd(int **fd, t_config *data);
 
-char	*expantion_heredoc(char *ptr, t_node *env);
-char	*norm_expantion_heredoc(int j, char *ptr, t_node *env);
+char	*expansion_heredoc(char *ptr, t_node *env);
+char	*norm_expansion_heredoc(int j, char *ptr, t_node *env);
 char	*get_key_heredoc(char *ptr, int j);
 
 void	norm_aux_exec_redirect(t_exec *exec,

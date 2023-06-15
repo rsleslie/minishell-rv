@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 22:13:34 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:03:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 t_config	g_data;
 
-int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
+void	minishell_loop(t_node *export, t_node *env,
+	t_config *data, t_exec *exec)
 {
 	handle_path(&env, data);
 	init_signals();
@@ -33,7 +34,7 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 		ft_lexer(data);
 		if (parser(data) == 1)
 			reset_loop(export, env, data, exec);
-		expantion(data, env);
+		expansion(data, env);
 		ft_lexer_tokens(&exec, data);
 		dollar_sign(exec, env);
 		unquotes(exec);
@@ -41,7 +42,6 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 		init_exec(exec, data, env, export);
 	}
 	reset_loop(export, env, data, exec);
-	return (0);
 }
 
 int	reset_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
@@ -66,7 +66,13 @@ int	main(int argc, char **argv, char **envp)
 	exec = NULL;
 	env = NULL;
 	export = NULL;
-	(void)argc;
+	if (argc != 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		return (1);
+	}
 	(void)argv;
 	g_data.tokens = NULL;
 	g_data.status_code = 0;
@@ -75,7 +81,3 @@ int	main(int argc, char **argv, char **envp)
 	minishell_loop(export, env, &g_data, exec);
 	return (0);
 }
-
-// echo kk > ola | echo 8787 > ola
-// expandir sem aspas
-// variavel q nao existe = \n 

@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 16:30:18 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/15 18:30:17 by rleslie-         ###   ########.fr       */
+/*   Created: 2023/06/15 12:16:51 by rleslie-          #+#    #+#             */
+/*   Updated: 2023/06/15 14:02:41 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "libft.h"
 
-void	get_env(t_node **env, char **envp)
+long long	ft_atoll(const char *nptr)
 {
-	int	i;
+	long long	signal;
+	long long	res;
+	int			i;
 
-	i = -1;
-	while (envp[++i])
-		link_node_end(env, create_node(envp[i]));
-}
-
-void	print_env(t_node *env)
-{
-	t_node	*temp;
-
-	temp = env;
-	while (temp)
+	signal = 1;
+	res = 0;
+	i = 0;
+	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+		i++;
+	if (nptr[i] == '+' || nptr[i] == '-')
 	{
-		ft_printf("%s=%s\n", temp->variable, temp->value);
-		temp = temp->next;
+		if (nptr[i] == '-')
+		{
+			signal = -1;
+		}
+		i++;
 	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		res *= 10;
+		res += (nptr[i] - 48);
+		i++;
+	}
+	return (res * signal);
 }

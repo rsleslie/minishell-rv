@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 21:52:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:38:44 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ int	cmd_acess(char *str)
 			return (0);
 		else
 		{
-			ft_putstr_fd(" Permission denied\n", 2);
+			ft_putstr_fd("minishell: permission denied\n", 2);
 			g_data.status_code = 126;
 			return (1);
 		}
 	}
 	else
 	{
-		ft_putstr_fd(" command not found\n", 2);
+		ft_putstr_fd("minishell: command not found\n", 2);
 		g_data.status_code = 127;
 		return (1);
 	}
@@ -113,13 +113,11 @@ int	output_redirection(t_config *data, t_exec *exec,
 			data->status_code = 126;
 			close_fd(data->fd_pipe, data);
 			close_redirect(data->node_exec);
-			if (exec->fd_output != 0)
-				close(exec->fd_output);
 			exit (data->status_code);
 		}
 	}
 	dup2(bkp, 1);
-	close(exec->fd_output);
+	close_redirect(data->node_exec);
 	close(bkp);
 	return (0);
 }

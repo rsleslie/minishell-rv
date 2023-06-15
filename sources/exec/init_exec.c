@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:19:34 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 19:06:00 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:04:23 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_exec(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		unlink("heredoc");
 		return ;
 	}
-	else
+	else if (exec->next != NULL && exec->cmd)
 	{
 		i = -1;
 		data->fd_pipe = (int **)ft_calloc(sizeof(int [2]),

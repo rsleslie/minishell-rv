@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:13:38 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 16:29:26 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:03:41 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ int	heredoc_loop(char *eof, char *buffer, t_config *data)
 
 	signal(SIGINT, handle_heredoc_sigint);
 	buffer = readline("> ");
-	if (buffer && !ft_lurkstr(buffer, '$'))
+	if (buffer && !ft_lurkstr(buffer, '$')
+		&& (eof[0] != '\'' && eof[0] != '\"'))
 	{
-		test = expantion_heredoc(buffer, data->node_env);
+		test = expansion_heredoc(buffer, data->node_env);
 		free (buffer);
 		buffer = ft_strdup(test);
 		free(test);
