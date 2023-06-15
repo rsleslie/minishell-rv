@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 20:57:27 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 20:35:04 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:14:22 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void	norm_executor_redirect(t_exec *exec, t_config *data,
 			t_node *env, t_node *export);
 int		executor_redirect(t_exec *exec, t_config *data,
 			t_node *env, t_node *export);
-void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
+int		executor(t_exec *exec, t_config *data, t_node *env, t_node *export);
 void	executor_pipe(t_exec *exec, t_config *data,
 			t_node *env, t_node *export);
 int		validation_cmd(t_exec *exec, t_config *data);
@@ -215,6 +215,7 @@ int		aux_get_fd_output(t_exec *exec, int fd, int i);
 void	get_redirect(t_exec *exec, t_config *data);
 int		get_fd_output(t_exec *exec);
 int		get_fd_input(t_exec *exec, t_config *data);
+void    empty_cmd_handle(t_exec *exec);
 
 // heredoc
 int		heredoc(char *eof, t_config *data);

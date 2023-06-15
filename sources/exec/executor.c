@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:22:09 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 16:58:57 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:35:26 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	norm_excutor(t_exec *exec, t_config *data)
 	return (0);
 }
 
-void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
+int	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 {
 	extern char	**environ;
 
 	if (!exec->cmd)
-		return ;
+		return (1);
 	if (norm_excutor(exec, data) == 1)
-		return ;
+		return (1);
 	if (exec->fd_input == 0 && exec->fd_output == 0)
 	{
 		if (op_builtins(exec->cmd[0]) != 0)
@@ -86,4 +86,5 @@ void	executor(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		if (executor_redirect(exec, data, env, export) == 0)
 			norm_executor_redirect(exec, data, env, export);
 	}
+	return (0);
 }

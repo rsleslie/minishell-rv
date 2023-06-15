@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 11:31:16 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 20:00:28 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:41:10 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_strrchr_int(const char *s, int c, int position)
 
 int	error_quotes_check(t_config *data)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
 	while (data->str[++i])

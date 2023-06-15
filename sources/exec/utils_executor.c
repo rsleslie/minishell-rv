@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:06:42 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 19:00:48 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:52:38 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	cmd_acess(char *str)
 {
 	if (access(str, F_OK) == 0)
 	{
-		if (access(str, X_OK) == 0)
+		if (access(str, X_OK) == 0 && chdir(str) != 0)
 			return (0);
 		else
 		{

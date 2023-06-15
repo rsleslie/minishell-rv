@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 21:40:24 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 17:02:37 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:00:00 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	executor_pipe(t_exec *exec, t_config *data, t_node *env, t_node *export)
 		if (pid[vars.i] == 0)
 		{
 			pipex(aux, data->fd_pipe, vars.i, data);
-			executor(aux, data, env, export);
-			if (!aux->cmd || op_builtins(aux->cmd[0]))
+			if (executor(aux, data, env, export) == 1
+				|| op_builtins(aux->cmd[0]))
 				free_cmd_invalid(data, pid);
 			close_redirect(exec);
 		}

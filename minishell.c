@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:41:57 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 19:31:45 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:13:34 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	minishell_loop(t_node *export, t_node *env, t_config *data, t_exec *exec)
 		ft_lexer_tokens(&exec, data);
 		dollar_sign(exec, env);
 		unquotes(exec);
+		empty_cmd_handle(exec);
 		init_exec(exec, data, env, export);
 	}
 	reset_loop(export, env, data, exec);

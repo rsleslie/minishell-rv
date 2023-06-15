@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:00:41 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/14 20:14:04 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/14 22:02:07 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,17 @@ int	validation_cmd(t_exec *exec, t_config *data)
 	{
 		if (aux_validation(data, exec) == 1)
 			return (1);
-		else
-			return (0);
 	}
 	else if (exec->cmd[0][0] == '.' || exec->cmd[0][0] == '/')
 	{
-		if ((exec->cmd[0][0] == '.' && ft_strlen(exec->cmd[0]) == 1)
-			|| (cmd_acess(exec->cmd[0])) == 1)
+		if (exec->cmd[0][0] == '.' && ft_strlen(exec->cmd[0]) == 1)
+		{
+			g_data.status_code = 2;
+			ft_putendl_fd(" filename argument required", 2);
 			return (1);
-		else
-			return (0);
+		}
+		if (cmd_acess(exec->cmd[0]) == 1)
+			return (1);
 	}
 	return (0);
 }
