@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:16:44 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 12:22:52 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:55:42 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	op_builtins(char *str)
 {
 	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
 		return (1);
-	if (ft_strncmp(str, "exit", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "exit", 5) == 0)
 		return (1);
 	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
 		return (1);

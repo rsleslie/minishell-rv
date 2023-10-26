@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:19:59 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 12:38:33 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:17:37 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	signal_handler_child(void)
 {
 	signal(SIGINT, &handler_child);
 	signal(SIGQUIT, &handler_child);
+	signal(SIGPIPE, &broken_pipe);
 }
 
 void	handle_sigint(int signal, siginfo_t *info, void *context)

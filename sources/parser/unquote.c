@@ -6,11 +6,28 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:45:12 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:56:17 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:35:06 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	aux_strip_quotes(t_exec *exec, int i, int size, char *ptr)
+{
+	int	j;
+
+	j = 0;
+	while (exec->cmd[i][size])
+	{
+		ptr[j] = exec->cmd[i][size];
+		size++;
+		if (exec->cmd[i][size] == SIMPLE_QUOTE
+			|| exec->cmd[i][size] == DOUBLE_QUOTE)
+			size++;
+		j++;
+	}
+	return (j);
+}
 
 char	*strip_quotes(t_exec *exec, int i)
 {
@@ -21,11 +38,17 @@ char	*strip_quotes(t_exec *exec, int i)
 	ptr = (char *)malloc(sizeof(char) * (ft_strlen(exec->cmd[i]) - 1));
 	size = 1;
 	j = 0;
-	while (exec->cmd[i][size + 1])
+	if (exec->cmd[i][size] == '$'
+		&& exec->cmd[i][size + 1] == exec->cmd[i][size - 1])
+		j = aux_strip_quotes(exec, i, size, ptr);
+	else
 	{
-		ptr[j] = exec->cmd[i][size];
-		size++;
-		j++;
+		while (exec->cmd[i][size + 1])
+		{
+			ptr[j] = exec->cmd[i][size];
+			size++;
+			j++;
+		}
 	}
 	ptr[j] = '\0';
 	return (ptr);
@@ -79,7 +102,7 @@ void	unquotes(t_exec *exec)
 	while (aux != NULL)
 	{
 		i = -1;
-		while (aux->cmd[++i])
+		while (aux->cmd && aux->cmd[++i])
 		{
 			if (aux->cmd[i][0] == DOUBLE_QUOTE
 				|| aux->cmd[i][0] == SIMPLE_QUOTE)

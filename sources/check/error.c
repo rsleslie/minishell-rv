@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:59:13 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/12 15:10:23 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:15:49 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 {
-	ft_putstr_fd("exit\nnumeric argument required\n", 2);
+	ft_putstr_fd("exit\nminishell: exit: ", 2);
+	ft_putstr_fd(s[1], 2);
+	ft_putendl_fd(": numeric argument required", 2);
 	{
 		data->status_code = 2;
 		ft_free_tab(s);
@@ -24,24 +26,19 @@ void	norminette_exit(char **s, t_config *data, t_node *env, t_node *export)
 
 void	exit_num(char *str)
 {
-	if (ft_atoi(str) == 123)
-		g_data.status_code = 123;
-	if (ft_atoi(str) == 298)
-		g_data.status_code = 42;
-	if (ft_atoi(str) == 100)
-		g_data.status_code = 100;
-	if (ft_atoi(str) == -100)
-		g_data.status_code = 156;
-	if (ft_strncmp(str, "-9223372036854775808", ft_strlen(str)) == 0)
-		g_data.status_code = 0;
-	if (ft_strncmp(str, "-9223372036854775807", ft_strlen(str)) == 0)
-		g_data.status_code = 1;
-	if (ft_strncmp(str, "-9223372036854775809", ft_strlen(str)) == 0)
+	if (ft_atoull(str) > 9223372036854775807 || ft_strlen(str) > 19)
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		g_data.status_code = 2;
-	if (ft_strncmp(str, "9223372036854775807", ft_strlen(str)) == 0)
-		g_data.status_code = 255;
-	if (ft_strncmp(str, "9223372036854775808 ", ft_strlen(str)) == 0)
-		g_data.status_code = 2;
+		if (ft_strncmp(str, "-9223372036854775808", 20) == 0)
+			g_data.status_code = 0;
+		if (ft_strncmp(str, "-9223372036854775807", 20) == 0)
+			g_data.status_code = 1;
+	}
+	else
+		g_data.status_code = ft_atoll(str);
 }
 
 void	trim_quotes(char **split_exit)
@@ -58,6 +55,7 @@ int	exit_norm(char **split_exit, t_exec *exec)
 	if ((ft_tab_len(split_exit) == 1) || (ft_tab_len(split_exit) == 2
 			&& ft_isnum(split_exit[1]) == 1))
 	{
+		ft_putendl_fd("exit", 2);
 		if (ft_tab_len(split_exit) == 2)
 			exit_num(split_exit[1]);
 		free_exec_list(exec);
@@ -67,28 +65,15 @@ int	exit_norm(char **split_exit, t_exec *exec)
 	return (0);
 }
 
-int	ft_exit(t_config *data, t_node *env, t_node *export, t_exec *exec)
+int	ft_exit(t_config *data)
 {
 	char	**split_exit;
 
 	split_exit = ft_split(data->str, ' ');
-	if (ft_strncmp(split_exit[0], "exit", ft_strlen(split_exit[0])) == 0)
+	if (ft_strncmp(split_exit[0], "exit", 5) == 0)
 	{
-		trim_quotes(split_exit);
-		if (exit_norm(split_exit, exec) == 1)
-			terminate(env, export, data);
-		else if (ft_tab_len(split_exit) > 2)
-		{
-			data->status_code = 1;
-			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
+		if (ft_init_exit(data, split_exit) == 1)
 			return (1);
-		}
-		else if (ft_isnum(split_exit[1]) == 0)
-		{
-			data->status_code = 1;
-			free_exec_list(exec);
-			norminette_exit(split_exit, data, env, export);
-		}
 	}
 	ft_free_tab(split_exit);
 	return (0);

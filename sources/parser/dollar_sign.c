@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 18:19:01 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/13 11:57:52 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:03:21 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ char	*get_key(char *ptr, int j)
 	i = 0;
 	while (ptr[j + 1] && ptr[j] != 32)
 	{
+		if (ptr[j] == SIMPLE_QUOTE || ptr[j] == DOUBLE_QUOTE)
+			break ;
 		i++;
 		j++;
 	}
-	key = calloc(sizeof(char *), i + 1);
+	key = ft_calloc(sizeof(char *), i + 1);
 	j -= i;
 	i = -1;
-	while (ptr[j + 1] && ptr[j] != 32)
+	while (ptr[j + 1] && ptr[j] != DOUBLE_QUOTE
+		&& ptr[j] != SIMPLE_QUOTE && ptr[j] != 32)
 		key[++i] = ptr[j++];
 	key[++i] = '\0';
 	return (key);
@@ -59,7 +62,7 @@ char	*refresh_value(char *s1, char *s2, int j, int size)
 
 	i = -1;
 	x = 0;
-	dst = calloc(sizeof(char *), (ft_strlen(s1)+ ft_strlen(s2) + 1) - size);
+	dst = ft_calloc(sizeof(char *), (ft_strlen(s1)+ ft_strlen(s2) + 1) - size);
 	while (++i < j)
 		dst[i] = s1[i];
 	while (s2[x])
@@ -73,7 +76,7 @@ char	*refresh_value(char *s1, char *s2, int j, int size)
 	return (dst);
 }
 
-void	norm_expantion(int i, int j, t_config *data, t_node *env)
+void	norm_expansion(int i, int j, t_config *data, t_node *env)
 {
 	char	*value;
 	char	*key;
@@ -91,7 +94,7 @@ void	norm_expantion(int i, int j, t_config *data, t_node *env)
 	}
 }
 
-void	expantion(t_config *data, t_node *env)
+void	expansion(t_config *data, t_node *env)
 {
 	int		i;
 	int		j;
@@ -99,12 +102,18 @@ void	expantion(t_config *data, t_node *env)
 	i = -1;
 	while (data->tokens[++i])
 	{
+		if (data->tokens[i][0] == DOUBLE_QUOTE && data->tokens[i][1] == '$'
+			&& data->tokens[i][2] == DOUBLE_QUOTE)
+			continue ;
+		if (data->tokens[i][0] == SIMPLE_QUOTE && data->tokens[i][1] == '$'
+			&& data->tokens[i][2] == SIMPLE_QUOTE)
+			continue ;
 		if (data->tokens[i][0] == DOUBLE_QUOTE)
 		{
 			j = -1;
 			while (data->tokens[i][++j])
 			{
-				norm_expantion(i, j, data, env);
+				norm_expansion(i, j, data, env);
 			}
 		}
 	}
