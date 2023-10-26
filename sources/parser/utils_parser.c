@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:02:47 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/06/06 16:03:07 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:38:04 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@ int	parser(t_config *data)
 		return (1);
 	if (redirect_parser(data) == 2)
 	{
+		g_data.status_code = 2;
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 		return (1);
 	}
 	if (quotes_parser(data) == 1)
 	{
-		ft_putstr_fd("Minishell: Quotes error\n", 2);
-		g_status_code = 130;
+		ft_putstr_fd("minishell: Quotes error\n", 2);
+		data->status_code = 1;
 		return (1);
 	}
 	if (pipe_parser(data) == 1)
 	{
-		ft_putstr_fd("Mnishell: syntax error near unexpected token \n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token \n", 2);
 		return (1);
 	}
 	return (0);

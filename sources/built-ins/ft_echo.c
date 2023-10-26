@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 13:26:21 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/31 13:17:38 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:08:39 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,27 @@ void	aux_echo(char **data_str, int tab_len)
 	i = 0;
 	while (++i < tab_len)
 	{
-		printf("%s", data_str[i]);
+		ft_printf("%s", data_str[i]);
 		if (i != tab_len - 1)
-			printf(" ");
+			ft_printf(" ");
 	}
-	printf("\n");
+	g_data.status_code = 0;
+	ft_printf("\n");
+}
+
+int	echo_is_n(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] != '-')
+		return (0);
+	while (str[++i])
+	{
+		if (str[i] != 'n' && str[i] != '\0')
+			return (0);
+	}
+	return (1);
 }
 
 void	ft_echo(char **data_str)
@@ -35,19 +51,20 @@ void	ft_echo(char **data_str)
 	tab_len = ft_tab_len(data_str);
 	if (tab_len == 1)
 		write(1, "\n", 1);
-	else if (ft_strncmp(data_str[1], "-n", ft_strlen(data_str[1])) == 0)
+	else if (echo_is_n(data_str[1]))
 	{
 		if (tab_len > 2)
 		{
 			i = 1;
 			while (++i < tab_len)
 			{				
-				printf("%s", data_str[i]);
+				ft_printf("%s", data_str[i]);
 				if (i != tab_len - 1)
-					printf(" ");
-			}	
+					ft_printf(" ");
+			}
 		}
 	}
 	else
 		aux_echo(data_str, tab_len);
+	g_data.status_code = 0;
 }

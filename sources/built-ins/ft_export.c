@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:54 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/25 19:58:42 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:00:13 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,32 @@ void	print_export(t_node *export)
 	}
 }
 
+int	aux_export(t_node **list, char *key)
+{
+	int	i;
+
+	i = parse_export(list, key);
+	if (i == 1 || i == 2 || i == 3)
+	{
+		if (i == 3)
+			g_data.status_code = 0;
+		else
+			g_data.status_code = 1;
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_export(t_node **list, char *key)
 {
 	t_node	*current;
 	t_node	*temp;
 	int		i;
 
-	i = 0;
 	temp = NULL;
-	if (parse_export(list, key) == 1 || parse_export(list, key) == 2)
+	if (aux_export(list, key) == 1)
 		return ;
+	i = 0;
 	temp = create_node(key);
 	current = (*list);
 	while (current != NULL)

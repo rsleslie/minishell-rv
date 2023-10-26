@@ -6,7 +6,7 @@
 /*   By: rleslie- <rleslie-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:11:20 by rleslie-          #+#    #+#             */
-/*   Updated: 2023/05/30 21:41:57 by rleslie-         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:01:50 by rleslie-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ void	free_exec_list(t_exec *exec)
 	while (aux != NULL)
 	{
 		i = -1;
-		while (aux->cmd[++i])
+		while (aux->cmd && aux->cmd[++i])
 			free(aux->cmd[i]);
 		free(aux->cmd);
 		i = -1;
-		while (aux->redirect[++i])
+		while (aux->redirect && aux->redirect[++i])
 			free(aux->redirect[i]);
 		free(aux->redirect);
 		next = aux->next;
